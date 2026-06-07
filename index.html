@@ -156,7 +156,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
     radial-gradient(ellipse 90% 90% at 50% 50%, #faeee7 0%, #f5ddd0 100%);
 }
 
-/* diagonal line accents */
 .p1-lines {
   position: absolute; inset: 0; pointer-events: none;
   opacity: 0.12;
@@ -174,7 +173,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
     );
 }
 
-/* Floral corner SVGs */
 .cf {
   position: absolute; width: 200px; height: 200px;
   pointer-events: none; z-index: 1;
@@ -198,7 +196,7 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
   text-transform: uppercase;
 }
 
-/* ── REDESIGNED ENVELOPE ── */
+/* ── ENVELOPE ── */
 .env-scene {
   position: relative;
   width: 340px; max-width: 86vw;
@@ -206,7 +204,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
   cursor: pointer;
 }
 
-/* Envelope shadow */
 .env-shadow {
   position: absolute;
   bottom: 0; left: 50%; transform: translateX(-50%);
@@ -229,7 +226,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
   transform: translateY(-8px);
 }
 
-/* Main envelope body */
 .env-body {
   position: relative;
   width: 100%;
@@ -238,110 +234,32 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
   overflow: visible;
 }
 
-/* Back of envelope (bottom layer) */
-.env-back {
-  position: absolute; inset: 0;
-  border-radius: 4px;
-  background: linear-gradient(160deg, #f2e2d5 0%, #e8d0c0 100%);
-  border: 1.5px solid #dcc0b0;
-  box-shadow:
-    0 4px 20px rgba(120,60,40,0.12),
-    inset 0 1px 0 rgba(255,255,255,0.5);
-}
-
-/* Left triangle fold */
-.env-tri-l {
-  position: absolute; inset: 0;
-  clip-path: polygon(0 0, 0 100%, 51% 57%);
-  background: linear-gradient(135deg, #e4cfc0 0%, #d8bfae 100%);
-  border-radius: 4px 0 0 4px;
-}
-
-/* Right triangle fold */
-.env-tri-r {
-  position: absolute; inset: 0;
-  clip-path: polygon(100% 0, 100% 100%, 49% 57%);
-  background: linear-gradient(225deg, #e4cfc0 0%, #d8bfae 100%);
-  border-radius: 0 4px 4px 0;
-}
-
-/* Bottom triangle fold */
-.env-tri-b {
-  position: absolute; inset: 0;
-  clip-path: polygon(0 100%, 100% 100%, 50% 56%);
-  background: linear-gradient(180deg, #ddc8b8 0%, #d0b8a8 100%);
-  border-radius: 0 0 4px 4px;
-}
-
-/* subtle center fold line */
-.env-center-line {
+/* ── WAX SEAL — centered on the fold line ── */
+.wax-seal {
   position: absolute;
-  left: 0; right: 0;
-  top: 57%; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(180,140,120,0.35), transparent);
+  /* fold line is at 57% from top of env-body */
+  top: 57%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px; height: 52px;
+  z-index: 8;
+  transition: transform 0.35s ease, opacity 0.4s ease;
 }
-
-/* flap — top triangle */
-.env-flap-outer {
-  position: absolute; top: 0; left: 0; right: 0;
-  height: 60%;
-  transform-origin: top center;
-  transform-style: preserve-3d;
-  transition: transform 1s cubic-bezier(0.4,0,0.2,1);
-  z-index: 5;
+.env-scene:hover .wax-seal {
+  transform: translate(-50%, -50%) scale(1.08);
 }
-.env-scene.open .env-flap-outer {
-  transform: perspective(600px) rotateX(-180deg);
+.env-scene.open .wax-seal {
+  opacity: 0; pointer-events: none;
 }
-.env-flap-face {
-  position: absolute; inset: 0;
-  clip-path: polygon(0 0, 100% 0, 50% 82%);
-  backface-visibility: hidden;
-}
-.env-flap-front {
-  background: linear-gradient(160deg, #f7ebe0 0%, #ecd6c6 60%, #e0c8b8 100%);
-  border-bottom: 1px solid rgba(200,160,140,0.4);
-}
-/* flap inside (seen when open) */
-.env-flap-back {
-  background: linear-gradient(160deg, #f0e0d0 0%, #e8d0c0 100%);
-  transform: rotateX(180deg);
-  clip-path: polygon(0 0, 100% 0, 50% 82%);
-}
-
-/* Flap inner floral detail */
-.env-flap-floral {
-  position: absolute;
-  top: 20%; left: 50%; transform: translateX(-50%);
-  width: 70px; pointer-events: none;
-  z-index: 1;
-}
-
-/* stamp */
-.env-stamp {
-  position: absolute;
-  top: 7%; right: 5%;
-  width: 13%; z-index: 6; pointer-events: none;
-}
-
-/* address */
-.env-address {
-  position: absolute;
-  bottom: 22%; left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  z-index: 3; pointer-events: none;
-  white-space: nowrap;
-}
-.addr-to {
-  font-style: italic; font-size: 10px;
-  color: #c4a090; letter-spacing: 0.3em;
-  text-transform: uppercase; display: block; margin-bottom: 4px;
-}
-.addr-name {
+.wax-seal-circle {
+  width: 52px; height: 52px;
+  background: radial-gradient(circle at 38% 35%, #e09870 0%, #c98860 45%, #a06848 100%);
+  border-radius: 50%;
+  border: 2px solid rgba(180,110,70,0.5);
+  box-shadow: 0 3px 16px rgba(140,70,40,0.3), inset 0 1px 0 rgba(255,220,180,0.4);
+  display: flex; align-items: center; justify-content: center;
   font-family: 'Pinyon Script', cursive;
-  font-size: 28px; color: #7a4433;
-  display: block;
+  font-size: 20px; color: #fdf0e8;
 }
 
 /* Letter peeking */
@@ -368,44 +286,38 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
 .letter-paper .ld { height: 1px; background: linear-gradient(90deg,transparent,#e0c0b0,transparent); margin: 6px 0; }
 .letter-paper .ls { font-style:italic; font-size:10px; color:var(--muted); letter-spacing:0.2em; }
 
-/* Wax seal */
-.wax-seal {
-  position: absolute;
-  bottom: -18px; left: 50%;
-  transform: translateX(-50%);
-  width: 52px; height: 52px;
-  z-index: 8;
-  transition: transform 0.35s ease, opacity 0.4s ease;
+/* flap — top triangle */
+.env-flap-outer {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 60%;
+  transform-origin: top center;
+  transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(0.4,0,0.2,1);
+  z-index: 5;
 }
-.env-scene:hover .wax-seal { transform: translateX(-50%) scale(1.08); }
-.env-scene.open .wax-seal  { opacity: 0; pointer-events: none; }
-.wax-seal-circle {
-  width: 52px; height: 52px;
-  background: radial-gradient(circle at 38% 35%, #e09870 0%, #c98860 45%, #a06848 100%);
-  border-radius: 50%;
-  border: 2px solid rgba(180,110,70,0.5);
-  box-shadow: 0 3px 16px rgba(140,70,40,0.3), inset 0 1px 0 rgba(255,220,180,0.4);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Pinyon Script', cursive;
-  font-size: 20px; color: #fdf0e8;
-  letter-spacing: 0;
+.env-scene.open .env-flap-outer {
+  transform: perspective(600px) rotateX(-180deg);
+}
+.env-flap-face {
+  position: absolute; inset: 0;
+  clip-path: polygon(0 0, 100% 0, 50% 82%);
+  backface-visibility: hidden;
+}
+.env-flap-front {
+  background: linear-gradient(160deg, #f7ebe0 0%, #ecd6c6 60%, #e0c8b8 100%);
+  border-bottom: 1px solid rgba(200,160,140,0.4);
+}
+.env-flap-back {
+  background: linear-gradient(160deg, #f0e0d0 0%, #e8d0c0 100%);
+  transform: rotateX(180deg);
+  clip-path: polygon(0 0, 100% 0, 50% 82%);
 }
 
-/* postmark */
-.env-postmark {
-  position: absolute; top: 10%; right: 18%;
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(180,140,120,0.3);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 6; pointer-events: none;
-}
-.env-postmark-lines {
-  display: flex; flex-direction: column; gap: 3px;
-}
-.env-postmark-lines span {
-  display: block; width: 24px; height: 1px;
-  background: rgba(180,140,120,0.35);
+.env-flap-floral {
+  position: absolute;
+  top: 20%; left: 50%; transform: translateX(-50%);
+  width: 70px; pointer-events: none;
+  z-index: 1;
 }
 
 /* ── P1 TEXT ── */
@@ -442,7 +354,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
 ═══════════════════════════════ */
 #page2 { display: none; position: relative; z-index: 2; }
 
-/* ── HERO ── */
 .p2-hero {
   position: relative; width: 100%;
   min-height: 100vh; overflow: hidden;
@@ -495,7 +406,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
   margin-top: 6px;
 }
 
-/* decorative rule */
 .hero-rule {
   display: flex; align-items: center; justify-content: center;
   gap: 14px; margin: 18px 0;
@@ -523,14 +433,12 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
   text-transform: uppercase;
 }
 
-/* ── BODY ── */
 .p2-body {
   background: var(--cream);
   padding: 70px 20px 90px;
   position: relative;
 }
 
-/* paper texture overlay */
 .p2-body::before {
   content: '';
   position: absolute; inset: 0;
@@ -541,7 +449,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
 
 .p2-inner { max-width: 640px; margin: 0 auto; position: relative; z-index: 2; }
 
-/* floral divider */
 .fdiv {
   display: flex; align-items: center; gap: 16px;
   margin: 36px auto; max-width: 420px;
@@ -552,7 +459,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
   opacity: 0.6;
 }
 
-/* section eyebrow */
 .sec-eyebrow {
   font-style: italic; font-size: 11.5px;
   color: var(--muted); letter-spacing: 0.32em;
@@ -560,7 +466,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
   margin-bottom: 26px;
 }
 
-/* INFO CARDS */
 .info-grid {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 14px; margin-bottom: 20px;
@@ -580,7 +485,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
 }
 .ic.full { grid-column: 1/-1; }
 
-/* subtle corner accent on cards */
 .ic::before {
   content: '';
   position: absolute; top: 0; left: 0;
@@ -609,7 +513,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
 .ic-val { font-family:'Playfair Display',serif; font-size:22px; color:var(--deep); line-height:1.4; }
 .ic-sub { font-style:italic; font-size:13.5px; color:var(--muted); margin-top:4px; line-height:1.6; }
 
-/* DRESS CODE */
 .dress-card {
   background: linear-gradient(160deg, #fffaf7 0%, #fdf3ec 100%);
   border: 1px solid #ead4c8;
@@ -629,7 +532,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
 }
 .swatch:hover { transform: scale(1.18); }
 
-/* PROGRAMME */
 .prog-list { list-style: none; border-left: 1px solid #d4b0a0; margin-left: 22px; padding-left: 26px; }
 .prog-item { position: relative; margin-bottom: 22px; }
 .prog-item::before {
@@ -642,7 +544,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
 .pt { font-style:italic; font-size:11.5px; color:var(--rose); letter-spacing:0.12em; }
 .pe { font-family:'Playfair Display',serif; font-size:17px; color:var(--deep); line-height:1.4; margin-top:2px; }
 
-/* PORTRAIT */
 .portrait-panel {
   position: relative; width: 100%; height: 380px;
   margin: 50px 0; overflow: hidden;
@@ -675,7 +576,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
   pointer-events:none; z-index:3;
 }
 
-/* FOOTER */
 .inv-footer {
   text-align:center; padding-top:32px;
   border-top:1px solid #e8d0c4; margin-top:18px;
@@ -692,7 +592,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
 .footer-contact {
   font-size:13px; color:var(--muted); display:block; margin-top:4px;
 }
-
 </style>
 </head>
 <body>
@@ -704,7 +603,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
 <div id="intro">
   <div class="intro-bg"></div>
 
-  <!-- corner florals -->
   <svg class="intro-floral tl" viewBox="0 0 220 220" fill="none">
     <path d="M5 5 C40 80 100 100 215 215" stroke="#d4a090" stroke-width="1.2" opacity="0.5"/>
     <path d="M5 5 C80 40 100 100 215 215" stroke="#d4a090" stroke-width="0.8" opacity="0.35"/>
@@ -768,7 +666,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
   <div class="p1-bg"></div>
   <div class="p1-lines"></div>
 
-  <!-- Corner florals -->
   <svg class="cf cf-tl" viewBox="0 0 220 220" fill="none">
     <path d="M5 5 C40 80 100 100 215 215" stroke="#c9907a" stroke-width="1.2" opacity="0.5"/>
     <path d="M5 5 C80 40 100 100 215 215" stroke="#c9907a" stroke-width="0.8" opacity="0.35"/>
@@ -799,7 +696,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
   </svg>
   <svg class="cf cf-bl" viewBox="0 0 220 220" fill="none">
     <path d="M5 5 C40 80 100 100 215 215" stroke="#c9907a" stroke-width="1.2" opacity="0.5"/>
-    <path d="M5 5 C80 40 100 100 215 215" stroke="#c9907a" stroke-width="0.8" opacity="0.35"/>
     <ellipse cx="55" cy="100" rx="24" ry="15" fill="#ecc5b0" transform="rotate(-32 55 100)" opacity="0.7"/>
     <ellipse cx="53" cy="96" rx="15" ry="12" fill="#f5d8c8"/>
     <circle cx="55" cy="93" r="5" fill="#fde8de"/>
@@ -808,7 +704,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
   </svg>
   <svg class="cf cf-br" viewBox="0 0 220 220" fill="none">
     <path d="M5 5 C40 80 100 100 215 215" stroke="#c9907a" stroke-width="1.2" opacity="0.5"/>
-    <path d="M5 5 C80 40 100 100 215 215" stroke="#c9907a" stroke-width="0.8" opacity="0.35"/>
     <ellipse cx="55" cy="100" rx="24" ry="15" fill="#ecc5b0" transform="rotate(-32 55 100)" opacity="0.7"/>
     <ellipse cx="53" cy="96" rx="15" ry="12" fill="#f5d8c8"/>
     <circle cx="55" cy="93" r="5" fill="#fde8de"/>
@@ -824,7 +719,7 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
       <div class="env-wrap">
         <div class="env-body">
           <!-- base -->
-          <div class="env-back env-layer" style="position:absolute;inset:0;border-radius:4px;background:linear-gradient(160deg,#f2e2d5 0%,#e8d0c0 100%);border:1.5px solid #dcc0b0;box-shadow:0 4px 20px rgba(120,60,40,0.12),inset 0 1px 0 rgba(255,255,255,0.5);"></div>
+          <div style="position:absolute;inset:0;border-radius:4px;background:linear-gradient(160deg,#f2e2d5 0%,#e8d0c0 100%);border:1.5px solid #dcc0b0;box-shadow:0 4px 20px rgba(120,60,40,0.12),inset 0 1px 0 rgba(255,255,255,0.5);"></div>
 
           <!-- side folds -->
           <div style="position:absolute;inset:0;clip-path:polygon(0 0, 0 100%, 51% 57%);background:linear-gradient(145deg,#e8d5c5 0%,#d8bfae 100%);"></div>
@@ -848,7 +743,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
           <!-- flap (top, opens backwards) -->
           <div class="env-flap-outer" id="envFlap">
             <div class="env-flap-face env-flap-front">
-              <!-- floral on flap -->
               <svg class="env-flap-floral" viewBox="0 0 80 60" fill="none">
                 <ellipse cx="40" cy="30" rx="14" ry="11" fill="#e8c5b0" opacity="0.7"/>
                 <ellipse cx="39" cy="27" rx="9" ry="8" fill="#f0d5c5" opacity="0.85"/>
@@ -872,7 +766,7 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
           </div>
 
           <!-- stamp -->
-          <div class="env-stamp" style="position:absolute;top:6%;right:4%;width:12%;z-index:6;pointer-events:none;">
+          <div style="position:absolute;top:6%;right:4%;width:12%;z-index:6;pointer-events:none;">
             <svg viewBox="0 0 44 36" fill="none">
               <rect x="1.5" y="1.5" width="41" height="33" rx="2" fill="#fdf6f0" stroke="#dcc0b0" stroke-width="0.8" stroke-dasharray="3,2.2"/>
               <ellipse cx="22" cy="18" rx="13" ry="10" fill="#f5ddd2"/>
@@ -882,17 +776,18 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
           </div>
 
           <!-- address -->
-          <div class="env-address">
-            <span class="addr-to">To</span>
-            <span class="addr-name">You</span>
+          <div style="position:absolute;bottom:22%;left:50%;transform:translateX(-50%);text-align:center;z-index:3;pointer-events:none;white-space:nowrap;">
+            <span style="font-style:italic;font-size:10px;color:#c4a090;letter-spacing:0.3em;text-transform:uppercase;display:block;margin-bottom:4px;">To</span>
+            <span style="font-family:'Pinyon Script',cursive;font-size:28px;color:#7a4433;display:block;"></span>
           </div>
+
+          <!-- WAX SEAL — centered at the fold line (top: 57%) -->
+          <div class="wax-seal" id="waxSeal">
+            <div class="wax-seal-circle">✦</div>
+          </div>
+
         </div><!-- /.env-body -->
       </div><!-- /.env-wrap -->
-
-      <!-- wax seal -->
-      <div class="wax-seal" id="waxSeal">
-        <div class="wax-seal-circle">✦</div>
-      </div>
 
       <div class="env-shadow"></div>
     </div><!-- /.env-scene -->
@@ -913,15 +808,13 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
     <span class="ph-badge">hero.png — replace with her photo</span>
 
     <div class="p2-hero-content">
-      <!-- floral arch -->
-      <svg width="380" max-width="90vw" viewBox="0 0 580 90" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width:90vw;margin-bottom:8px;">
+      <svg width="380" viewBox="0 0 580 90" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width:90vw;margin-bottom:8px;">
         <path d="M290 86 C287 66 277 52 258 38" stroke="rgba(200,150,130,0.6)" stroke-width="1.2" fill="none"/>
         <path d="M290 86 C293 66 303 52 322 38" stroke="rgba(200,150,130,0.6)" stroke-width="1.2" fill="none"/>
         <path d="M290 74 C262 60 236 48 210 32" stroke="rgba(200,150,130,0.4)" stroke-width="0.9" fill="none"/>
         <path d="M290 74 C318 60 344 48 370 32" stroke="rgba(200,150,130,0.4)" stroke-width="0.9" fill="none"/>
         <path d="M290 58 C252 42 220 30 186 14" stroke="rgba(200,150,130,0.28)" stroke-width="0.7" fill="none"/>
         <path d="M290 58 C328 42 360 30 394 14" stroke="rgba(200,150,130,0.28)" stroke-width="0.7" fill="none"/>
-        <!-- flowers -->
         <ellipse cx="258" cy="44" rx="13" ry="9" fill="#e8c5b0" opacity="0.65" transform="rotate(-28 258 44)"/>
         <circle cx="258" cy="41" r="3" fill="#fde8de"/>
         <ellipse cx="322" cy="44" rx="13" ry="9" fill="#e8c5b0" opacity="0.65" transform="rotate(28 322 44)"/>
@@ -933,7 +826,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
         <ellipse cx="290" cy="28" rx="19" ry="15" fill="#e8c5b0" opacity="0.55"/>
         <ellipse cx="288" cy="24" rx="13" ry="11" fill="#f0d0be"/>
         <circle cx="290" cy="20" r="4.2" fill="#fff0e8"/>
-        <!-- smaller buds -->
         <ellipse cx="184" cy="12" rx="8" ry="5.5" fill="#e8c5b0" opacity="0.38" transform="rotate(-55 184 12)"/>
         <ellipse cx="396" cy="12" rx="8" ry="5.5" fill="#e8c5b0" opacity="0.38" transform="rotate(55 396 12)"/>
       </svg>
@@ -956,11 +848,8 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
     </div>
   </div>
 
-  <!-- ── DETAILS ── -->
   <div class="p2-body">
     <div class="p2-inner">
-
-      <!-- floral divider -->
       <div class="fdiv">
         <div class="fdiv-line"></div>
         <svg width="62" height="26" viewBox="0 0 70 28" fill="none">
@@ -977,7 +866,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
         <div class="fdiv-line" style="background:linear-gradient(270deg,transparent,#d4b0a0 50%,transparent);"></div>
       </div>
 
-      <!-- EVENT INFO -->
       <div class="info-grid">
         <div class="ic">
           <div class="ic-icon">
@@ -1005,7 +893,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
         </div>
       </div>
 
-      <!-- DRESS CODE -->
       <div class="dress-card">
         <p class="ic-lbl" style="margin-bottom:8px;">Dress Code</p>
         <p class="ic-val" style="font-size:26px;">Formal Attire</p>
@@ -1019,7 +906,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
         </div>
       </div>
 
-      <!-- divider -->
       <div class="fdiv">
         <div class="fdiv-line"></div>
         <svg width="40" height="22" viewBox="0 0 50 26" fill="none">
@@ -1029,7 +915,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
         <div class="fdiv-line" style="background:linear-gradient(270deg,transparent,#d4b0a0 50%,transparent);"></div>
       </div>
 
-      <!-- PROGRAMME -->
       <p class="sec-eyebrow">Programme of Events</p>
       <ul class="prog-list" style="margin-bottom:40px;">
         <li class="prog-item"><p class="pt">5:30 PM</p><p class="pe">Arrival & Cocktail Reception</p></li>
@@ -1043,7 +928,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
       </ul>
     </div>
 
-    <!-- PORTRAIT PANEL -->
     <div class="portrait-panel">
       <div class="portrait-bg" id="portraitBg"></div>
       <span class="ph-badge">portrait.png — replace with her portrait</span>
@@ -1057,7 +941,6 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
     </div>
 
     <div class="p2-inner">
-      <!-- FOOTER -->
       <div class="inv-footer">
         <p class="footer-txt">
           Kindly confirm your attendance by<br>
@@ -1088,9 +971,7 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
 </div>
 
 <script>
-/* ═══════════════════
-   FALLING PETALS
-═══════════════════ */
+/* FALLING PETALS */
 const canvas = document.getElementById('petalCanvas');
 const ctx = canvas.getContext('2d');
 let petals = [];
@@ -1148,24 +1029,17 @@ function drawPetal(p) {
   requestAnimationFrame(animatePetals);
 })();
 
-/* ═══════════════════
-   INTRO SCREEN
-═══════════════════ */
+/* INTRO SCREEN */
 window.addEventListener('load', () => {
-  // Show intro for 2.8s then fade to page 1
   setTimeout(() => {
     const intro = document.getElementById('intro');
     intro.style.transition = 'opacity 1s ease';
     intro.style.opacity = '0';
-    setTimeout(() => {
-      intro.style.display = 'none';
-    }, 1000);
+    setTimeout(() => { intro.style.display = 'none'; }, 1000);
   }, 2800);
 });
 
-/* ═══════════════════
-   ENVELOPE
-═══════════════════ */
+/* ENVELOPE */
 let opened = false;
 
 function openEnvelope() {
@@ -1176,11 +1050,9 @@ function openEnvelope() {
   scene.style.cursor = 'default';
   scene.classList.add('open');
 
-  // lift
   scene.style.transition = 'transform 0.5s ease';
   scene.style.transform = 'translateY(-10px)';
 
-  // Fade out hint buttons
   setTimeout(() => {
     ['openBtn','scrollHint'].forEach(id => {
       const el = document.getElementById(id);
@@ -1189,7 +1061,6 @@ function openEnvelope() {
     });
   }, 500);
 
-  // Fade to page 2
   setTimeout(() => {
     const ov = document.getElementById('overlay');
     ov.classList.add('show');
@@ -1202,7 +1073,6 @@ function openEnvelope() {
   }, 1800);
 }
 
-/* background photos */
 function tryBg(src, id) {
   const img = new Image();
   img.onload = () => {
