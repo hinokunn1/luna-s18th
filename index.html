@@ -4,430 +4,695 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>You're Invited — A Debut Celebration</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Italiana&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=GFS+Didot&family=Pinyon+Script&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --cream: #fdf6f0;
-  --blush: #f5ddd2;
-  --rose: #e8b4a0;
-  --dusty: #c9907a;
-  --deep: #7a4433;
-  --muted: #b89080;
-}
-html { scroll-behavior: smooth; }
-body { width: 100%; background: var(--cream); overflow-x: hidden; }
 
-/* PETALS — z-index 1, always behind content */
+:root {
+  --cream:   #fdf7f2;
+  --blush:   #f9e8df;
+  --rose:    #e8b8a4;
+  --dusty:   #c98870;
+  --deep:    #6b3a2a;
+  --muted:   #b0857a;
+  --warm:    #f2d5c8;
+  --petal1:  #f9ddd5;
+  --petal2:  #f0c8bb;
+  --petal3:  #e8b5a5;
+  --gold:    #c4956a;
+}
+
+html { scroll-behavior: smooth; }
+body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: 'Cormorant Garamond', serif; }
+
+/* ═══════════════════════════════
+   INTRO SCREEN
+═══════════════════════════════ */
+#intro {
+  position: fixed; inset: 0;
+  z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  background: #faeee7;
+  overflow: hidden;
+}
+
+.intro-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 70% at 20% 20%, #f9e0d4 0%, transparent 55%),
+    radial-gradient(ellipse 70% 80% at 85% 80%, #f0ccbc 0%, transparent 55%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, #faeee7 0%, #f5ddd0 100%);
+}
+
+.intro-content {
+  position: relative; z-index: 2;
+  text-align: center;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 20px;
+  animation: introFadeIn 0.6s ease 0.3s both;
+}
+@keyframes introFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.intro-eyebrow {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 13px;
+  color: var(--muted); letter-spacing: 0.32em;
+  text-transform: uppercase;
+  animation: fadeUp 0.7s ease 0.7s both;
+}
+.intro-title {
+  font-family: 'Pinyon Script', cursive;
+  font-size: clamp(52px, 10vw, 80px);
+  color: var(--deep); line-height: 1;
+  animation: fadeUp 0.7s ease 0.9s both;
+}
+.intro-sub {
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-size: 14px;
+  color: var(--dusty); letter-spacing: 0.12em;
+  animation: fadeUp 0.7s ease 1.1s both;
+}
+.intro-rule {
+  width: 60px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rose), transparent);
+  animation: fadeUp 0.7s ease 1.0s both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.intro-loading {
+  display: flex; gap: 8px; align-items: center;
+  animation: fadeUp 0.7s ease 1.3s both;
+}
+.intro-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--rose);
+  animation: dotPulse 1.4s ease-in-out infinite;
+}
+.intro-dot:nth-child(2) { animation-delay: 0.18s; }
+.intro-dot:nth-child(3) { animation-delay: 0.36s; }
+@keyframes dotPulse {
+  0%,100% { opacity: 0.25; transform: scale(0.8); }
+  50%      { opacity: 1;    transform: scale(1.2); }
+}
+
+/* intro floral corners */
+.intro-floral {
+  position: absolute;
+  width: 220px; height: 220px;
+  pointer-events: none; opacity: 0;
+  animation: floralReveal 1.2s ease 0.5s forwards;
+}
+@keyframes floralReveal {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.intro-floral.tl { top: -15px; left: -15px; }
+.intro-floral.tr { top: -15px; right: -15px; transform: scaleX(-1); animation: floralReveal2 1.2s ease 0.5s forwards; }
+.intro-floral.bl { bottom: -15px; left: -15px; transform: scaleY(-1); animation: floralReveal3 1.2s ease 0.5s forwards; }
+.intro-floral.br { bottom: -15px; right: -15px; transform: scale(-1,-1); animation: floralReveal4 1.2s ease 0.5s forwards; }
+@keyframes floralReveal2 { from { opacity:0; transform:scaleX(-1) scale(0.88); } to { opacity:1; transform:scaleX(-1) scale(1); } }
+@keyframes floralReveal3 { from { opacity:0; transform:scaleY(-1) scale(0.88); } to { opacity:1; transform:scaleY(-1) scale(1); } }
+@keyframes floralReveal4 { from { opacity:0; transform:scale(-1,-1) scale(0.88); } to { opacity:1; transform:scale(-1,-1) scale(1); } }
+
+/* petals during intro */
 #petalCanvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
+  position: fixed; top:0; left:0;
+  width:100%; height:100%;
+  pointer-events:none;
   z-index: 1;
 }
 
-/* OVERLAY */
+/* transition overlay */
 #overlay {
   position: fixed; inset: 0;
-  background: #f9ede6;
-  z-index: 500;
+  background: #faeee7;
+  z-index: 9998;
   opacity: 0; pointer-events: none;
-  transition: opacity 0.8s ease;
+  transition: opacity 0.75s ease;
 }
 #overlay.show { opacity: 1; pointer-events: all; }
 
-/* ════════════════════
-   PAGE 1
-════════════════════ */
+/* ═══════════════════════════════
+   PAGE 1 — ENVELOPE
+═══════════════════════════════ */
 #page1 {
-  position: relative;
-  min-height: 100vh;
+  position: relative; min-height: 100vh;
   display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-  z-index: 2;
-}
-.p1-bg {
-  position: absolute; inset: 0; z-index: 0;
-  background:
-    radial-gradient(ellipse 70% 60% at 25% 40%, #f7d8c8 0%, transparent 65%),
-    radial-gradient(ellipse 60% 70% at 80% 70%, #f0c8b8 0%, transparent 60%),
-    radial-gradient(ellipse 80% 80% at 50% 50%, #fdf0e8 0%, #f5d8cc 100%);
-}
-.p1-bg::after {
-  content: ''; position: absolute; inset: 0;
-  background: rgba(253,240,232,0.15);
+  overflow: hidden; z-index: 2;
 }
 
-/* corner florals */
-.cf {
-  position: absolute; width: 180px; height: 180px;
-  opacity: 0.25; z-index: 1; pointer-events: none;
+.p1-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 22% 35%, #f9e0d4 0%, transparent 60%),
+    radial-gradient(ellipse 55% 70% at 82% 72%, #f0c8b8 0%, transparent 58%),
+    radial-gradient(ellipse 90% 90% at 50% 50%, #faeee7 0%, #f5ddd0 100%);
 }
-.cf-tl { top: -10px; left: -10px; }
-.cf-tr { top: -10px; right: -10px; transform: scaleX(-1); }
-.cf-bl { bottom: -10px; left: -10px; transform: scaleY(-1); }
-.cf-br { bottom: -10px; right: -10px; transform: scale(-1,-1); }
+
+/* diagonal line accents */
+.p1-lines {
+  position: absolute; inset: 0; pointer-events: none;
+  opacity: 0.12;
+}
+.p1-lines::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 48px,
+      #c9907a 48px,
+      #c9907a 49px
+    );
+}
+
+/* Floral corner SVGs */
+.cf {
+  position: absolute; width: 200px; height: 200px;
+  pointer-events: none; z-index: 1;
+  opacity: 0.32;
+}
+.cf-tl { top: -8px; left: -8px; }
+.cf-tr { top: -8px; right: -8px; transform: scaleX(-1); }
+.cf-bl { bottom: -8px; left: -8px; transform: scaleY(-1); }
+.cf-br { bottom: -8px; right: -8px; transform: scale(-1,-1); }
 
 .p1-content {
   position: relative; z-index: 2;
   display: flex; flex-direction: column;
-  align-items: center; gap: 28px;
-  text-align: center; padding: 40px 20px;
+  align-items: center; gap: 30px;
+  text-align: center; padding: 50px 20px;
 }
 
 .p1-pre {
-  font-family: 'EB Garamond', serif; font-style: italic;
-  font-size: 14px; color: #9e6050;
-  letter-spacing: 0.26em; text-transform: uppercase;
+  font-style: italic; font-size: 13px;
+  color: var(--muted); letter-spacing: 0.3em;
+  text-transform: uppercase;
 }
 
-/* ── ENVELOPE (CSS-only, no SVG animation) ── */
-.env-wrap {
+/* ── REDESIGNED ENVELOPE ── */
+.env-scene {
   position: relative;
-  width: 320px; max-width: 88vw;
+  width: 340px; max-width: 86vw;
+  padding-bottom: 20px;
   cursor: pointer;
 }
 
-/* The envelope box */
-.env-box {
+/* Envelope shadow */
+.env-shadow {
+  position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 85%; height: 18px;
+  background: radial-gradient(ellipse, rgba(120,60,40,0.22) 0%, transparent 70%);
+  border-radius: 50%;
+  transition: all 0.4s ease;
+}
+.env-scene:hover .env-shadow {
+  transform: translateX(-50%) scaleX(0.92);
+  opacity: 0.55;
+}
+
+.env-wrap {
   position: relative;
   width: 100%;
-  padding-top: 65%; /* aspect ratio */
-  transition: transform 0.35s ease;
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
 }
-.env-wrap:hover .env-box { transform: translateY(-5px); }
-
-/* All envelope layers sit absolute inside */
-.env-layer {
-  position: absolute; inset: 0;
+.env-scene:hover .env-wrap {
+  transform: translateY(-8px);
 }
 
-/* Body */
+/* Main envelope body */
 .env-body {
-  background: #fdf0e8;
-  border: 1.2px solid #e0c0ac;
-  border-radius: 3px;
+  position: relative;
+  width: 100%;
+  height: 0; padding-top: 62%;
+  border-radius: 4px;
+  overflow: visible;
+}
+
+/* Back of envelope (bottom layer) */
+.env-back {
+  position: absolute; inset: 0;
+  border-radius: 4px;
+  background: linear-gradient(160deg, #f2e2d5 0%, #e8d0c0 100%);
+  border: 1.5px solid #dcc0b0;
+  box-shadow:
+    0 4px 20px rgba(120,60,40,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+/* Left triangle fold */
+.env-tri-l {
+  position: absolute; inset: 0;
+  clip-path: polygon(0 0, 0 100%, 51% 57%);
+  background: linear-gradient(135deg, #e4cfc0 0%, #d8bfae 100%);
+  border-radius: 4px 0 0 4px;
+}
+
+/* Right triangle fold */
+.env-tri-r {
+  position: absolute; inset: 0;
+  clip-path: polygon(100% 0, 100% 100%, 49% 57%);
+  background: linear-gradient(225deg, #e4cfc0 0%, #d8bfae 100%);
+  border-radius: 0 4px 4px 0;
 }
 
 /* Bottom triangle fold */
-.env-bottom {
-  clip-path: polygon(0% 100%, 100% 100%, 50% 42%);
-  background: #f2dece;
-  border-radius: 0 0 3px 3px;
+.env-tri-b {
+  position: absolute; inset: 0;
+  clip-path: polygon(0 100%, 100% 100%, 50% 56%);
+  background: linear-gradient(180deg, #ddc8b8 0%, #d0b8a8 100%);
+  border-radius: 0 0 4px 4px;
 }
 
-/* Left & right triangles */
-.env-left {
-  clip-path: polygon(0% 0%, 0% 100%, 52% 58%);
-  background: #ecdac8;
-}
-.env-right {
-  clip-path: polygon(100% 0%, 100% 100%, 48% 58%);
-  background: #ecdac8;
-}
-
-/* Flap — opens upward */
-.env-flap-wrap {
+/* subtle center fold line */
+.env-center-line {
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 55%;
-  overflow: hidden;
+  left: 0; right: 0;
+  top: 57%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(180,140,120,0.35), transparent);
+}
+
+/* flap — top triangle */
+.env-flap-outer {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 60%;
   transform-origin: top center;
   transform-style: preserve-3d;
-  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 4;
+  transition: transform 1s cubic-bezier(0.4,0,0.2,1);
+  z-index: 5;
 }
-.env-wrap.open .env-flap-wrap {
-  transform: rotateX(-180deg);
+.env-scene.open .env-flap-outer {
+  transform: perspective(600px) rotateX(-180deg);
 }
-.env-flap {
-  width: 100%; height: 100%;
-  clip-path: polygon(0% 0%, 100% 0%, 50% 85%);
-  background: #f8e8d8;
-  border: 1.2px solid #e0c0ac;
-  position: relative;
+.env-flap-face {
+  position: absolute; inset: 0;
+  clip-path: polygon(0 0, 100% 0, 50% 82%);
   backface-visibility: hidden;
 }
-/* floral on flap */
-.env-flap::after {
-  content: '';
-  position: absolute;
-  left: 50%; top: 18%;
-  transform: translateX(-50%);
-  width: 60px; height: 44px;
-  background:
-    radial-gradient(ellipse 50% 55% at 50% 50%, #fde8de 0%, #e8c5b0 55%, transparent 75%);
-  border-radius: 50%;
-  opacity: 0.9;
+.env-flap-front {
+  background: linear-gradient(160deg, #f7ebe0 0%, #ecd6c6 60%, #e0c8b8 100%);
+  border-bottom: 1px solid rgba(200,160,140,0.4);
+}
+/* flap inside (seen when open) */
+.env-flap-back {
+  background: linear-gradient(160deg, #f0e0d0 0%, #e8d0c0 100%);
+  transform: rotateX(180deg);
+  clip-path: polygon(0 0, 100% 0, 50% 82%);
 }
 
-/* Letter peeking out */
-.env-letter {
+/* Flap inner floral detail */
+.env-flap-floral {
   position: absolute;
-  left: 50%; bottom: 8%;
-  transform: translateX(-50%) translateY(0);
-  width: 68%; z-index: 3;
-  opacity: 0;
-  transition: opacity 0.5s ease 0.5s, transform 0.7s cubic-bezier(0.2,0.9,0.3,1) 0.5s;
-}
-.env-wrap.open .env-letter {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-55%);
-}
-.env-letter-inner {
-  background: #fdf8f4;
-  border: 1px solid #e8d0c4;
-  padding: 14px 16px 12px;
-  text-align: center;
-}
-.env-letter-inner .ltr-title {
-  font-family: 'Italiana', serif;
-  font-size: 16px; color: #9e6050;
-  letter-spacing: 0.08em;
-  margin-bottom: 8px;
-}
-.env-letter-inner .ltr-line {
-  height: 1px; background: #e8d0c4;
-  margin: 5px 0;
-}
-
-/* Wax seal */
-.wax-seal {
-  position: absolute; bottom: -22px; left: 50%;
-  transform: translateX(-50%);
-  width: 50px; height: 50px;
-  background: var(--dusty);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Italiana', serif; font-size: 18px; color: #fdf0e8;
-  border: 2.5px solid #b87060;
-  box-shadow: 0 3px 14px rgba(140,70,50,0.28);
-  z-index: 6;
-  transition: transform 0.3s ease, opacity 0.4s ease;
-  transition-delay: 0s;
-}
-.env-wrap:hover .wax-seal { transform: translateX(-50%) scale(1.08); }
-.env-wrap.open .wax-seal { opacity: 0; transition-delay: 0.2s; }
-
-/* address text on envelope body */
-.env-address {
-  position: absolute;
-  bottom: 20%; left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  z-index: 2; pointer-events: none;
-}
-.env-address .to-label {
-  font-family: 'EB Garamond', serif; font-style: italic;
-  font-size: 10px; color: #c9a48e;
-  letter-spacing: 0.28em; text-transform: uppercase;
-  display: block; margin-bottom: 3px;
-}
-.env-address .to-name {
-  font-family: 'Italiana', serif;
-  font-size: 20px; color: #7a4433;
-  display: block;
+  top: 20%; left: 50%; transform: translateX(-50%);
+  width: 70px; pointer-events: none;
+  z-index: 1;
 }
 
 /* stamp */
 .env-stamp {
-  position: absolute; top: 12%; right: 5%;
-  width: 11%; z-index: 2; pointer-events: none;
+  position: absolute;
+  top: 7%; right: 5%;
+  width: 13%; z-index: 6; pointer-events: none;
 }
 
+/* address */
+.env-address {
+  position: absolute;
+  bottom: 22%; left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 3; pointer-events: none;
+  white-space: nowrap;
+}
+.addr-to {
+  font-style: italic; font-size: 10px;
+  color: #c4a090; letter-spacing: 0.3em;
+  text-transform: uppercase; display: block; margin-bottom: 4px;
+}
+.addr-name {
+  font-family: 'Pinyon Script', cursive;
+  font-size: 28px; color: #7a4433;
+  display: block;
+}
+
+/* Letter peeking */
+.env-letter {
+  position: absolute;
+  bottom: 12%; left: 50%;
+  transform: translateX(-50%) translateY(0);
+  width: 70%; z-index: 4;
+  opacity: 0;
+  transition: opacity 0.5s ease 0.55s, transform 0.8s cubic-bezier(0.2,0.9,0.3,1) 0.55s;
+}
+.env-scene.open .env-letter {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-58%);
+}
+.letter-paper {
+  background: linear-gradient(170deg, #fffaf7 0%, #fdf3ed 100%);
+  border: 1px solid #e8d0c4;
+  padding: 18px 20px 14px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(120,60,40,0.1);
+}
+.letter-paper .lt { font-family:'Pinyon Script',cursive; font-size:20px; color:#9e6050; }
+.letter-paper .ld { height: 1px; background: linear-gradient(90deg,transparent,#e0c0b0,transparent); margin: 6px 0; }
+.letter-paper .ls { font-style:italic; font-size:10px; color:var(--muted); letter-spacing:0.2em; }
+
+/* Wax seal */
+.wax-seal {
+  position: absolute;
+  bottom: -18px; left: 50%;
+  transform: translateX(-50%);
+  width: 52px; height: 52px;
+  z-index: 8;
+  transition: transform 0.35s ease, opacity 0.4s ease;
+}
+.env-scene:hover .wax-seal { transform: translateX(-50%) scale(1.08); }
+.env-scene.open .wax-seal  { opacity: 0; pointer-events: none; }
+.wax-seal-circle {
+  width: 52px; height: 52px;
+  background: radial-gradient(circle at 38% 35%, #e09870 0%, #c98860 45%, #a06848 100%);
+  border-radius: 50%;
+  border: 2px solid rgba(180,110,70,0.5);
+  box-shadow: 0 3px 16px rgba(140,70,40,0.3), inset 0 1px 0 rgba(255,220,180,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Pinyon Script', cursive;
+  font-size: 20px; color: #fdf0e8;
+  letter-spacing: 0;
+}
+
+/* postmark */
+.env-postmark {
+  position: absolute; top: 10%; right: 18%;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(180,140,120,0.3);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 6; pointer-events: none;
+}
+.env-postmark-lines {
+  display: flex; flex-direction: column; gap: 3px;
+}
+.env-postmark-lines span {
+  display: block; width: 24px; height: 1px;
+  background: rgba(180,140,120,0.35);
+}
+
+/* ── P1 TEXT ── */
 .p1-tagline {
-  font-family: 'Cormorant Garamond', serif; font-style: italic;
-  font-size: 18px; color: var(--deep);
-  letter-spacing: 0.05em; line-height: 1.8;
+  font-style: italic; font-size: 19px;
+  color: var(--deep); line-height: 1.85; letter-spacing: 0.02em;
 }
 
 .open-btn {
-  font-family: 'EB Garamond', serif; font-style: italic;
-  font-size: 14px; color: var(--dusty);
-  letter-spacing: 0.2em;
-  border: 1px solid #d4a898;
-  background: rgba(253,246,240,0.75);
-  padding: 12px 40px; border-radius: 40px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  font-style: italic; font-size: 13px;
+  color: var(--dusty); letter-spacing: 0.22em;
+  border: 1px solid rgba(210,170,150,0.7);
+  background: rgba(253,247,242,0.8);
+  padding: 14px 44px; border-radius: 50px;
+  cursor: pointer; transition: all 0.35s ease;
+  backdrop-filter: blur(6px);
 }
 .open-btn:hover {
-  background: rgba(245,221,210,0.9);
+  background: rgba(248,230,220,0.95);
   border-color: var(--dusty); color: var(--deep);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(180,100,70,0.14);
 }
 
 .scroll-hint {
-  font-family: 'EB Garamond', serif; font-style: italic;
-  font-size: 12px; color: var(--rose);
-  letter-spacing: 0.15em;
-  animation: pulse 3s ease-in-out infinite;
+  font-style: italic; font-size: 12px;
+  color: var(--rose); letter-spacing: 0.18em;
+  animation: softPulse 3s ease-in-out infinite;
 }
-@keyframes pulse { 0%,100%{opacity:0.35} 50%{opacity:1} }
+@keyframes softPulse { 0%,100%{opacity:0.3} 50%{opacity:0.9} }
 
-/* ════════════════════
+/* ═══════════════════════════════
    PAGE 2
-════════════════════ */
+═══════════════════════════════ */
 #page2 { display: none; position: relative; z-index: 2; }
 
+/* ── HERO ── */
 .p2-hero {
   position: relative; width: 100%;
-  height: 100vh; overflow: hidden;
+  min-height: 100vh; overflow: hidden;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
 }
 .p2-hero-bg {
   position: absolute; inset: 0; z-index: 0;
   background:
-    radial-gradient(ellipse 55% 80% at 30% 30%, #edbdaa 0%, transparent 55%),
-    radial-gradient(ellipse 70% 60% at 80% 80%, #d4998a 0%, transparent 55%),
-    radial-gradient(ellipse 100% 100% at 50% 50%, #f2c8b8 0%, #c98878 100%);
+    radial-gradient(ellipse 55% 80% at 28% 28%, #f5c8b0 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 80% 80%, #d8a898 0%, transparent 55%),
+    linear-gradient(135deg, #f7ddd0 0%, #e0a898 40%, #c8887a 100%);
 }
 .p2-hero-bg::after {
   content: ''; position: absolute; inset: 0;
   background: linear-gradient(to bottom,
-    rgba(120,50,40,0.06) 0%,
-    rgba(253,240,232,0.45) 65%,
-    #fdf6f0 100%);
+    rgba(110,45,35,0.04) 0%,
+    rgba(253,245,240,0.5) 65%,
+    var(--cream) 100%);
 }
+
 .p2-hero-content {
   position: relative; z-index: 2;
   text-align: center; padding: 0 24px;
+  opacity: 0;
+  animation: heroReveal 1.2s ease 0.3s forwards;
 }
+@keyframes heroReveal {
+  from { opacity:0; transform: translateY(24px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
 .hero-eyebrow {
-  font-family: 'EB Garamond', serif; font-style: italic;
-  font-size: 14px; color: #9e6050;
-  letter-spacing: 0.28em; text-transform: uppercase;
-  margin-bottom: 14px;
+  font-style: italic; font-size: 13px;
+  color: rgba(100,50,38,0.75); letter-spacing: 0.3em;
+  text-transform: uppercase; margin-bottom: 16px;
+  display: block;
 }
 .hero-name {
-  font-family: 'Italiana', serif;
-  font-size: clamp(58px, 12vw, 100px);
-  color: #5a2a1e; line-height: 1;
-  margin-bottom: 12px;
+  font-family: 'Pinyon Script', cursive;
+  font-size: clamp(72px, 14vw, 120px);
+  color: #4e2018; line-height: 1;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 24px rgba(160,80,60,0.18);
 }
-.hero-sub {
-  font-family: 'Cormorant Garamond', serif; font-style: italic;
-  font-size: 20px; color: #8a5042; line-height: 1.7;
+.hero-debut {
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-size: clamp(14px, 2.5vw, 20px);
+  color: rgba(90,42,30,0.75); letter-spacing: 0.08em;
+  margin-top: 6px;
 }
-.hero-scroll {
-  position: absolute; bottom: 30px; left: 50%;
+
+/* decorative rule */
+.hero-rule {
+  display: flex; align-items: center; justify-content: center;
+  gap: 14px; margin: 18px 0;
+}
+.hero-rule-line {
+  width: 80px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(180,110,80,0.5));
+}
+.hero-rule-line.r { background: linear-gradient(270deg, transparent, rgba(180,110,80,0.5)); }
+
+.hero-scroll-cue {
+  position: absolute; bottom: 36px; left: 50%;
   transform: translateX(-50%);
   z-index: 2; display: flex; flex-direction: column;
-  align-items: center; gap: 5px;
-  animation: bob 2.2s ease-in-out infinite;
+  align-items: center; gap: 6px;
+  animation: bobDown 2s ease-in-out infinite;
 }
-@keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(7px)} }
-.hero-scroll span {
-  font-family: 'EB Garamond', serif; font-style: italic;
-  font-size: 11px; color: #9e6050;
-  letter-spacing: 0.2em; text-transform: uppercase;
+@keyframes bobDown {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(8px); }
 }
-.ph-badge {
-  position: absolute; bottom: 12px; right: 12px;
-  background: rgba(253,240,232,0.82);
-  border: 1px dashed #d4b0a0; padding: 5px 13px;
-  font-family: 'EB Garamond', serif; font-style: italic;
-  font-size: 11px; color: #b89080;
-  letter-spacing: 0.1em; border-radius: 20px;
-  pointer-events: none; z-index: 3;
+.hero-scroll-cue span {
+  font-style: italic; font-size: 10px;
+  color: rgba(100,50,38,0.6); letter-spacing: 0.22em;
+  text-transform: uppercase;
 }
 
-/* BODY */
-.p2-body { background: var(--cream); padding: 60px 20px 80px; position: relative; }
-
-.strip-left, .strip-right {
-  position: absolute; top: 0; width: 160px; height: 100%;
-  overflow: hidden; opacity: 0.14; pointer-events: none;
-}
-.strip-left { left: 0; }
-.strip-right { right: 0; }
-.strip-left > div, .strip-right > div {
-  width: 100%; height: 100%;
-  background: repeating-linear-gradient(180deg,
-    #f5d5c8 0px, #f0c4b8 100px,
-    #fae0d8 100px, #ecc5b5 200px,
-    #f5d5c8 200px, #f0c4b8 300px);
+/* ── BODY ── */
+.p2-body {
+  background: var(--cream);
+  padding: 70px 20px 90px;
+  position: relative;
 }
 
-.p2-inner { max-width: 620px; margin: 0 auto; position: relative; z-index: 2; }
+/* paper texture overlay */
+.p2-body::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.35; pointer-events: none;
+}
 
+.p2-inner { max-width: 640px; margin: 0 auto; position: relative; z-index: 2; }
+
+/* floral divider */
 .fdiv {
-  display: flex; align-items: center; gap: 14px;
-  margin: 30px auto; max-width: 360px;
+  display: flex; align-items: center; gap: 16px;
+  margin: 36px auto; max-width: 420px;
 }
-.fdiv-line { flex: 1; height: 1px; background: #d4b0a0; opacity: 0.55; }
+.fdiv-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, #d4b0a0 50%, transparent);
+  opacity: 0.6;
+}
 
+/* section eyebrow */
 .sec-eyebrow {
-  font-family: 'EB Garamond', serif; font-style: italic;
-  font-size: 11.5px; color: var(--muted);
-  letter-spacing: 0.28em; text-transform: uppercase;
-  text-align: center; margin-bottom: 22px;
+  font-style: italic; font-size: 11.5px;
+  color: var(--muted); letter-spacing: 0.32em;
+  text-transform: uppercase; text-align: center;
+  margin-bottom: 26px;
 }
 
 /* INFO CARDS */
 .info-grid {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: 15px; margin-bottom: 24px;
+  gap: 14px; margin-bottom: 20px;
 }
-@media(max-width:500px){ .info-grid { grid-template-columns: 1fr; } }
-.ic { background: #fff8f5; border: 1px solid #e8d0c4; padding: 22px 18px; text-align: center; }
-.ic.full { grid-column: 1/-1; }
-.ic-icon {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: var(--blush); display: flex;
-  align-items: center; justify-content: center; margin: 0 auto 10px;
-}
-.ic-icon svg { width: 16px; height: 16px; stroke: var(--dusty); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.ic-lbl { font-family: 'EB Garamond', serif; font-style: italic; font-size: 11px; color: var(--rose); letter-spacing: 0.24em; text-transform: uppercase; margin-bottom: 5px; }
-.ic-val { font-family: 'Italiana', serif; font-size: 22px; color: var(--deep); line-height: 1.4; }
-.ic-sub { font-family: 'EB Garamond', serif; font-style: italic; font-size: 13px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
+@media(max-width:480px) { .info-grid { grid-template-columns: 1fr; } }
 
-/* DRESS */
-.dress-card { background: #fff8f5; border: 1px solid #e8d0c4; padding: 26px 20px; text-align: center; margin-bottom: 26px; }
-.swatches { display: flex; justify-content: center; gap: 8px; margin-top: 11px; }
-.swatch { width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(180,120,100,0.22); }
+.ic {
+  background: linear-gradient(160deg, #fffaf7 0%, #fdf3ec 100%);
+  border: 1px solid #ead4c8;
+  padding: 24px 18px; text-align: center;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.ic:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(160,80,60,0.1);
+}
+.ic.full { grid-column: 1/-1; }
+
+/* subtle corner accent on cards */
+.ic::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 30px; height: 30px;
+  border-top: 1px solid rgba(200,150,130,0.4);
+  border-left: 1px solid rgba(200,150,130,0.4);
+}
+.ic::after {
+  content: '';
+  position: absolute; bottom: 0; right: 0;
+  width: 30px; height: 30px;
+  border-bottom: 1px solid rgba(200,150,130,0.4);
+  border-right: 1px solid rgba(200,150,130,0.4);
+}
+
+.ic-icon {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--blush);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 12px;
+  border: 1px solid rgba(210,170,150,0.3);
+}
+.ic-icon svg { width: 16px; height: 16px; stroke: var(--dusty); fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+
+.ic-lbl { font-style:italic; font-size:11px; color:var(--rose); letter-spacing:0.26em; text-transform:uppercase; margin-bottom:6px; }
+.ic-val { font-family:'Playfair Display',serif; font-size:22px; color:var(--deep); line-height:1.4; }
+.ic-sub { font-style:italic; font-size:13.5px; color:var(--muted); margin-top:4px; line-height:1.6; }
+
+/* DRESS CODE */
+.dress-card {
+  background: linear-gradient(160deg, #fffaf7 0%, #fdf3ec 100%);
+  border: 1px solid #ead4c8;
+  padding: 28px 22px; text-align: center;
+  margin-bottom: 28px;
+  position: relative;
+}
+.dress-card::before { content:''; position:absolute; top:0;left:0; width:30px;height:30px; border-top:1px solid rgba(200,150,130,0.4); border-left:1px solid rgba(200,150,130,0.4); }
+.dress-card::after  { content:''; position:absolute; bottom:0;right:0; width:30px;height:30px; border-bottom:1px solid rgba(200,150,130,0.4); border-right:1px solid rgba(200,150,130,0.4); }
+
+.swatches { display:flex; justify-content:center; gap:10px; margin-top:14px; }
+.swatch {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1px solid rgba(180,130,110,0.25);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+  transition: transform 0.2s ease;
+}
+.swatch:hover { transform: scale(1.18); }
 
 /* PROGRAMME */
-.prog-list { list-style: none; border-left: 1px solid #d4b0a0; margin-left: 18px; padding-left: 24px; }
-.prog-item { position: relative; margin-bottom: 20px; }
+.prog-list { list-style: none; border-left: 1px solid #d4b0a0; margin-left: 22px; padding-left: 26px; }
+.prog-item { position: relative; margin-bottom: 22px; }
 .prog-item::before {
   content: ''; position: absolute;
-  left: -30px; top: 7px;
-  width: 9px; height: 9px; border-radius: 50%;
+  left: -31px; top: 8px;
+  width: 10px; height: 10px; border-radius: 50%;
   background: var(--blush); border: 1.5px solid var(--rose);
 }
-.pt { font-family:'EB Garamond',serif; font-style:italic; font-size:12px; color:var(--rose); letter-spacing:0.1em; }
-.pe { font-family:'Cormorant Garamond',serif; font-size:17px; color:var(--deep); line-height:1.4; }
+.prog-item:last-child { margin-bottom: 0; }
+.pt { font-style:italic; font-size:11.5px; color:var(--rose); letter-spacing:0.12em; }
+.pe { font-family:'Playfair Display',serif; font-size:17px; color:var(--deep); line-height:1.4; margin-top:2px; }
 
-/* PORTRAIT PANEL */
+/* PORTRAIT */
 .portrait-panel {
-  position: relative; width: 100%; height: 370px;
-  margin: 40px 0; overflow: hidden;
+  position: relative; width: 100%; height: 380px;
+  margin: 50px 0; overflow: hidden;
 }
 .portrait-bg {
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 80% 80% at 60% 40%, #e8c5b0 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at 20% 80%, #d4a898 0%, transparent 55%),
-    linear-gradient(135deg, #f5ddd2 0%, #d4a090 100%);
+    radial-gradient(ellipse 80% 80% at 65% 40%, #eec5b0 0%, transparent 58%),
+    radial-gradient(ellipse 60% 80% at 20% 85%, #d8a898 0%, transparent 55%),
+    linear-gradient(130deg, #f5ddd2 0%, #d4a090 100%);
 }
-.portrait-bg::after { content: ''; position: absolute; inset: 0; background: rgba(253,240,232,0.22); }
-.portrait-overlay {
-  position: relative; z-index: 2; height: 100%;
-  display: flex; align-items: flex-end; padding: 28px;
+.portrait-bg::after { content:''; position:absolute; inset:0; background:rgba(253,240,232,0.2); }
+
+.portrait-quote-wrap {
+  position:relative; z-index:2; height:100%;
+  display:flex; align-items:flex-end; padding:34px;
 }
 .portrait-quote {
-  font-family: 'Cormorant Garamond', serif; font-style: italic;
-  font-size: 21px; color: #5a2a1e; line-height: 1.75;
-  max-width: 310px;
+  font-family:'Playfair Display',serif; font-style:italic;
+  font-size:20px; color:#5a2a1e; line-height:1.85;
+  max-width:320px;
+  text-shadow: 0 1px 8px rgba(253,240,232,0.6);
+}
+.ph-badge {
+  position:absolute; bottom:12px; right:14px;
+  background:rgba(253,240,232,0.82);
+  border:1px dashed #d4b0a0; padding:5px 14px;
+  font-style:italic; font-size:11px; color:var(--muted);
+  letter-spacing:0.1em; border-radius:20px;
+  pointer-events:none; z-index:3;
 }
 
 /* FOOTER */
-.inv-footer { text-align: center; padding-top: 28px; border-top: 1px solid #e8d0c4; margin-top: 16px; }
-.footer-txt { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:16px; color:var(--muted); line-height:2; }
-.footer-name { font-family:'Italiana',serif; font-size:28px; color:var(--deep); display:block; margin:6px 0 4px; }
+.inv-footer {
+  text-align:center; padding-top:32px;
+  border-top:1px solid #e8d0c4; margin-top:18px;
+}
+.footer-txt {
+  font-style:italic; font-size:16.5px;
+  color:var(--muted); line-height:2.1;
+}
+.footer-name {
+  font-family:'Pinyon Script',cursive;
+  font-size:38px; color:var(--deep);
+  display:block; margin:8px 0 6px;
+}
+.footer-contact {
+  font-size:13px; color:var(--muted); display:block; margin-top:4px;
+}
+
 </style>
 </head>
 <body>
@@ -435,138 +700,305 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; }
 <canvas id="petalCanvas"></canvas>
 <div id="overlay"></div>
 
+<!-- ══════════ INTRO SCREEN ══════════ -->
+<div id="intro">
+  <div class="intro-bg"></div>
+
+  <!-- corner florals -->
+  <svg class="intro-floral tl" viewBox="0 0 220 220" fill="none">
+    <path d="M5 5 C40 80 100 100 215 215" stroke="#d4a090" stroke-width="1.2" opacity="0.5"/>
+    <path d="M5 5 C80 40 100 100 215 215" stroke="#d4a090" stroke-width="0.8" opacity="0.35"/>
+    <ellipse cx="55" cy="100" rx="24" ry="15" fill="#ecc5b0" transform="rotate(-32 55 100)" opacity="0.7"/>
+    <ellipse cx="53" cy="96" rx="15" ry="12" fill="#f5d8c8" opacity="0.8"/>
+    <circle cx="55" cy="93" r="5" fill="#fde8de"/>
+    <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.7"/>
+    <ellipse cx="100" cy="52" rx="13" ry="10" fill="#f5d8c8" opacity="0.8"/>
+    <circle cx="100" cy="49" r="4" fill="#fde8de"/>
+    <ellipse cx="28" cy="152" rx="13" ry="9" fill="#e8c0b0" opacity="0.5" transform="rotate(-50 28 152)"/>
+    <ellipse cx="152" cy="28" rx="13" ry="9" fill="#e8c0b0" opacity="0.5" transform="rotate(50 152 28)"/>
+    <ellipse cx="70" cy="130" rx="17" ry="11" fill="#ecc5b0" opacity="0.55" transform="rotate(-22 70 130)"/>
+    <circle cx="70" cy="126" r="3.5" fill="#fde8de"/>
+    <ellipse cx="130" cy="70" rx="14" ry="9" fill="#ecc5b0" opacity="0.5" transform="rotate(22 130 70)"/>
+    <circle cx="130" cy="67" r="3" fill="#fde8de"/>
+    <circle cx="14" cy="190" r="5" fill="#d4b8a8" opacity="0.35"/>
+    <circle cx="190" cy="14" r="5" fill="#d4b8a8" opacity="0.35"/>
+  </svg>
+  <svg class="intro-floral tr" viewBox="0 0 220 220" fill="none">
+    <path d="M5 5 C40 80 100 100 215 215" stroke="#d4a090" stroke-width="1.2" opacity="0.5"/>
+    <path d="M5 5 C80 40 100 100 215 215" stroke="#d4a090" stroke-width="0.8" opacity="0.35"/>
+    <ellipse cx="55" cy="100" rx="24" ry="15" fill="#ecc5b0" transform="rotate(-32 55 100)" opacity="0.7"/>
+    <ellipse cx="53" cy="96" rx="15" ry="12" fill="#f5d8c8" opacity="0.8"/>
+    <circle cx="55" cy="93" r="5" fill="#fde8de"/>
+    <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.7"/>
+    <ellipse cx="100" cy="52" rx="13" ry="10" fill="#f5d8c8" opacity="0.8"/>
+    <circle cx="100" cy="49" r="4" fill="#fde8de"/>
+    <ellipse cx="70" cy="130" rx="17" ry="11" fill="#ecc5b0" opacity="0.55" transform="rotate(-22 70 130)"/>
+    <ellipse cx="130" cy="70" rx="14" ry="9" fill="#ecc5b0" opacity="0.5" transform="rotate(22 130 70)"/>
+  </svg>
+  <svg class="intro-floral bl" viewBox="0 0 220 220" fill="none">
+    <path d="M5 5 C40 80 100 100 215 215" stroke="#d4a090" stroke-width="1.2" opacity="0.5"/>
+    <ellipse cx="55" cy="100" rx="24" ry="15" fill="#ecc5b0" transform="rotate(-32 55 100)" opacity="0.6"/>
+    <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.6"/>
+    <circle cx="55" cy="93" r="5" fill="#fde8de"/>
+    <circle cx="100" cy="49" r="4" fill="#fde8de"/>
+  </svg>
+  <svg class="intro-floral br" viewBox="0 0 220 220" fill="none">
+    <path d="M5 5 C40 80 100 100 215 215" stroke="#d4a090" stroke-width="1.2" opacity="0.5"/>
+    <ellipse cx="55" cy="100" rx="24" ry="15" fill="#ecc5b0" transform="rotate(-32 55 100)" opacity="0.6"/>
+    <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.6"/>
+    <circle cx="55" cy="93" r="5" fill="#fde8de"/>
+    <circle cx="100" cy="49" r="4" fill="#fde8de"/>
+  </svg>
+
+  <div class="intro-content">
+    <p class="intro-eyebrow">a celebration of</p>
+    <h1 class="intro-title">Her Debut</h1>
+    <div class="intro-rule"></div>
+    <p class="intro-sub">An evening of elegance & love</p>
+    <div class="intro-loading">
+      <div class="intro-dot"></div>
+      <div class="intro-dot"></div>
+      <div class="intro-dot"></div>
+    </div>
+  </div>
+</div>
+
 <!-- ══════════ PAGE 1 ══════════ -->
 <div id="page1">
   <div class="p1-bg"></div>
+  <div class="p1-lines"></div>
 
-  <!-- corner florals -->
-  <svg class="cf cf-tl" viewBox="0 0 180 180" fill="none"><path d="M0 0 C28 56 75 75 155 185" stroke="#c9907a" stroke-width="1.5" fill="none"/><path d="M0 0 C56 28 75 75 185 155" stroke="#c9907a" stroke-width="1.5" fill="none"/><ellipse cx="46" cy="84" rx="20" ry="13" fill="#e8c5b0" transform="rotate(-30 46 84)"/><ellipse cx="44" cy="80" rx="13" ry="11" fill="#f0d0be"/><circle cx="46" cy="78" r="4.5" fill="#fde8de"/><ellipse cx="85" cy="46" rx="17" ry="11" fill="#e8c5b0" transform="rotate(30 85 46)"/><circle cx="85" cy="43" r="3.5" fill="#fde8de"/><ellipse cx="22" cy="130" rx="12" ry="8" fill="#e8c5b0" opacity="0.6" transform="rotate(-50 22 130)"/><ellipse cx="130" cy="22" rx="12" ry="8" fill="#e8c5b0" opacity="0.6" transform="rotate(50 130 22)"/><circle cx="12" cy="158" r="4" fill="#d4b8a8" opacity="0.45"/><circle cx="158" cy="12" r="4" fill="#d4b8a8" opacity="0.45"/></svg>
-  <svg class="cf cf-tr" viewBox="0 0 180 180" fill="none"><path d="M0 0 C28 56 75 75 155 185" stroke="#c9907a" stroke-width="1.5" fill="none"/><path d="M0 0 C56 28 75 75 185 155" stroke="#c9907a" stroke-width="1.5" fill="none"/><ellipse cx="46" cy="84" rx="20" ry="13" fill="#e8c5b0" transform="rotate(-30 46 84)"/><ellipse cx="44" cy="80" rx="13" ry="11" fill="#f0d0be"/><circle cx="46" cy="78" r="4.5" fill="#fde8de"/><ellipse cx="85" cy="46" rx="17" ry="11" fill="#e8c5b0" transform="rotate(30 85 46)"/><circle cx="85" cy="43" r="3.5" fill="#fde8de"/></svg>
-  <svg class="cf cf-bl" viewBox="0 0 180 180" fill="none"><path d="M0 0 C28 56 75 75 155 185" stroke="#c9907a" stroke-width="1.5" fill="none"/><path d="M0 0 C56 28 75 75 185 155" stroke="#c9907a" stroke-width="1.5" fill="none"/><ellipse cx="46" cy="84" rx="20" ry="13" fill="#e8c5b0" transform="rotate(-30 46 84)"/><ellipse cx="44" cy="80" rx="13" ry="11" fill="#f0d0be"/><circle cx="46" cy="78" r="4.5" fill="#fde8de"/><ellipse cx="85" cy="46" rx="17" ry="11" fill="#e8c5b0" transform="rotate(30 85 46)"/><circle cx="85" cy="43" r="3.5" fill="#fde8de"/></svg>
-  <svg class="cf cf-br" viewBox="0 0 180 180" fill="none"><path d="M0 0 C28 56 75 75 155 185" stroke="#c9907a" stroke-width="1.5" fill="none"/><path d="M0 0 C56 28 75 75 185 155" stroke="#c9907a" stroke-width="1.5" fill="none"/><ellipse cx="46" cy="84" rx="20" ry="13" fill="#e8c5b0" transform="rotate(-30 46 84)"/><ellipse cx="44" cy="80" rx="13" ry="11" fill="#f0d0be"/><circle cx="46" cy="78" r="4.5" fill="#fde8de"/><ellipse cx="85" cy="46" rx="17" ry="11" fill="#e8c5b0" transform="rotate(30 85 46)"/><circle cx="85" cy="43" r="3.5" fill="#fde8de"/></svg>
+  <!-- Corner florals -->
+  <svg class="cf cf-tl" viewBox="0 0 220 220" fill="none">
+    <path d="M5 5 C40 80 100 100 215 215" stroke="#c9907a" stroke-width="1.2" opacity="0.5"/>
+    <path d="M5 5 C80 40 100 100 215 215" stroke="#c9907a" stroke-width="0.8" opacity="0.35"/>
+    <ellipse cx="55" cy="100" rx="24" ry="15" fill="#ecc5b0" transform="rotate(-32 55 100)" opacity="0.75"/>
+    <ellipse cx="53" cy="96" rx="15" ry="12" fill="#f5d8c8"/>
+    <circle cx="55" cy="93" r="5" fill="#fde8de"/>
+    <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.7"/>
+    <circle cx="100" cy="49" r="4" fill="#fde8de"/>
+    <ellipse cx="28" cy="152" rx="13" ry="9" fill="#e8c0b0" opacity="0.5" transform="rotate(-50 28 152)"/>
+    <ellipse cx="152" cy="28" rx="13" ry="9" fill="#e8c0b0" opacity="0.5" transform="rotate(50 152 28)"/>
+    <ellipse cx="70" cy="130" rx="17" ry="11" fill="#ecc5b0" opacity="0.55" transform="rotate(-22 70 130)"/>
+    <circle cx="70" cy="126" r="3.5" fill="#fde8de"/>
+    <ellipse cx="130" cy="70" rx="14" ry="9" fill="#ecc5b0" opacity="0.5" transform="rotate(22 130 70)"/>
+    <circle cx="130" cy="67" r="3" fill="#fde8de"/>
+    <circle cx="12" cy="192" r="5" fill="#d4b8a8" opacity="0.35"/>
+    <circle cx="192" cy="12" r="5" fill="#d4b8a8" opacity="0.35"/>
+  </svg>
+  <svg class="cf cf-tr" viewBox="0 0 220 220" fill="none">
+    <path d="M5 5 C40 80 100 100 215 215" stroke="#c9907a" stroke-width="1.2" opacity="0.5"/>
+    <path d="M5 5 C80 40 100 100 215 215" stroke="#c9907a" stroke-width="0.8" opacity="0.35"/>
+    <ellipse cx="55" cy="100" rx="24" ry="15" fill="#ecc5b0" transform="rotate(-32 55 100)" opacity="0.75"/>
+    <ellipse cx="53" cy="96" rx="15" ry="12" fill="#f5d8c8"/>
+    <circle cx="55" cy="93" r="5" fill="#fde8de"/>
+    <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.7"/>
+    <circle cx="100" cy="49" r="4" fill="#fde8de"/>
+    <ellipse cx="70" cy="130" rx="17" ry="11" fill="#ecc5b0" opacity="0.55" transform="rotate(-22 70 130)"/>
+    <ellipse cx="130" cy="70" rx="14" ry="9" fill="#ecc5b0" opacity="0.5" transform="rotate(22 130 70)"/>
+  </svg>
+  <svg class="cf cf-bl" viewBox="0 0 220 220" fill="none">
+    <path d="M5 5 C40 80 100 100 215 215" stroke="#c9907a" stroke-width="1.2" opacity="0.5"/>
+    <path d="M5 5 C80 40 100 100 215 215" stroke="#c9907a" stroke-width="0.8" opacity="0.35"/>
+    <ellipse cx="55" cy="100" rx="24" ry="15" fill="#ecc5b0" transform="rotate(-32 55 100)" opacity="0.7"/>
+    <ellipse cx="53" cy="96" rx="15" ry="12" fill="#f5d8c8"/>
+    <circle cx="55" cy="93" r="5" fill="#fde8de"/>
+    <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.6"/>
+    <circle cx="100" cy="49" r="4" fill="#fde8de"/>
+  </svg>
+  <svg class="cf cf-br" viewBox="0 0 220 220" fill="none">
+    <path d="M5 5 C40 80 100 100 215 215" stroke="#c9907a" stroke-width="1.2" opacity="0.5"/>
+    <path d="M5 5 C80 40 100 100 215 215" stroke="#c9907a" stroke-width="0.8" opacity="0.35"/>
+    <ellipse cx="55" cy="100" rx="24" ry="15" fill="#ecc5b0" transform="rotate(-32 55 100)" opacity="0.7"/>
+    <ellipse cx="53" cy="96" rx="15" ry="12" fill="#f5d8c8"/>
+    <circle cx="55" cy="93" r="5" fill="#fde8de"/>
+    <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.6"/>
+    <circle cx="100" cy="49" r="4" fill="#fde8de"/>
+  </svg>
 
   <div class="p1-content">
     <p class="p1-pre">a letter awaits you</p>
 
-    <div class="env-wrap" id="envWrap" onclick="openEnvelope()">
-      <div class="env-box">
-        <div class="env-layer env-body"></div>
-        <div class="env-layer env-left"></div>
-        <div class="env-layer env-right"></div>
-        <div class="env-layer env-bottom"></div>
+    <!-- ── ENVELOPE ── -->
+    <div class="env-scene" id="envScene" onclick="openEnvelope()">
+      <div class="env-wrap">
+        <div class="env-body">
+          <!-- base -->
+          <div class="env-back env-layer" style="position:absolute;inset:0;border-radius:4px;background:linear-gradient(160deg,#f2e2d5 0%,#e8d0c0 100%);border:1.5px solid #dcc0b0;box-shadow:0 4px 20px rgba(120,60,40,0.12),inset 0 1px 0 rgba(255,255,255,0.5);"></div>
 
-        <!-- letter behind flap -->
-        <div class="env-letter" id="envLetter">
-          <div class="env-letter-inner">
-            <div class="ltr-title">You're Invited</div>
-            <div class="ltr-line"></div>
-            <div class="ltr-line" style="margin-top:8px; opacity:0.5; width:70%; margin-left:auto; margin-right:auto;"></div>
+          <!-- side folds -->
+          <div style="position:absolute;inset:0;clip-path:polygon(0 0, 0 100%, 51% 57%);background:linear-gradient(145deg,#e8d5c5 0%,#d8bfae 100%);"></div>
+          <div style="position:absolute;inset:0;clip-path:polygon(100% 0, 100% 100%, 49% 57%);background:linear-gradient(215deg,#e8d5c5 0%,#d8bfae 100%);"></div>
+
+          <!-- bottom fold -->
+          <div style="position:absolute;inset:0;clip-path:polygon(0 100%,100% 100%,50% 57%);background:linear-gradient(180deg,#ddc8b8 0%,#cdb8a8 100%);"></div>
+
+          <!-- fold shadow line -->
+          <div style="position:absolute;left:0;right:0;top:57%;height:1px;background:linear-gradient(90deg,transparent,rgba(160,120,100,0.3),transparent);"></div>
+
+          <!-- letter (behind flap) -->
+          <div class="env-letter" id="envLetter">
+            <div class="letter-paper">
+              <div class="lt">You're Invited</div>
+              <div class="ld"></div>
+              <div class="ls">to a debut celebration</div>
+            </div>
           </div>
-        </div>
 
-        <!-- flap -->
-        <div class="env-flap-wrap" id="envFlapWrap">
-          <div class="env-flap"></div>
-        </div>
+          <!-- flap (top, opens backwards) -->
+          <div class="env-flap-outer" id="envFlap">
+            <div class="env-flap-face env-flap-front">
+              <!-- floral on flap -->
+              <svg class="env-flap-floral" viewBox="0 0 80 60" fill="none">
+                <ellipse cx="40" cy="30" rx="14" ry="11" fill="#e8c5b0" opacity="0.7"/>
+                <ellipse cx="39" cy="27" rx="9" ry="8" fill="#f0d5c5" opacity="0.85"/>
+                <circle cx="40" cy="25" r="3.2" fill="#fde8de"/>
+                <ellipse cx="20" cy="36" rx="10" ry="7" fill="#e8c5b0" opacity="0.55" transform="rotate(-22 20 36)"/>
+                <circle cx="20" cy="33" r="2.2" fill="#fde8de"/>
+                <ellipse cx="60" cy="36" rx="10" ry="7" fill="#e8c5b0" opacity="0.55" transform="rotate(22 60 36)"/>
+                <circle cx="60" cy="33" r="2.2" fill="#fde8de"/>
+                <path d="M40 37 Q38 46 34 52" stroke="#d4b0a0" stroke-width="0.8" fill="none"/>
+                <path d="M40 37 Q42 46 46 52" stroke="#d4b0a0" stroke-width="0.8" fill="none"/>
+              </svg>
+            </div>
+            <div class="env-flap-face env-flap-back"></div>
+          </div>
 
-        <!-- address -->
-        <div class="env-address">
-          <span class="to-label">To</span>
-          <span class="to-name">You</span>
-        </div>
+          <!-- postmark lines -->
+          <div style="position:absolute;top:9%;right:20%;z-index:6;pointer-events:none;display:flex;flex-direction:column;gap:3px;">
+            <span style="display:block;width:26px;height:1px;background:rgba(180,140,120,0.35);"></span>
+            <span style="display:block;width:22px;height:1px;background:rgba(180,140,120,0.3);"></span>
+            <span style="display:block;width:26px;height:1px;background:rgba(180,140,120,0.35);"></span>
+          </div>
 
-        <!-- stamp (pure CSS) -->
-        <div class="env-stamp">
-          <svg viewBox="0 0 44 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="1" y="1" width="42" height="32" rx="2" fill="#fdf6f0" stroke="#d4b8a8" stroke-width="0.8" stroke-dasharray="3,2"/>
-            <ellipse cx="22" cy="17" rx="13" ry="10" fill="#f5ddd2" stroke="#d4b8a8" stroke-width="0.5"/>
-            <ellipse cx="20" cy="15" rx="8" ry="7" fill="#e8c5b0"/>
-            <ellipse cx="22" cy="14" rx="7" ry="6" fill="#f5ddd0"/>
-            <circle cx="21" cy="13" r="2.8" fill="#fde8de"/>
-          </svg>
-        </div>
+          <!-- stamp -->
+          <div class="env-stamp" style="position:absolute;top:6%;right:4%;width:12%;z-index:6;pointer-events:none;">
+            <svg viewBox="0 0 44 36" fill="none">
+              <rect x="1.5" y="1.5" width="41" height="33" rx="2" fill="#fdf6f0" stroke="#dcc0b0" stroke-width="0.8" stroke-dasharray="3,2.2"/>
+              <ellipse cx="22" cy="18" rx="13" ry="10" fill="#f5ddd2"/>
+              <ellipse cx="20" cy="16" rx="9" ry="7.5" fill="#ecc5b0"/>
+              <circle cx="21" cy="14" r="3" fill="#fde8de"/>
+            </svg>
+          </div>
+
+          <!-- address -->
+          <div class="env-address">
+            <span class="addr-to">To</span>
+            <span class="addr-name">You</span>
+          </div>
+        </div><!-- /.env-body -->
+      </div><!-- /.env-wrap -->
+
+      <!-- wax seal -->
+      <div class="wax-seal" id="waxSeal">
+        <div class="wax-seal-circle">✦</div>
       </div>
-      <div class="wax-seal" id="waxSeal">✦</div>
-    </div>
+
+      <div class="env-shadow"></div>
+    </div><!-- /.env-scene -->
 
     <p class="p1-tagline">
-      Something wonderful awaits you.<br>
-      <em style="font-size:15px;color:var(--muted);">A special celebration is near.</em>
+      Something beautiful awaits you.<br>
+      <em style="font-size:16px;color:var(--muted);">A special evening draws near.</em>
     </p>
     <button class="open-btn" id="openBtn" onclick="openEnvelope()">Open your invitation</button>
-    <p class="scroll-hint" id="scrollHint">✦ &nbsp; click the envelope to reveal &nbsp; ✦</p>
+    <p class="scroll-hint" id="scrollHint">✦ &ensp; tap the envelope to reveal &ensp; ✦</p>
   </div>
 </div>
 
 <!-- ══════════ PAGE 2 ══════════ -->
 <div id="page2">
-
-  <!-- HERO -->
   <div class="p2-hero">
     <div class="p2-hero-bg" id="heroBg"></div>
     <span class="ph-badge">hero.png — replace with her photo</span>
 
     <div class="p2-hero-content">
-      <svg width="340" viewBox="0 0 560 82" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width:88vw; margin-bottom:12px;">
-        <path d="M280 80 C278 64 270 52 254 40" stroke="rgba(200,155,135,0.65)" stroke-width="1" fill="none"/>
-        <path d="M280 80 C282 64 292 52 308 40" stroke="rgba(200,155,135,0.65)" stroke-width="1" fill="none"/>
-        <path d="M280 68 C256 56 232 46 210 32" stroke="rgba(200,155,135,0.45)" stroke-width="0.8" fill="none"/>
-        <path d="M280 68 C304 56 328 46 350 32" stroke="rgba(200,155,135,0.45)" stroke-width="0.8" fill="none"/>
-        <path d="M280 56 C248 42 218 32 186 18" stroke="rgba(200,155,135,0.35)" stroke-width="0.6" fill="none"/>
-        <path d="M280 56 C312 42 342 32 374 18" stroke="rgba(200,155,135,0.35)" stroke-width="0.6" fill="none"/>
-        <ellipse cx="250" cy="44" rx="11" ry="7.5" fill="#e8c5b0" opacity="0.55" transform="rotate(-28 250 44)"/>
-        <ellipse cx="310" cy="44" rx="11" ry="7.5" fill="#e8c5b0" opacity="0.55" transform="rotate(28 310 44)"/>
-        <ellipse cx="218" cy="28" rx="9" ry="6" fill="#e8c5b0" opacity="0.45" transform="rotate(-45 218 28)"/>
-        <ellipse cx="342" cy="28" rx="9" ry="6" fill="#e8c5b0" opacity="0.45" transform="rotate(45 342 28)"/>
-        <ellipse cx="280" cy="26" rx="17" ry="14" fill="#e8c5b0" opacity="0.45"/>
-        <ellipse cx="278" cy="23" rx="12" ry="10" fill="#f0d0be"/>
-        <ellipse cx="282" cy="21" rx="10" ry="9" fill="#f5ddd0"/>
-        <circle cx="280" cy="19" r="3.8" fill="#fff0e8"/>
-        <ellipse cx="248" cy="34" rx="11" ry="8.5" fill="#e8c5b0" opacity="0.72"/>
-        <circle cx="248" cy="31" r="3" fill="#fde8de"/>
-        <ellipse cx="312" cy="34" rx="11" ry="8.5" fill="#e8c5b0" opacity="0.72"/>
-        <circle cx="312" cy="31" r="3" fill="#fde8de"/>
+      <!-- floral arch -->
+      <svg width="380" max-width="90vw" viewBox="0 0 580 90" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width:90vw;margin-bottom:8px;">
+        <path d="M290 86 C287 66 277 52 258 38" stroke="rgba(200,150,130,0.6)" stroke-width="1.2" fill="none"/>
+        <path d="M290 86 C293 66 303 52 322 38" stroke="rgba(200,150,130,0.6)" stroke-width="1.2" fill="none"/>
+        <path d="M290 74 C262 60 236 48 210 32" stroke="rgba(200,150,130,0.4)" stroke-width="0.9" fill="none"/>
+        <path d="M290 74 C318 60 344 48 370 32" stroke="rgba(200,150,130,0.4)" stroke-width="0.9" fill="none"/>
+        <path d="M290 58 C252 42 220 30 186 14" stroke="rgba(200,150,130,0.28)" stroke-width="0.7" fill="none"/>
+        <path d="M290 58 C328 42 360 30 394 14" stroke="rgba(200,150,130,0.28)" stroke-width="0.7" fill="none"/>
+        <!-- flowers -->
+        <ellipse cx="258" cy="44" rx="13" ry="9" fill="#e8c5b0" opacity="0.65" transform="rotate(-28 258 44)"/>
+        <circle cx="258" cy="41" r="3" fill="#fde8de"/>
+        <ellipse cx="322" cy="44" rx="13" ry="9" fill="#e8c5b0" opacity="0.65" transform="rotate(28 322 44)"/>
+        <circle cx="322" cy="41" r="3" fill="#fde8de"/>
+        <ellipse cx="216" cy="29" rx="11" ry="7.5" fill="#e8c5b0" opacity="0.5" transform="rotate(-45 216 29)"/>
+        <circle cx="216" cy="26" r="2.5" fill="#fde8de"/>
+        <ellipse cx="364" cy="29" rx="11" ry="7.5" fill="#e8c5b0" opacity="0.5" transform="rotate(45 364 29)"/>
+        <circle cx="364" cy="26" r="2.5" fill="#fde8de"/>
+        <ellipse cx="290" cy="28" rx="19" ry="15" fill="#e8c5b0" opacity="0.55"/>
+        <ellipse cx="288" cy="24" rx="13" ry="11" fill="#f0d0be"/>
+        <circle cx="290" cy="20" r="4.2" fill="#fff0e8"/>
+        <!-- smaller buds -->
+        <ellipse cx="184" cy="12" rx="8" ry="5.5" fill="#e8c5b0" opacity="0.38" transform="rotate(-55 184 12)"/>
+        <ellipse cx="396" cy="12" rx="8" ry="5.5" fill="#e8c5b0" opacity="0.38" transform="rotate(55 396 12)"/>
       </svg>
 
-      <p class="hero-eyebrow">cordially invites you to celebrate</p>
+      <span class="hero-eyebrow">cordially invites you to celebrate</span>
       <h1 class="hero-name">[Her Name]</h1>
-      <p class="hero-sub">on the occasion of her eighteenth birthday</p>
+      <div class="hero-rule">
+        <div class="hero-rule-line"></div>
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+          <path d="M10 2 L10.9 7.5 L16 7.5 L11.8 10.8 L13.1 16 L10 12.8 L6.9 16 L8.2 10.8 L4 7.5 L9.1 7.5 Z" fill="rgba(180,120,90,0.45)"/>
+        </svg>
+        <div class="hero-rule-line r"></div>
+      </div>
+      <p class="hero-debut">on the occasion of her eighteenth birthday</p>
     </div>
 
-    <div class="hero-scroll">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9e6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    <div class="hero-scroll-cue">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(100,50,38,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
       <span>scroll</span>
     </div>
   </div>
 
-  <!-- DETAILS BODY -->
+  <!-- ── DETAILS ── -->
   <div class="p2-body">
-    <div class="strip-left"><div></div></div>
-    <div class="strip-right"><div></div></div>
-
     <div class="p2-inner">
 
       <!-- floral divider -->
-      <div class="fdiv"><div class="fdiv-line"></div>
-        <svg width="56" height="24" viewBox="0 0 60 26" fill="none"><ellipse cx="30" cy="13" rx="9" ry="7" fill="#e8c5b0"/><ellipse cx="29" cy="11" rx="6" ry="5.5" fill="#f0d0be"/><circle cx="30" cy="9" r="2.2" fill="#fff0e8"/><ellipse cx="14" cy="16" rx="7" ry="5" fill="#e8c5b0" opacity="0.65" transform="rotate(-20 14 16)"/><circle cx="14" cy="14" r="1.8" fill="#fde8de"/><ellipse cx="46" cy="16" rx="7" ry="5" fill="#e8c5b0" opacity="0.65" transform="rotate(20 46 16)"/><circle cx="46" cy="14" r="1.8" fill="#fde8de"/><circle cx="4" cy="18" r="1.8" fill="#d4b8a8" opacity="0.5"/><circle cx="56" cy="18" r="1.8" fill="#d4b8a8" opacity="0.5"/></svg>
-      <div class="fdiv-line"></div></div>
+      <div class="fdiv">
+        <div class="fdiv-line"></div>
+        <svg width="62" height="26" viewBox="0 0 70 28" fill="none">
+          <ellipse cx="35" cy="14" rx="10" ry="8" fill="#e8c5b0"/>
+          <ellipse cx="34" cy="12" rx="7" ry="6" fill="#f0d0be"/>
+          <circle cx="35" cy="10" r="2.5" fill="#fff0e8"/>
+          <ellipse cx="16" cy="17" rx="8" ry="5.5" fill="#e8c5b0" opacity="0.62" transform="rotate(-22 16 17)"/>
+          <circle cx="16" cy="15" r="2" fill="#fde8de"/>
+          <ellipse cx="54" cy="17" rx="8" ry="5.5" fill="#e8c5b0" opacity="0.62" transform="rotate(22 54 17)"/>
+          <circle cx="54" cy="15" r="2" fill="#fde8de"/>
+          <circle cx="4" cy="19" r="2" fill="#d4b8a8" opacity="0.45"/>
+          <circle cx="66" cy="19" r="2" fill="#d4b8a8" opacity="0.45"/>
+        </svg>
+        <div class="fdiv-line" style="background:linear-gradient(270deg,transparent,#d4b0a0 50%,transparent);"></div>
+      </div>
 
       <!-- EVENT INFO -->
       <div class="info-grid">
         <div class="ic">
-          <div class="ic-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <div class="ic-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
           <p class="ic-lbl">Date</p>
           <p class="ic-val">Saturday</p>
           <p class="ic-sub">[Month] [Day], [Year]</p>
         </div>
         <div class="ic">
-          <div class="ic-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="ic-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
           <p class="ic-lbl">Time</p>
           <p class="ic-val">6:00 PM</p>
           <p class="ic-sub">Doors open at 5:30 PM</p>
         </div>
         <div class="ic full">
-          <div class="ic-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+          <div class="ic-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          </div>
           <p class="ic-lbl">Venue</p>
           <p class="ic-val">[Venue Name]</p>
           <p class="ic-sub">[Full Address, City, Province]</p>
@@ -575,24 +1007,31 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; }
 
       <!-- DRESS CODE -->
       <div class="dress-card">
-        <p class="ic-lbl" style="margin-bottom:6px;">Dress Code</p>
-        <p class="ic-val" style="font-size:24px;">Formal Attire</p>
-        <p class="ic-sub" style="margin-bottom:10px;">Blush, Ivory & Soft Rose tones preferred</p>
+        <p class="ic-lbl" style="margin-bottom:8px;">Dress Code</p>
+        <p class="ic-val" style="font-size:26px;">Formal Attire</p>
+        <p class="ic-sub" style="margin-bottom:12px;">Blush, Ivory & Soft Rose tones preferred</p>
         <div class="swatches">
-          <div class="swatch" style="background:#f5ddd2;"></div>
-          <div class="swatch" style="background:#fdf6f0;"></div>
-          <div class="swatch" style="background:#e8c5b0;"></div>
-          <div class="swatch" style="background:#d4b8a8;"></div>
-          <div class="swatch" style="background:#c9a48e;"></div>
+          <div class="swatch" style="background:#f9e4da;" title="Blush"></div>
+          <div class="swatch" style="background:#fdf6f0;" title="Ivory"></div>
+          <div class="swatch" style="background:#f0cdbf;" title="Soft Peach"></div>
+          <div class="swatch" style="background:#e2b4a5;" title="Dusty Rose"></div>
+          <div class="swatch" style="background:#c99890;" title="Muted Rose"></div>
         </div>
       </div>
 
-      <!-- floral divider -->
-      <div class="fdiv"><div class="fdiv-line"></div><svg width="50" height="22" viewBox="0 0 60 26" fill="none"><ellipse cx="30" cy="13" rx="9" ry="7" fill="#e8c5b0"/><ellipse cx="29" cy="11" rx="6" ry="5.5" fill="#f0d0be"/><circle cx="30" cy="9" r="2.2" fill="#fff0e8"/></svg><div class="fdiv-line"></div></div>
+      <!-- divider -->
+      <div class="fdiv">
+        <div class="fdiv-line"></div>
+        <svg width="40" height="22" viewBox="0 0 50 26" fill="none">
+          <ellipse cx="25" cy="13" rx="9" ry="7" fill="#e8c5b0"/>
+          <circle cx="25" cy="10" r="2.5" fill="#fff0e8"/>
+        </svg>
+        <div class="fdiv-line" style="background:linear-gradient(270deg,transparent,#d4b0a0 50%,transparent);"></div>
+      </div>
 
       <!-- PROGRAMME -->
       <p class="sec-eyebrow">Programme of Events</p>
-      <ul class="prog-list" style="margin-bottom:36px;">
+      <ul class="prog-list" style="margin-bottom:40px;">
         <li class="prog-item"><p class="pt">5:30 PM</p><p class="pe">Arrival & Cocktail Reception</p></li>
         <li class="prog-item"><p class="pt">6:30 PM</p><p class="pe">Grand Entrance of the Debutante</p></li>
         <li class="prog-item"><p class="pt">6:45 PM</p><p class="pe">Eighteen Roses Ceremony</p></li>
@@ -600,17 +1039,19 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; }
         <li class="prog-item"><p class="pt">7:45 PM</p><p class="pe">Dinner is Served</p></li>
         <li class="prog-item"><p class="pt">8:30 PM</p><p class="pe">Cotillion de Honor</p></li>
         <li class="prog-item"><p class="pt">9:30 PM</p><p class="pe">Debutante's Message & Toast</p></li>
-        <li class="prog-item" style="margin-bottom:0;"><p class="pt">10:00 PM</p><p class="pe">Open Dancing & Celebration</p></li>
+        <li class="prog-item"><p class="pt">10:00 PM</p><p class="pe">Open Dancing & Celebration</p></li>
       </ul>
     </div>
 
-    <!-- PORTRAIT PANEL (full-width) -->
+    <!-- PORTRAIT PANEL -->
     <div class="portrait-panel">
       <div class="portrait-bg" id="portraitBg"></div>
       <span class="ph-badge">portrait.png — replace with her portrait</span>
-      <div class="portrait-overlay">
+      <div class="portrait-quote-wrap">
         <p class="portrait-quote">
-          "Tonight, she steps into the<br>light she was always meant<br>to shine in."
+          "Tonight, she steps into<br>
+          the light she was always<br>
+          meant to shine in."
         </p>
       </div>
     </div>
@@ -620,26 +1061,40 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; }
       <div class="inv-footer">
         <p class="footer-txt">
           Kindly confirm your attendance by<br>
-          <em style="color:var(--dusty);font-size:17px;">[RSVP Date]</em><br><br>
-          With love,<br>
-          <span class="footer-name">[Her Name] & Family</span>
-          <em style="font-size:13px;color:var(--muted);">[Contact Number / Email]</em>
+          <em style="color:var(--dusty);font-size:18px;">[RSVP Date]</em>
         </p>
-        <div class="fdiv" style="margin-top:26px;"><div class="fdiv-line"></div><svg width="50" height="22" viewBox="0 0 60 26" fill="none"><ellipse cx="30" cy="13" rx="9" ry="7" fill="#e8c5b0"/><ellipse cx="29" cy="11" rx="6" ry="5.5" fill="#f0d0be"/><circle cx="30" cy="9" r="2.2" fill="#fff0e8"/></svg><div class="fdiv-line"></div></div>
-        <p style="font-family:'EB Garamond',serif;font-style:italic;font-size:12px;color:var(--rose);letter-spacing:0.15em;">The honour of your presence is requested</p>
+        <div style="height:24px;"></div>
+        <p class="footer-txt" style="font-size:14px;color:var(--rose);">With love,</p>
+        <span class="footer-name">[Her Name] &amp; Family</span>
+        <span class="footer-contact">[Contact Number / Email]</span>
+
+        <div class="fdiv" style="margin-top:30px;">
+          <div class="fdiv-line"></div>
+          <svg width="62" height="26" viewBox="0 0 70 28" fill="none">
+            <ellipse cx="35" cy="14" rx="10" ry="8" fill="#e8c5b0"/>
+            <ellipse cx="34" cy="12" rx="7" ry="6" fill="#f0d0be"/>
+            <circle cx="35" cy="10" r="2.5" fill="#fff0e8"/>
+            <ellipse cx="16" cy="17" rx="8" ry="5.5" fill="#e8c5b0" opacity="0.62" transform="rotate(-22 16 17)"/>
+            <circle cx="16" cy="15" r="2" fill="#fde8de"/>
+            <ellipse cx="54" cy="17" rx="8" ry="5.5" fill="#e8c5b0" opacity="0.62" transform="rotate(22 54 17)"/>
+            <circle cx="54" cy="15" r="2" fill="#fde8de"/>
+          </svg>
+          <div class="fdiv-line" style="background:linear-gradient(270deg,transparent,#d4b0a0 50%,transparent);"></div>
+        </div>
+        <p style="font-style:italic;font-size:12px;color:var(--rose);letter-spacing:0.2em;">The honour of your presence is requested</p>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// ══════════════════════
-// PETALS — z-index 1, behind everything
-// ══════════════════════
+/* ═══════════════════
+   FALLING PETALS
+═══════════════════ */
 const canvas = document.getElementById('petalCanvas');
 const ctx = canvas.getContext('2d');
 let petals = [];
-const COLORS = ['#f5d5c8','#f0c4b8','#fae0d8','#ecc5b5','#f8e6de','#e8c5b0','#f5ddd2','#fce0d5'];
+const COLORS = ['#f9ddd5','#f5c8b8','#fae0d8','#eccabb','#f8e6de','#e8c0b0','#f5ddd2','#fce0d5','#f0c8be'];
 
 function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 resizeCanvas();
@@ -648,123 +1103,120 @@ window.addEventListener('resize', resizeCanvas);
 function mkPetal() {
   return {
     x: Math.random() * canvas.width,
-    y: -20,
-    size: 7 + Math.random() * 12,
+    y: -25,
+    size: 6 + Math.random() * 14,
     color: COLORS[Math.floor(Math.random() * COLORS.length)],
-    vy: 0.28 + Math.random() * 0.52,
-    vx: -0.25 + Math.random() * 0.5,
+    vy: 0.25 + Math.random() * 0.5,
+    vx: -0.2 + Math.random() * 0.4,
     angle: Math.random() * Math.PI * 2,
-    angV: (Math.random() - 0.5) * 0.015,
+    angV: (Math.random() - 0.5) * 0.014,
     sway: Math.random() * Math.PI * 2,
-    swayV: 0.004 + Math.random() * 0.01,
-    swayA: 0.35 + Math.random() * 1.1,
-    opacity: 0.4 + Math.random() * 0.42,
+    swayV: 0.004 + Math.random() * 0.009,
+    swayA: 0.3 + Math.random() * 1.1,
+    opacity: 0.35 + Math.random() * 0.45,
     type: Math.floor(Math.random() * 3)
   };
 }
 
 function drawPetal(p) {
   ctx.save();
-  ctx.translate(p.x, p.y);
-  ctx.rotate(p.angle);
-  ctx.globalAlpha = p.opacity;
-  ctx.fillStyle = p.color;
+  ctx.translate(p.x, p.y); ctx.rotate(p.angle);
+  ctx.globalAlpha = p.opacity; ctx.fillStyle = p.color;
   ctx.beginPath();
   if (p.type === 0) {
-    ctx.ellipse(0, 0, p.size * 0.38, p.size, 0, 0, Math.PI * 2);
+    ctx.ellipse(0, 0, p.size * 0.36, p.size, 0, 0, Math.PI * 2);
   } else if (p.type === 1) {
     ctx.moveTo(0, -p.size);
-    ctx.bezierCurveTo(p.size*0.8, -p.size*0.5, p.size*0.8, p.size*0.3, 0, p.size*0.5);
-    ctx.bezierCurveTo(-p.size*0.8, p.size*0.3, -p.size*0.8, -p.size*0.5, 0, -p.size);
+    ctx.bezierCurveTo(p.size*0.75, -p.size*0.5, p.size*0.75, p.size*0.35, 0, p.size*0.5);
+    ctx.bezierCurveTo(-p.size*0.75, p.size*0.35, -p.size*0.75, -p.size*0.5, 0, -p.size);
   } else {
-    ctx.ellipse(0, 0, p.size*0.52, p.size*0.88, 0, 0, Math.PI*2);
+    ctx.ellipse(0, 0, p.size*0.48, p.size*0.84, 0, 0, Math.PI*2);
   }
-  ctx.fill();
-  ctx.restore();
+  ctx.fill(); ctx.restore();
 }
 
 (function animatePetals() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  if (Math.random() < 0.06 && petals.length < 40) petals.push(mkPetal());
-  petals = petals.filter(p => p.y < canvas.height + 28);
-  for (let p of petals) {
+  if (Math.random() < 0.07 && petals.length < 45) petals.push(mkPetal());
+  petals = petals.filter(p => p.y < canvas.height + 30);
+  petals.forEach(p => {
     p.sway += p.swayV;
     p.x += p.vx + Math.sin(p.sway) * p.swayA;
-    p.y += p.vy;
-    p.angle += p.angV;
+    p.y += p.vy; p.angle += p.angV;
     drawPetal(p);
-  }
+  });
   requestAnimationFrame(animatePetals);
 })();
 
-// ══════════════════════
-// ENVELOPE ANIMATION
-// ══════════════════════
+/* ═══════════════════
+   INTRO SCREEN
+═══════════════════ */
+window.addEventListener('load', () => {
+  // Show intro for 2.8s then fade to page 1
+  setTimeout(() => {
+    const intro = document.getElementById('intro');
+    intro.style.transition = 'opacity 1s ease';
+    intro.style.opacity = '0';
+    setTimeout(() => {
+      intro.style.display = 'none';
+    }, 1000);
+  }, 2800);
+});
+
+/* ═══════════════════
+   ENVELOPE
+═══════════════════ */
 let opened = false;
 
 function openEnvelope() {
   if (opened) return;
   opened = true;
 
-  const wrap = document.getElementById('envWrap');
-  wrap.style.cursor = 'default';
+  const scene = document.getElementById('envScene');
+  scene.style.cursor = 'default';
+  scene.classList.add('open');
 
-  // 1. Gently lift the envelope
-  wrap.style.transition = 'transform 0.5s ease';
-  wrap.style.transform = 'translateY(-8px)';
+  // lift
+  scene.style.transition = 'transform 0.5s ease';
+  scene.style.transform = 'translateY(-10px)';
 
-  // 2. Open the flap after a breath
+  // Fade out hint buttons
   setTimeout(() => {
-    document.getElementById('envFlapWrap').style.transform = 'rotateX(-180deg)';
-    document.getElementById('envFlapWrap').style.transition = 'transform 0.85s cubic-bezier(0.4,0,0.2,1)';
-  }, 300);
+    ['openBtn','scrollHint'].forEach(id => {
+      const el = document.getElementById(id);
+      el.style.transition = 'opacity 0.4s';
+      el.style.opacity = '0';
+    });
+  }, 500);
 
-  // 3. Letter rises out
-  setTimeout(() => {
-    const letter = document.getElementById('envLetter');
-    letter.style.opacity = '1';
-    letter.style.transform = 'translateX(-50%) translateY(-62%)';
-    letter.style.transition = 'opacity 0.6s ease, transform 0.8s cubic-bezier(0.2,0.8,0.3,1)';
-  }, 750);
-
-  // 4. Fade out UI hints
-  setTimeout(() => {
-    document.getElementById('openBtn').style.transition = 'opacity 0.4s';
-    document.getElementById('openBtn').style.opacity = '0';
-    document.getElementById('scrollHint').style.transition = 'opacity 0.4s';
-    document.getElementById('scrollHint').style.opacity = '0';
-  }, 600);
-
-  // 5. Fade to page 2
+  // Fade to page 2
   setTimeout(() => {
     const ov = document.getElementById('overlay');
     ov.classList.add('show');
     setTimeout(() => {
       document.getElementById('page1').style.display = 'none';
       document.getElementById('page2').style.display = 'block';
-      window.scrollTo(0,0);
+      window.scrollTo(0, 0);
       ov.classList.remove('show');
     }, 750);
-  }, 1600);
+  }, 1800);
 }
 
-// ══════════════════════
-// LOAD BACKGROUND PHOTOS
-// ══════════════════════
+/* background photos */
 function tryBg(src, id) {
   const img = new Image();
   img.onload = () => {
     const el = document.getElementById(id);
-    el.style.backgroundImage = `url('${src}')`;
-    el.style.backgroundSize = 'cover';
-    el.style.backgroundPosition = 'center';
-    el.style.background = `url('${src}') center/cover no-repeat`;
+    if (el) {
+      el.style.backgroundImage = `url('${src}')`;
+      el.style.backgroundSize = 'cover';
+      el.style.backgroundPosition = 'center';
+    }
   };
   img.src = src;
 }
 tryBg('hero.png', 'heroBg');
 tryBg('portrait.png', 'portraitBg');
-// For page 1 BG: tryBg('bg_envelope.png', 'p1Bg') — add id="p1Bg" to .p1-bg if needed
 </script>
 </body>
 </html>
