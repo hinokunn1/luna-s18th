@@ -4,605 +4,215 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>You're Invited — A Debut Celebration</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=GFS+Didot&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Pinyon+Script&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#fdf7f2;--blush:#f9e8df;--rose:#e8b8a4;--dusty:#c98870;
+  --deep:#6b3a2a;--muted:#b0857a;--warm:#f2d5c8;
+}
+html{scroll-behavior:smooth}
+body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant Garamond',serif;margin:0}
 
-:root {
-  --cream:   #fdf7f2;
-  --blush:   #f9e8df;
-  --rose:    #e8b8a4;
-  --dusty:   #c98870;
-  --deep:    #6b3a2a;
-  --muted:   #b0857a;
-  --warm:    #f2d5c8;
-  --petal1:  #f9ddd5;
-  --petal2:  #f0c8bb;
-  --petal3:  #e8b5a5;
-  --gold:    #c4956a;
-}
+/* ── CANVAS ── */
+#petalCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
 
-html { scroll-behavior: smooth; }
-body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: 'Cormorant Garamond', serif; }
+/* ── OVERLAY ── */
+#overlay{position:fixed;inset:0;background:#faeee7;z-index:9998;opacity:0;pointer-events:none;transition:opacity 0.8s ease}
+#overlay.show{opacity:1;pointer-events:all}
 
-/* ═══════════════════════════════
-   INTRO SCREEN
-═══════════════════════════════ */
-#intro {
-  position: fixed; inset: 0;
-  z-index: 9999;
-  display: flex; align-items: center; justify-content: center;
-  background: #faeee7;
-  overflow: hidden;
-}
+/* ── SCREENS ── */
+.screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:opacity 0.8s ease}
+.screen.hidden{opacity:0;pointer-events:none}
 
-.intro-bg {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse 80% 70% at 20% 20%, #f9e0d4 0%, transparent 55%),
-    radial-gradient(ellipse 70% 80% at 85% 80%, #f0ccbc 0%, transparent 55%),
-    radial-gradient(ellipse 100% 100% at 50% 50%, #faeee7 0%, #f5ddd0 100%);
-}
+/* ════════════════════════════
+   SCREEN 1 — INTRO
+════════════════════════════ */
+#sIntro{z-index:100;background:#faeee7}
+.intro-bg{position:absolute;inset:0;background:
+  radial-gradient(ellipse 80% 70% at 20% 20%,#f9e0d4 0%,transparent 55%),
+  radial-gradient(ellipse 70% 80% at 85% 80%,#f0ccbc 0%,transparent 55%),
+  radial-gradient(ellipse 100% 100% at 50% 50%,#faeee7 0%,#f5ddd0 100%)}
+.intro-content{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px;animation:fadeUp 0.6s ease 0.3s both}
+.intro-eyebrow{font-style:italic;font-size:13px;color:var(--muted);letter-spacing:0.32em;text-transform:uppercase;animation:fadeUp 0.7s ease 0.7s both}
+.intro-title{font-family:'Pinyon Script',cursive;font-size:clamp(52px,10vw,80px);color:var(--deep);line-height:1;animation:fadeUp 0.7s ease 0.9s both}
+.intro-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--dusty);letter-spacing:0.12em;animation:fadeUp 0.7s ease 1.1s both}
+.intro-rule{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--rose),transparent);animation:fadeUp 0.7s ease 1.0s both}
+.intro-loading{display:flex;gap:8px;align-items:center;animation:fadeUp 0.7s ease 1.3s both}
+.intro-dot{width:5px;height:5px;border-radius:50%;background:var(--rose);animation:dotPulse 1.4s ease-in-out infinite}
+.intro-dot:nth-child(2){animation-delay:0.18s}.intro-dot:nth-child(3){animation-delay:0.36s}
+@keyframes dotPulse{0%,100%{opacity:0.25;transform:scale(0.8)}50%{opacity:1;transform:scale(1.2)}}
 
-.intro-content {
-  position: relative; z-index: 2;
-  text-align: center;
-  display: flex; flex-direction: column;
-  align-items: center; gap: 20px;
-  animation: introFadeIn 0.6s ease 0.3s both;
-}
-@keyframes introFadeIn {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+/* floral corners for intro */
+.intro-floral{position:absolute;width:220px;height:220px;pointer-events:none;opacity:0;animation:floralReveal 1.2s ease 0.5s forwards}
+@keyframes floralReveal{from{opacity:0;transform:scale(0.88)}to{opacity:1;transform:scale(1)}}
+.intro-floral.tl{top:-15px;left:-15px}
+.intro-floral.tr{top:-15px;right:-15px;transform:scaleX(-1);animation:floralReveal2 1.2s ease 0.5s forwards}
+.intro-floral.bl{bottom:-15px;left:-15px;transform:scaleY(-1);animation:floralReveal3 1.2s ease 0.5s forwards}
+.intro-floral.br{bottom:-15px;right:-15px;transform:scale(-1,-1);animation:floralReveal4 1.2s ease 0.5s forwards}
+@keyframes floralReveal2{from{opacity:0;transform:scaleX(-1) scale(0.88)}to{opacity:1;transform:scaleX(-1) scale(1)}}
+@keyframes floralReveal3{from{opacity:0;transform:scaleY(-1) scale(0.88)}to{opacity:1;transform:scaleY(-1) scale(1)}}
+@keyframes floralReveal4{from{opacity:0;transform:scale(-1,-1) scale(0.88)}to{opacity:1;transform:scale(-1,-1) scale(1)}}
 
-.intro-eyebrow {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic; font-size: 13px;
-  color: var(--muted); letter-spacing: 0.32em;
-  text-transform: uppercase;
-  animation: fadeUp 0.7s ease 0.7s both;
-}
-.intro-title {
-  font-family: 'Pinyon Script', cursive;
-  font-size: clamp(52px, 10vw, 80px);
-  color: var(--deep); line-height: 1;
-  animation: fadeUp 0.7s ease 0.9s both;
-}
-.intro-sub {
-  font-family: 'Playfair Display', serif;
-  font-style: italic; font-size: 14px;
-  color: var(--dusty); letter-spacing: 0.12em;
-  animation: fadeUp 0.7s ease 1.1s both;
-}
-.intro-rule {
-  width: 60px; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--rose), transparent);
-  animation: fadeUp 0.7s ease 1.0s both;
-}
+/* ════════════════════════════
+   SCREEN 2 — ENVELOPE
+════════════════════════════ */
+#sEnvelope{z-index:90;background:none}
+.s2-bg{position:absolute;inset:0;background:
+  radial-gradient(ellipse 70% 60% at 22% 35%,#f9e0d4 0%,transparent 60%),
+  radial-gradient(ellipse 55% 70% at 82% 72%,#f0c8b8 0%,transparent 58%),
+  radial-gradient(ellipse 90% 90% at 50% 50%,#faeee7 0%,#f5ddd0 100%)}
+.s2-lines{position:absolute;inset:0;pointer-events:none;opacity:0.12}
+.s2-lines::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(-45deg,transparent,transparent 48px,#c9907a 48px,#c9907a 49px)}
+.cf{position:absolute;width:200px;height:200px;pointer-events:none;z-index:1;opacity:0.32}
+.cf-tl{top:-8px;left:-8px}
+.cf-tr{top:-8px;right:-8px;transform:scaleX(-1)}
+.cf-bl{bottom:-8px;left:-8px;transform:scaleY(-1)}
+.cf-br{bottom:-8px;right:-8px;transform:scale(-1,-1)}
+.s2-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:30px;text-align:center;padding:50px 20px}
+.p1-pre{font-style:italic;font-size:13px;color:var(--muted);letter-spacing:0.3em;text-transform:uppercase}
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+/* ENVELOPE */
+.env-scene{position:relative;width:340px;max-width:86vw;padding-bottom:20px;cursor:pointer}
+.env-shadow{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:85%;height:18px;background:radial-gradient(ellipse,rgba(120,60,40,0.22) 0%,transparent 70%);border-radius:50%;transition:all 0.4s ease}
+.env-scene:hover .env-shadow{transform:translateX(-50%) scaleX(0.92);opacity:0.55}
+.env-wrap{position:relative;width:100%;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+.env-scene:hover .env-wrap{transform:translateY(-8px)}
+.env-body{position:relative;width:100%;height:0;padding-top:62%;border-radius:4px;overflow:visible}
 
-.intro-loading {
-  display: flex; gap: 8px; align-items: center;
-  animation: fadeUp 0.7s ease 1.3s both;
-}
-.intro-dot {
-  width: 5px; height: 5px; border-radius: 50%;
-  background: var(--rose);
-  animation: dotPulse 1.4s ease-in-out infinite;
-}
-.intro-dot:nth-child(2) { animation-delay: 0.18s; }
-.intro-dot:nth-child(3) { animation-delay: 0.36s; }
-@keyframes dotPulse {
-  0%,100% { opacity: 0.25; transform: scale(0.8); }
-  50%      { opacity: 1;    transform: scale(1.2); }
-}
+/* Corrected flap — folds backward from the top edge */
+.env-flap-outer{position:absolute;top:0;left:0;right:0;height:58%;perspective:600px;z-index:5;pointer-events:none}
+.env-flap-inner{position:absolute;top:0;left:0;right:0;bottom:0;transform-origin:top center;transform-style:preserve-3d;transition:transform 0.9s cubic-bezier(0.4,0,0.2,1)}
+.env-scene.open .env-flap-inner{transform:rotateX(175deg)}
+.env-flap-face{position:absolute;inset:0;clip-path:polygon(0 0,100% 0,50% 86%);backface-visibility:hidden}
+.env-flap-front{background:linear-gradient(160deg,#f7ebe0 0%,#ecd6c6 60%,#e0c8b8 100%)}
+.env-flap-back{background:linear-gradient(160deg,#e8d5c5 0%,#d8c0ae 100%);transform:rotateX(180deg);clip-path:polygon(0 0,100% 0,50% 86%)}
+.env-flap-floral{position:absolute;top:18%;left:50%;transform:translateX(-50%);width:70px;pointer-events:none;z-index:1}
+.env-letter{position:absolute;bottom:12%;left:50%;transform:translateX(-50%) translateY(0);width:70%;z-index:4;opacity:0;transition:opacity 0.5s ease 0.6s,transform 0.8s cubic-bezier(0.2,0.9,0.3,1) 0.6s}
+.env-scene.open .env-letter{opacity:1;transform:translateX(-50%) translateY(-58%)}
+.letter-paper{background:linear-gradient(170deg,#fffaf7 0%,#fdf3ed 100%);border:1px solid #e8d0c4;padding:18px 20px 14px;text-align:center;box-shadow:0 2px 12px rgba(120,60,40,0.1)}
+.letter-paper .lt{font-family:'Pinyon Script',cursive;font-size:20px;color:#9e6050}
+.letter-paper .ld{height:1px;background:linear-gradient(90deg,transparent,#e0c0b0,transparent);margin:6px 0}
+.letter-paper .ls{font-style:italic;font-size:10px;color:var(--muted);letter-spacing:0.2em}
+.wax-seal{position:absolute;top:57%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;z-index:8;transition:transform 0.35s ease,opacity 0.4s ease}
+.env-scene:hover .wax-seal{transform:translate(-50%,-50%) scale(1.08)}
+.env-scene.open .wax-seal{opacity:0;pointer-events:none}
+.wax-seal-circle{width:52px;height:52px;background:radial-gradient(circle at 38% 35%,#e09870 0%,#c98860 45%,#a06848 100%);border-radius:50%;border:2px solid rgba(180,110,70,0.5);box-shadow:0 3px 16px rgba(140,70,40,0.3),inset 0 1px 0 rgba(255,220,180,0.4);display:flex;align-items:center;justify-content:center;font-family:'Pinyon Script',cursive;font-size:20px;color:#fdf0e8}
 
-/* intro floral corners */
-.intro-floral {
-  position: absolute;
-  width: 220px; height: 220px;
-  pointer-events: none; opacity: 0;
-  animation: floralReveal 1.2s ease 0.5s forwards;
-}
-@keyframes floralReveal {
-  from { opacity: 0; transform: scale(0.88); }
-  to   { opacity: 1; transform: scale(1); }
-}
-.intro-floral.tl { top: -15px; left: -15px; }
-.intro-floral.tr { top: -15px; right: -15px; transform: scaleX(-1); animation: floralReveal2 1.2s ease 0.5s forwards; }
-.intro-floral.bl { bottom: -15px; left: -15px; transform: scaleY(-1); animation: floralReveal3 1.2s ease 0.5s forwards; }
-.intro-floral.br { bottom: -15px; right: -15px; transform: scale(-1,-1); animation: floralReveal4 1.2s ease 0.5s forwards; }
-@keyframes floralReveal2 { from { opacity:0; transform:scaleX(-1) scale(0.88); } to { opacity:1; transform:scaleX(-1) scale(1); } }
-@keyframes floralReveal3 { from { opacity:0; transform:scaleY(-1) scale(0.88); } to { opacity:1; transform:scaleY(-1) scale(1); } }
-@keyframes floralReveal4 { from { opacity:0; transform:scale(-1,-1) scale(0.88); } to { opacity:1; transform:scale(-1,-1) scale(1); } }
+.p1-tagline{font-style:italic;font-size:19px;color:var(--deep);line-height:1.85;letter-spacing:0.02em}
+.open-btn{font-style:italic;font-size:13px;color:var(--dusty);letter-spacing:0.22em;border:1px solid rgba(210,170,150,0.7);background:rgba(253,247,242,0.8);padding:14px 44px;border-radius:50px;cursor:pointer;transition:all 0.35s ease;backdrop-filter:blur(6px)}
+.open-btn:hover{background:rgba(248,230,220,0.95);border-color:var(--dusty);color:var(--deep);transform:translateY(-3px);box-shadow:0 8px 24px rgba(180,100,70,0.14)}
+.scroll-hint{font-style:italic;font-size:12px;color:var(--rose);letter-spacing:0.18em;animation:softPulse 3s ease-in-out infinite}
+@keyframes softPulse{0%,100%{opacity:0.3}50%{opacity:0.9}}
 
-/* petals during intro */
-#petalCanvas {
-  position: fixed; top:0; left:0;
-  width:100%; height:100%;
-  pointer-events:none;
-  z-index: 1;
-}
+/* ════════════════════════════
+   SCREEN 3 — POEM
+════════════════════════════ */
+#sPoem{z-index:80;background:none}
+.poem-bg{position:absolute;inset:0;background:
+  radial-gradient(ellipse 55% 80% at 28% 28%,#f5c8b0 0%,transparent 55%),
+  radial-gradient(ellipse 70% 60% at 80% 80%,#d8a898 0%,transparent 55%),
+  linear-gradient(135deg,#f7ddd0 0%,#e0a898 40%,#c8887a 100%)}
+.poem-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(110,45,35,0.04) 0%,rgba(253,245,240,0.45) 60%,var(--cream) 100%)}
+.poem-content{position:relative;z-index:2;text-align:center;padding:0 28px;display:flex;flex-direction:column;align-items:center;gap:22px;max-width:580px}
+.poem-line{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(17px,3.2vw,26px);color:#4e2018;opacity:0;transform:translateY(28px);transition:opacity 1.6s ease,transform 1.6s ease;line-height:1.85;letter-spacing:0.01em}
+.poem-line.visible{opacity:1;transform:translateY(0)}
+.poem-divider{width:50px;height:1px;background:linear-gradient(90deg,transparent,rgba(180,110,80,0.5),transparent);opacity:0;transition:opacity 1.2s ease}
+.poem-divider.visible{opacity:1}
+.poem-skip{font-style:italic;font-size:11px;color:rgba(100,50,38,0.45);letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;position:absolute;bottom:36px;left:50%;transform:translateX(-50%);animation:softPulse 3s ease-in-out infinite;border:none;background:none;padding:0;z-index:10}
+.poem-skip:hover{color:rgba(100,50,38,0.75)}
 
-/* transition overlay */
-#overlay {
-  position: fixed; inset: 0;
-  background: #faeee7;
-  z-index: 9998;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.75s ease;
-}
-#overlay.show { opacity: 1; pointer-events: all; }
+/* ════════════════════════════
+   SCREEN 4 — MAIN INVITATION
+════════════════════════════ */
+#sMain{z-index:70;background:var(--cream);position:relative;overflow-y:auto;display:block}
+#sMain.hidden{display:none!important}
 
-/* ═══════════════════════════════
-   PAGE 1 — ENVELOPE
-═══════════════════════════════ */
-#page1 {
-  position: relative; min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden; z-index: 2;
-}
+.p2-hero{position:relative;width:100%;min-height:100vh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.p2-hero-bg{position:absolute;inset:0;z-index:0;background:
+  radial-gradient(ellipse 55% 80% at 28% 28%,#f5c8b0 0%,transparent 55%),
+  radial-gradient(ellipse 70% 60% at 80% 80%,#d8a898 0%,transparent 55%),
+  linear-gradient(135deg,#f7ddd0 0%,#e0a898 40%,#c8887a 100%)}
+.p2-hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(110,45,35,0.04) 0%,rgba(253,245,240,0.5) 65%,var(--cream) 100%)}
+.p2-hero-content{position:relative;z-index:2;text-align:center;padding:0 24px;animation:fadeUp 1s ease 0.3s both}
+.hero-eyebrow{font-style:italic;font-size:13px;color:rgba(100,50,38,0.75);letter-spacing:0.3em;text-transform:uppercase;margin-bottom:16px;display:block}
+.hero-name{font-family:'Pinyon Script',cursive;font-size:clamp(72px,14vw,120px);color:#4e2018;line-height:1;margin-bottom:8px;text-shadow:0 2px 24px rgba(160,80,60,0.18)}
+.hero-debut{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(14px,2.5vw,20px);color:rgba(90,42,30,0.75);letter-spacing:0.08em;margin-top:6px}
+.hero-rule{display:flex;align-items:center;justify-content:center;gap:14px;margin:18px 0}
+.hero-rule-line{width:80px;height:1px;background:linear-gradient(90deg,transparent,rgba(180,110,80,0.5))}
+.hero-rule-line.r{background:linear-gradient(270deg,transparent,rgba(180,110,80,0.5))}
+.hero-scroll-cue{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;animation:bobDown 2s ease-in-out infinite}
+@keyframes bobDown{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+.hero-scroll-cue span{font-style:italic;font-size:10px;color:rgba(100,50,38,0.6);letter-spacing:0.22em;text-transform:uppercase}
 
-.p1-bg {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse 70% 60% at 22% 35%, #f9e0d4 0%, transparent 60%),
-    radial-gradient(ellipse 55% 70% at 82% 72%, #f0c8b8 0%, transparent 58%),
-    radial-gradient(ellipse 90% 90% at 50% 50%, #faeee7 0%, #f5ddd0 100%);
-}
+.p2-body{background:var(--cream);padding:70px 20px 90px;position:relative}
+.p2-inner{max-width:640px;margin:0 auto;position:relative;z-index:2}
+.fdiv{display:flex;align-items:center;gap:16px;margin:36px auto;max-width:420px}
+.fdiv-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,#d4b0a0 50%,transparent);opacity:0.6}
+.sec-eyebrow{font-style:italic;font-size:11.5px;color:var(--muted);letter-spacing:0.32em;text-transform:uppercase;text-align:center;margin-bottom:26px}
 
-.p1-lines {
-  position: absolute; inset: 0; pointer-events: none;
-  opacity: 0.12;
-}
-.p1-lines::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 48px,
-      #c9907a 48px,
-      #c9907a 49px
-    );
-}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+@media(max-width:480px){.info-grid{grid-template-columns:1fr}}
+.ic{background:linear-gradient(160deg,#fffaf7 0%,#fdf3ec 100%);border:1px solid #ead4c8;padding:24px 18px;text-align:center;position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease}
+.ic:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(160,80,60,0.1)}
+.ic.full{grid-column:1/-1}
+.ic::before{content:'';position:absolute;top:0;left:0;width:30px;height:30px;border-top:1px solid rgba(200,150,130,0.4);border-left:1px solid rgba(200,150,130,0.4)}
+.ic::after{content:'';position:absolute;bottom:0;right:0;width:30px;height:30px;border-bottom:1px solid rgba(200,150,130,0.4);border-right:1px solid rgba(200,150,130,0.4)}
+.ic-icon{width:38px;height:38px;border-radius:50%;background:var(--blush);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;border:1px solid rgba(210,170,150,0.3)}
+.ic-icon svg{width:16px;height:16px;stroke:var(--dusty);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.ic-lbl{font-style:italic;font-size:11px;color:var(--rose);letter-spacing:0.26em;text-transform:uppercase;margin-bottom:6px}
+.ic-val{font-family:'Playfair Display',serif;font-size:22px;color:var(--deep);line-height:1.4}
+.ic-sub{font-style:italic;font-size:13.5px;color:var(--muted);margin-top:4px;line-height:1.6}
 
-.cf {
-  position: absolute; width: 200px; height: 200px;
-  pointer-events: none; z-index: 1;
-  opacity: 0.32;
-}
-.cf-tl { top: -8px; left: -8px; }
-.cf-tr { top: -8px; right: -8px; transform: scaleX(-1); }
-.cf-bl { bottom: -8px; left: -8px; transform: scaleY(-1); }
-.cf-br { bottom: -8px; right: -8px; transform: scale(-1,-1); }
+.dress-card{background:linear-gradient(160deg,#fffaf7 0%,#fdf3ec 100%);border:1px solid #ead4c8;padding:28px 22px;text-align:center;margin-bottom:28px;position:relative}
+.dress-card::before{content:'';position:absolute;top:0;left:0;width:30px;height:30px;border-top:1px solid rgba(200,150,130,0.4);border-left:1px solid rgba(200,150,130,0.4)}
+.dress-card::after{content:'';position:absolute;bottom:0;right:0;width:30px;height:30px;border-bottom:1px solid rgba(200,150,130,0.4);border-right:1px solid rgba(200,150,130,0.4)}
+.swatches{display:flex;justify-content:center;gap:10px;margin-top:14px}
+.swatch{width:28px;height:28px;border-radius:50%;border:1px solid rgba(180,130,110,0.25);box-shadow:0 2px 6px rgba(0,0,0,0.07);transition:transform 0.2s ease}
+.swatch:hover{transform:scale(1.18)}
 
-.p1-content {
-  position: relative; z-index: 2;
-  display: flex; flex-direction: column;
-  align-items: center; gap: 30px;
-  text-align: center; padding: 50px 20px;
-}
+.prog-list{list-style:none;border-left:1px solid #d4b0a0;margin-left:22px;padding-left:26px}
+.prog-item{position:relative;margin-bottom:22px}
+.prog-item::before{content:'';position:absolute;left:-31px;top:8px;width:10px;height:10px;border-radius:50%;background:var(--blush);border:1.5px solid var(--rose)}
+.prog-item:last-child{margin-bottom:0}
+.pt{font-style:italic;font-size:11.5px;color:var(--rose);letter-spacing:0.12em}
+.pe{font-family:'Playfair Display',serif;font-size:17px;color:var(--deep);line-height:1.4;margin-top:2px}
 
-.p1-pre {
-  font-style: italic; font-size: 13px;
-  color: var(--muted); letter-spacing: 0.3em;
-  text-transform: uppercase;
-}
+.portrait-panel{position:relative;width:100%;height:380px;margin:50px 0;overflow:hidden}
+.portrait-bg{position:absolute;inset:0;background:
+  radial-gradient(ellipse 80% 80% at 65% 40%,#eec5b0 0%,transparent 58%),
+  radial-gradient(ellipse 60% 80% at 20% 85%,#d8a898 0%,transparent 55%),
+  linear-gradient(130deg,#f5ddd2 0%,#d4a090 100%)}
+.portrait-quote-wrap{position:relative;z-index:2;height:100%;display:flex;align-items:flex-end;padding:34px}
+.portrait-quote{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:#5a2a1e;line-height:1.85;max-width:320px}
+.ph-badge{position:absolute;bottom:12px;right:14px;background:rgba(253,240,232,0.82);border:1px dashed #d4b0a0;padding:5px 14px;font-style:italic;font-size:11px;color:var(--muted);letter-spacing:0.1em;border-radius:20px;pointer-events:none;z-index:3}
 
-/* ── ENVELOPE ── */
-.env-scene {
-  position: relative;
-  width: 340px; max-width: 86vw;
-  padding-bottom: 20px;
-  cursor: pointer;
-}
+.inv-footer{text-align:center;padding-top:32px;border-top:1px solid #e8d0c4;margin-top:18px}
+.footer-txt{font-style:italic;font-size:16.5px;color:var(--muted);line-height:2.1}
+.footer-name{font-family:'Pinyon Script',cursive;font-size:38px;color:var(--deep);display:block;margin:8px 0 6px}
+.footer-contact{font-size:13px;color:var(--muted);display:block;margin-top:4px}
 
-.env-shadow {
-  position: absolute;
-  bottom: 0; left: 50%; transform: translateX(-50%);
-  width: 85%; height: 18px;
-  background: radial-gradient(ellipse, rgba(120,60,40,0.22) 0%, transparent 70%);
-  border-radius: 50%;
-  transition: all 0.4s ease;
-}
-.env-scene:hover .env-shadow {
-  transform: translateX(-50%) scaleX(0.92);
-  opacity: 0.55;
-}
+/* music btn */
+#musicBtn{position:fixed;bottom:28px;right:28px;z-index:2000;width:46px;height:46px;border-radius:50%;background:rgba(253,247,242,0.92);border:1px solid rgba(210,170,150,0.6);cursor:pointer;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);box-shadow:0 4px 18px rgba(180,100,70,0.15);transition:all 0.3s ease;font-size:20px}
+#musicBtn:hover{transform:scale(1.08)}
+#musicBtn.show{display:flex}
 
-.env-wrap {
-  position: relative;
-  width: 100%;
-  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
-}
-.env-scene:hover .env-wrap {
-  transform: translateY(-8px);
-}
-
-.env-body {
-  position: relative;
-  width: 100%;
-  height: 0; padding-top: 62%;
-  border-radius: 4px;
-  overflow: visible;
-}
-
-/* ── WAX SEAL — centered on the fold line ── */
-.wax-seal {
-  position: absolute;
-  /* fold line is at 57% from top of env-body */
-  top: 57%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 52px; height: 52px;
-  z-index: 8;
-  transition: transform 0.35s ease, opacity 0.4s ease;
-}
-.env-scene:hover .wax-seal {
-  transform: translate(-50%, -50%) scale(1.08);
-}
-.env-scene.open .wax-seal {
-  opacity: 0; pointer-events: none;
-}
-.wax-seal-circle {
-  width: 52px; height: 52px;
-  background: radial-gradient(circle at 38% 35%, #e09870 0%, #c98860 45%, #a06848 100%);
-  border-radius: 50%;
-  border: 2px solid rgba(180,110,70,0.5);
-  box-shadow: 0 3px 16px rgba(140,70,40,0.3), inset 0 1px 0 rgba(255,220,180,0.4);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Pinyon Script', cursive;
-  font-size: 20px; color: #fdf0e8;
-}
-
-/* Letter peeking */
-.env-letter {
-  position: absolute;
-  bottom: 12%; left: 50%;
-  transform: translateX(-50%) translateY(0);
-  width: 70%; z-index: 4;
-  opacity: 0;
-  transition: opacity 0.5s ease 0.55s, transform 0.8s cubic-bezier(0.2,0.9,0.3,1) 0.55s;
-}
-.env-scene.open .env-letter {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-58%);
-}
-.letter-paper {
-  background: linear-gradient(170deg, #fffaf7 0%, #fdf3ed 100%);
-  border: 1px solid #e8d0c4;
-  padding: 18px 20px 14px;
-  text-align: center;
-  box-shadow: 0 2px 12px rgba(120,60,40,0.1);
-}
-.letter-paper .lt { font-family:'Pinyon Script',cursive; font-size:20px; color:#9e6050; }
-.letter-paper .ld { height: 1px; background: linear-gradient(90deg,transparent,#e0c0b0,transparent); margin: 6px 0; }
-.letter-paper .ls { font-style:italic; font-size:10px; color:var(--muted); letter-spacing:0.2em; }
-
-/* flap — top triangle */
-.env-flap-outer {
-  position: absolute; top: 0; left: 0; right: 0;
-  height: 60%;
-  transform-origin: top center;
-  transform-style: preserve-3d;
-  transition: transform 1s cubic-bezier(0.4,0,0.2,1);
-  z-index: 5;
-}
-.env-scene.open .env-flap-outer {
-  transform: perspective(600px) rotateX(-180deg);
-}
-.env-flap-face {
-  position: absolute; inset: 0;
-  clip-path: polygon(0 0, 100% 0, 50% 82%);
-  backface-visibility: hidden;
-}
-.env-flap-front {
-  background: linear-gradient(160deg, #f7ebe0 0%, #ecd6c6 60%, #e0c8b8 100%);
-  border-bottom: 1px solid rgba(200,160,140,0.4);
-}
-.env-flap-back {
-  background: linear-gradient(160deg, #f0e0d0 0%, #e8d0c0 100%);
-  transform: rotateX(180deg);
-  clip-path: polygon(0 0, 100% 0, 50% 82%);
-}
-
-.env-flap-floral {
-  position: absolute;
-  top: 20%; left: 50%; transform: translateX(-50%);
-  width: 70px; pointer-events: none;
-  z-index: 1;
-}
-
-/* ── P1 TEXT ── */
-.p1-tagline {
-  font-style: italic; font-size: 19px;
-  color: var(--deep); line-height: 1.85; letter-spacing: 0.02em;
-}
-
-.open-btn {
-  font-style: italic; font-size: 13px;
-  color: var(--dusty); letter-spacing: 0.22em;
-  border: 1px solid rgba(210,170,150,0.7);
-  background: rgba(253,247,242,0.8);
-  padding: 14px 44px; border-radius: 50px;
-  cursor: pointer; transition: all 0.35s ease;
-  backdrop-filter: blur(6px);
-}
-.open-btn:hover {
-  background: rgba(248,230,220,0.95);
-  border-color: var(--dusty); color: var(--deep);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(180,100,70,0.14);
-}
-
-.scroll-hint {
-  font-style: italic; font-size: 12px;
-  color: var(--rose); letter-spacing: 0.18em;
-  animation: softPulse 3s ease-in-out infinite;
-}
-@keyframes softPulse { 0%,100%{opacity:0.3} 50%{opacity:0.9} }
-
-/* ═══════════════════════════════
-   PAGE 2
-═══════════════════════════════ */
-#page2 { display: none; position: relative; z-index: 2; }
-
-.p2-hero {
-  position: relative; width: 100%;
-  min-height: 100vh; overflow: hidden;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-}
-.p2-hero-bg {
-  position: absolute; inset: 0; z-index: 0;
-  background:
-    radial-gradient(ellipse 55% 80% at 28% 28%, #f5c8b0 0%, transparent 55%),
-    radial-gradient(ellipse 70% 60% at 80% 80%, #d8a898 0%, transparent 55%),
-    linear-gradient(135deg, #f7ddd0 0%, #e0a898 40%, #c8887a 100%);
-}
-.p2-hero-bg::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(to bottom,
-    rgba(110,45,35,0.04) 0%,
-    rgba(253,245,240,0.5) 65%,
-    var(--cream) 100%);
-}
-
-.p2-hero-content {
-  position: relative; z-index: 2;
-  text-align: center; padding: 0 24px;
-  opacity: 0;
-  animation: heroReveal 1.2s ease 0.3s forwards;
-}
-@keyframes heroReveal {
-  from { opacity:0; transform: translateY(24px); }
-  to   { opacity:1; transform: translateY(0); }
-}
-
-.hero-eyebrow {
-  font-style: italic; font-size: 13px;
-  color: rgba(100,50,38,0.75); letter-spacing: 0.3em;
-  text-transform: uppercase; margin-bottom: 16px;
-  display: block;
-}
-.hero-name {
-  font-family: 'Pinyon Script', cursive;
-  font-size: clamp(72px, 14vw, 120px);
-  color: #4e2018; line-height: 1;
-  margin-bottom: 8px;
-  text-shadow: 0 2px 24px rgba(160,80,60,0.18);
-}
-.hero-debut {
-  font-family: 'Playfair Display', serif;
-  font-style: italic; font-size: clamp(14px, 2.5vw, 20px);
-  color: rgba(90,42,30,0.75); letter-spacing: 0.08em;
-  margin-top: 6px;
-}
-
-.hero-rule {
-  display: flex; align-items: center; justify-content: center;
-  gap: 14px; margin: 18px 0;
-}
-.hero-rule-line {
-  width: 80px; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(180,110,80,0.5));
-}
-.hero-rule-line.r { background: linear-gradient(270deg, transparent, rgba(180,110,80,0.5)); }
-
-.hero-scroll-cue {
-  position: absolute; bottom: 36px; left: 50%;
-  transform: translateX(-50%);
-  z-index: 2; display: flex; flex-direction: column;
-  align-items: center; gap: 6px;
-  animation: bobDown 2s ease-in-out infinite;
-}
-@keyframes bobDown {
-  0%,100% { transform: translateX(-50%) translateY(0); }
-  50%      { transform: translateX(-50%) translateY(8px); }
-}
-.hero-scroll-cue span {
-  font-style: italic; font-size: 10px;
-  color: rgba(100,50,38,0.6); letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-
-.p2-body {
-  background: var(--cream);
-  padding: 70px 20px 90px;
-  position: relative;
-}
-
-.p2-body::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  opacity: 0.35; pointer-events: none;
-}
-
-.p2-inner { max-width: 640px; margin: 0 auto; position: relative; z-index: 2; }
-
-.fdiv {
-  display: flex; align-items: center; gap: 16px;
-  margin: 36px auto; max-width: 420px;
-}
-.fdiv-line {
-  flex: 1; height: 1px;
-  background: linear-gradient(90deg, transparent, #d4b0a0 50%, transparent);
-  opacity: 0.6;
-}
-
-.sec-eyebrow {
-  font-style: italic; font-size: 11.5px;
-  color: var(--muted); letter-spacing: 0.32em;
-  text-transform: uppercase; text-align: center;
-  margin-bottom: 26px;
-}
-
-.info-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 14px; margin-bottom: 20px;
-}
-@media(max-width:480px) { .info-grid { grid-template-columns: 1fr; } }
-
-.ic {
-  background: linear-gradient(160deg, #fffaf7 0%, #fdf3ec 100%);
-  border: 1px solid #ead4c8;
-  padding: 24px 18px; text-align: center;
-  position: relative; overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.ic:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 28px rgba(160,80,60,0.1);
-}
-.ic.full { grid-column: 1/-1; }
-
-.ic::before {
-  content: '';
-  position: absolute; top: 0; left: 0;
-  width: 30px; height: 30px;
-  border-top: 1px solid rgba(200,150,130,0.4);
-  border-left: 1px solid rgba(200,150,130,0.4);
-}
-.ic::after {
-  content: '';
-  position: absolute; bottom: 0; right: 0;
-  width: 30px; height: 30px;
-  border-bottom: 1px solid rgba(200,150,130,0.4);
-  border-right: 1px solid rgba(200,150,130,0.4);
-}
-
-.ic-icon {
-  width: 38px; height: 38px; border-radius: 50%;
-  background: var(--blush);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 12px;
-  border: 1px solid rgba(210,170,150,0.3);
-}
-.ic-icon svg { width: 16px; height: 16px; stroke: var(--dusty); fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
-
-.ic-lbl { font-style:italic; font-size:11px; color:var(--rose); letter-spacing:0.26em; text-transform:uppercase; margin-bottom:6px; }
-.ic-val { font-family:'Playfair Display',serif; font-size:22px; color:var(--deep); line-height:1.4; }
-.ic-sub { font-style:italic; font-size:13.5px; color:var(--muted); margin-top:4px; line-height:1.6; }
-
-.dress-card {
-  background: linear-gradient(160deg, #fffaf7 0%, #fdf3ec 100%);
-  border: 1px solid #ead4c8;
-  padding: 28px 22px; text-align: center;
-  margin-bottom: 28px;
-  position: relative;
-}
-.dress-card::before { content:''; position:absolute; top:0;left:0; width:30px;height:30px; border-top:1px solid rgba(200,150,130,0.4); border-left:1px solid rgba(200,150,130,0.4); }
-.dress-card::after  { content:''; position:absolute; bottom:0;right:0; width:30px;height:30px; border-bottom:1px solid rgba(200,150,130,0.4); border-right:1px solid rgba(200,150,130,0.4); }
-
-.swatches { display:flex; justify-content:center; gap:10px; margin-top:14px; }
-.swatch {
-  width: 28px; height: 28px; border-radius: 50%;
-  border: 1px solid rgba(180,130,110,0.25);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
-  transition: transform 0.2s ease;
-}
-.swatch:hover { transform: scale(1.18); }
-
-.prog-list { list-style: none; border-left: 1px solid #d4b0a0; margin-left: 22px; padding-left: 26px; }
-.prog-item { position: relative; margin-bottom: 22px; }
-.prog-item::before {
-  content: ''; position: absolute;
-  left: -31px; top: 8px;
-  width: 10px; height: 10px; border-radius: 50%;
-  background: var(--blush); border: 1.5px solid var(--rose);
-}
-.prog-item:last-child { margin-bottom: 0; }
-.pt { font-style:italic; font-size:11.5px; color:var(--rose); letter-spacing:0.12em; }
-.pe { font-family:'Playfair Display',serif; font-size:17px; color:var(--deep); line-height:1.4; margin-top:2px; }
-
-.portrait-panel {
-  position: relative; width: 100%; height: 380px;
-  margin: 50px 0; overflow: hidden;
-}
-.portrait-bg {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse 80% 80% at 65% 40%, #eec5b0 0%, transparent 58%),
-    radial-gradient(ellipse 60% 80% at 20% 85%, #d8a898 0%, transparent 55%),
-    linear-gradient(130deg, #f5ddd2 0%, #d4a090 100%);
-}
-.portrait-bg::after { content:''; position:absolute; inset:0; background:rgba(253,240,232,0.2); }
-
-.portrait-quote-wrap {
-  position:relative; z-index:2; height:100%;
-  display:flex; align-items:flex-end; padding:34px;
-}
-.portrait-quote {
-  font-family:'Playfair Display',serif; font-style:italic;
-  font-size:20px; color:#5a2a1e; line-height:1.85;
-  max-width:320px;
-  text-shadow: 0 1px 8px rgba(253,240,232,0.6);
-}
-.ph-badge {
-  position:absolute; bottom:12px; right:14px;
-  background:rgba(253,240,232,0.82);
-  border:1px dashed #d4b0a0; padding:5px 14px;
-  font-style:italic; font-size:11px; color:var(--muted);
-  letter-spacing:0.1em; border-radius:20px;
-  pointer-events:none; z-index:3;
-}
-
-.inv-footer {
-  text-align:center; padding-top:32px;
-  border-top:1px solid #e8d0c4; margin-top:18px;
-}
-.footer-txt {
-  font-style:italic; font-size:16.5px;
-  color:var(--muted); line-height:2.1;
-}
-.footer-name {
-  font-family:'Pinyon Script',cursive;
-  font-size:38px; color:var(--deep);
-  display:block; margin:8px 0 6px;
-}
-.footer-contact {
-  font-size:13px; color:var(--muted); display:block; margin-top:4px;
-}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 
 <canvas id="petalCanvas"></canvas>
 <div id="overlay"></div>
+<button id="musicBtn" onclick="toggleMusic()" title="Toggle music">🎵</button>
 
-<!-- ══════════ INTRO SCREEN ══════════ -->
-<div id="intro">
+<!-- ══════════════════════════════════════
+     SCREEN 1: INTRO
+══════════════════════════════════════ -->
+<div class="screen" id="sIntro">
   <div class="intro-bg"></div>
 
+  <!-- Floral corners -->
   <svg class="intro-floral tl" viewBox="0 0 220 220" fill="none">
     <path d="M5 5 C40 80 100 100 215 215" stroke="#d4a090" stroke-width="1.2" opacity="0.5"/>
     <path d="M5 5 C80 40 100 100 215 215" stroke="#d4a090" stroke-width="0.8" opacity="0.35"/>
@@ -612,39 +222,31 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
     <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.7"/>
     <ellipse cx="100" cy="52" rx="13" ry="10" fill="#f5d8c8" opacity="0.8"/>
     <circle cx="100" cy="49" r="4" fill="#fde8de"/>
-    <ellipse cx="28" cy="152" rx="13" ry="9" fill="#e8c0b0" opacity="0.5" transform="rotate(-50 28 152)"/>
-    <ellipse cx="152" cy="28" rx="13" ry="9" fill="#e8c0b0" opacity="0.5" transform="rotate(50 152 28)"/>
     <ellipse cx="70" cy="130" rx="17" ry="11" fill="#ecc5b0" opacity="0.55" transform="rotate(-22 70 130)"/>
     <circle cx="70" cy="126" r="3.5" fill="#fde8de"/>
     <ellipse cx="130" cy="70" rx="14" ry="9" fill="#ecc5b0" opacity="0.5" transform="rotate(22 130 70)"/>
     <circle cx="130" cy="67" r="3" fill="#fde8de"/>
-    <circle cx="14" cy="190" r="5" fill="#d4b8a8" opacity="0.35"/>
-    <circle cx="190" cy="14" r="5" fill="#d4b8a8" opacity="0.35"/>
   </svg>
   <svg class="intro-floral tr" viewBox="0 0 220 220" fill="none">
     <path d="M5 5 C40 80 100 100 215 215" stroke="#d4a090" stroke-width="1.2" opacity="0.5"/>
-    <path d="M5 5 C80 40 100 100 215 215" stroke="#d4a090" stroke-width="0.8" opacity="0.35"/>
     <ellipse cx="55" cy="100" rx="24" ry="15" fill="#ecc5b0" transform="rotate(-32 55 100)" opacity="0.7"/>
     <ellipse cx="53" cy="96" rx="15" ry="12" fill="#f5d8c8" opacity="0.8"/>
     <circle cx="55" cy="93" r="5" fill="#fde8de"/>
     <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.7"/>
-    <ellipse cx="100" cy="52" rx="13" ry="10" fill="#f5d8c8" opacity="0.8"/>
     <circle cx="100" cy="49" r="4" fill="#fde8de"/>
-    <ellipse cx="70" cy="130" rx="17" ry="11" fill="#ecc5b0" opacity="0.55" transform="rotate(-22 70 130)"/>
-    <ellipse cx="130" cy="70" rx="14" ry="9" fill="#ecc5b0" opacity="0.5" transform="rotate(22 130 70)"/>
   </svg>
   <svg class="intro-floral bl" viewBox="0 0 220 220" fill="none">
     <path d="M5 5 C40 80 100 100 215 215" stroke="#d4a090" stroke-width="1.2" opacity="0.5"/>
     <ellipse cx="55" cy="100" rx="24" ry="15" fill="#ecc5b0" transform="rotate(-32 55 100)" opacity="0.6"/>
-    <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.6"/>
     <circle cx="55" cy="93" r="5" fill="#fde8de"/>
+    <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.6"/>
     <circle cx="100" cy="49" r="4" fill="#fde8de"/>
   </svg>
   <svg class="intro-floral br" viewBox="0 0 220 220" fill="none">
     <path d="M5 5 C40 80 100 100 215 215" stroke="#d4a090" stroke-width="1.2" opacity="0.5"/>
     <ellipse cx="55" cy="100" rx="24" ry="15" fill="#ecc5b0" transform="rotate(-32 55 100)" opacity="0.6"/>
-    <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.6"/>
     <circle cx="55" cy="93" r="5" fill="#fde8de"/>
+    <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.6"/>
     <circle cx="100" cy="49" r="4" fill="#fde8de"/>
   </svg>
 
@@ -652,7 +254,7 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
     <p class="intro-eyebrow">a celebration of</p>
     <h1 class="intro-title">Her Debut</h1>
     <div class="intro-rule"></div>
-    <p class="intro-sub">An evening of elegance & love</p>
+    <p class="intro-sub">An evening of elegance &amp; love</p>
     <div class="intro-loading">
       <div class="intro-dot"></div>
       <div class="intro-dot"></div>
@@ -661,11 +263,14 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
   </div>
 </div>
 
-<!-- ══════════ PAGE 1 ══════════ -->
-<div id="page1">
-  <div class="p1-bg"></div>
-  <div class="p1-lines"></div>
+<!-- ══════════════════════════════════════
+     SCREEN 2: ENVELOPE
+══════════════════════════════════════ -->
+<div class="screen hidden" id="sEnvelope">
+  <div class="s2-bg"></div>
+  <div class="s2-lines"></div>
 
+  <!-- corner florals -->
   <svg class="cf cf-tl" viewBox="0 0 220 220" fill="none">
     <path d="M5 5 C40 80 100 100 215 215" stroke="#c9907a" stroke-width="1.2" opacity="0.5"/>
     <path d="M5 5 C80 40 100 100 215 215" stroke="#c9907a" stroke-width="0.8" opacity="0.35"/>
@@ -674,64 +279,44 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
     <circle cx="55" cy="93" r="5" fill="#fde8de"/>
     <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.7"/>
     <circle cx="100" cy="49" r="4" fill="#fde8de"/>
-    <ellipse cx="28" cy="152" rx="13" ry="9" fill="#e8c0b0" opacity="0.5" transform="rotate(-50 28 152)"/>
-    <ellipse cx="152" cy="28" rx="13" ry="9" fill="#e8c0b0" opacity="0.5" transform="rotate(50 152 28)"/>
     <ellipse cx="70" cy="130" rx="17" ry="11" fill="#ecc5b0" opacity="0.55" transform="rotate(-22 70 130)"/>
     <circle cx="70" cy="126" r="3.5" fill="#fde8de"/>
-    <ellipse cx="130" cy="70" rx="14" ry="9" fill="#ecc5b0" opacity="0.5" transform="rotate(22 130 70)"/>
-    <circle cx="130" cy="67" r="3" fill="#fde8de"/>
-    <circle cx="12" cy="192" r="5" fill="#d4b8a8" opacity="0.35"/>
-    <circle cx="192" cy="12" r="5" fill="#d4b8a8" opacity="0.35"/>
   </svg>
   <svg class="cf cf-tr" viewBox="0 0 220 220" fill="none">
     <path d="M5 5 C40 80 100 100 215 215" stroke="#c9907a" stroke-width="1.2" opacity="0.5"/>
-    <path d="M5 5 C80 40 100 100 215 215" stroke="#c9907a" stroke-width="0.8" opacity="0.35"/>
     <ellipse cx="55" cy="100" rx="24" ry="15" fill="#ecc5b0" transform="rotate(-32 55 100)" opacity="0.75"/>
-    <ellipse cx="53" cy="96" rx="15" ry="12" fill="#f5d8c8"/>
     <circle cx="55" cy="93" r="5" fill="#fde8de"/>
     <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.7"/>
     <circle cx="100" cy="49" r="4" fill="#fde8de"/>
-    <ellipse cx="70" cy="130" rx="17" ry="11" fill="#ecc5b0" opacity="0.55" transform="rotate(-22 70 130)"/>
-    <ellipse cx="130" cy="70" rx="14" ry="9" fill="#ecc5b0" opacity="0.5" transform="rotate(22 130 70)"/>
   </svg>
   <svg class="cf cf-bl" viewBox="0 0 220 220" fill="none">
     <path d="M5 5 C40 80 100 100 215 215" stroke="#c9907a" stroke-width="1.2" opacity="0.5"/>
     <ellipse cx="55" cy="100" rx="24" ry="15" fill="#ecc5b0" transform="rotate(-32 55 100)" opacity="0.7"/>
-    <ellipse cx="53" cy="96" rx="15" ry="12" fill="#f5d8c8"/>
     <circle cx="55" cy="93" r="5" fill="#fde8de"/>
-    <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.6"/>
-    <circle cx="100" cy="49" r="4" fill="#fde8de"/>
   </svg>
   <svg class="cf cf-br" viewBox="0 0 220 220" fill="none">
     <path d="M5 5 C40 80 100 100 215 215" stroke="#c9907a" stroke-width="1.2" opacity="0.5"/>
-    <ellipse cx="55" cy="100" rx="24" ry="15" fill="#ecc5b0" transform="rotate(-32 55 100)" opacity="0.7"/>
-    <ellipse cx="53" cy="96" rx="15" ry="12" fill="#f5d8c8"/>
-    <circle cx="55" cy="93" r="5" fill="#fde8de"/>
     <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.6"/>
     <circle cx="100" cy="49" r="4" fill="#fde8de"/>
   </svg>
 
-  <div class="p1-content">
+  <div class="s2-content">
     <p class="p1-pre">a letter awaits you</p>
 
-    <!-- ── ENVELOPE ── -->
     <div class="env-scene" id="envScene" onclick="openEnvelope()">
       <div class="env-wrap">
         <div class="env-body">
           <!-- base -->
           <div style="position:absolute;inset:0;border-radius:4px;background:linear-gradient(160deg,#f2e2d5 0%,#e8d0c0 100%);border:1.5px solid #dcc0b0;box-shadow:0 4px 20px rgba(120,60,40,0.12),inset 0 1px 0 rgba(255,255,255,0.5);"></div>
-
           <!-- side folds -->
-          <div style="position:absolute;inset:0;clip-path:polygon(0 0, 0 100%, 51% 57%);background:linear-gradient(145deg,#e8d5c5 0%,#d8bfae 100%);"></div>
-          <div style="position:absolute;inset:0;clip-path:polygon(100% 0, 100% 100%, 49% 57%);background:linear-gradient(215deg,#e8d5c5 0%,#d8bfae 100%);"></div>
-
+          <div style="position:absolute;inset:0;clip-path:polygon(0 0,0 100%,51% 57%);background:linear-gradient(145deg,#e8d5c5 0%,#d8bfae 100%);"></div>
+          <div style="position:absolute;inset:0;clip-path:polygon(100% 0,100% 100%,49% 57%);background:linear-gradient(215deg,#e8d5c5 0%,#d8bfae 100%);"></div>
           <!-- bottom fold -->
           <div style="position:absolute;inset:0;clip-path:polygon(0 100%,100% 100%,50% 57%);background:linear-gradient(180deg,#ddc8b8 0%,#cdb8a8 100%);"></div>
-
-          <!-- fold shadow line -->
+          <!-- fold line -->
           <div style="position:absolute;left:0;right:0;top:57%;height:1px;background:linear-gradient(90deg,transparent,rgba(160,120,100,0.3),transparent);"></div>
 
-          <!-- letter (behind flap) -->
+          <!-- letter peek -->
           <div class="env-letter" id="envLetter">
             <div class="letter-paper">
               <div class="lt">You're Invited</div>
@@ -740,22 +325,22 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
             </div>
           </div>
 
-          <!-- flap (top, opens backwards) -->
-          <div class="env-flap-outer" id="envFlap">
-            <div class="env-flap-face env-flap-front">
-              <svg class="env-flap-floral" viewBox="0 0 80 60" fill="none">
-                <ellipse cx="40" cy="30" rx="14" ry="11" fill="#e8c5b0" opacity="0.7"/>
-                <ellipse cx="39" cy="27" rx="9" ry="8" fill="#f0d5c5" opacity="0.85"/>
-                <circle cx="40" cy="25" r="3.2" fill="#fde8de"/>
-                <ellipse cx="20" cy="36" rx="10" ry="7" fill="#e8c5b0" opacity="0.55" transform="rotate(-22 20 36)"/>
-                <circle cx="20" cy="33" r="2.2" fill="#fde8de"/>
-                <ellipse cx="60" cy="36" rx="10" ry="7" fill="#e8c5b0" opacity="0.55" transform="rotate(22 60 36)"/>
-                <circle cx="60" cy="33" r="2.2" fill="#fde8de"/>
-                <path d="M40 37 Q38 46 34 52" stroke="#d4b0a0" stroke-width="0.8" fill="none"/>
-                <path d="M40 37 Q42 46 46 52" stroke="#d4b0a0" stroke-width="0.8" fill="none"/>
-              </svg>
+          <!-- FLAP (corrected: folds backward from top edge) -->
+          <div class="env-flap-outer">
+            <div class="env-flap-inner" id="envFlapInner">
+              <div class="env-flap-face env-flap-front">
+                <svg class="env-flap-floral" viewBox="0 0 80 60" fill="none">
+                  <ellipse cx="40" cy="30" rx="14" ry="11" fill="#e8c5b0" opacity="0.7"/>
+                  <ellipse cx="39" cy="27" rx="9" ry="8" fill="#f0d5c5" opacity="0.85"/>
+                  <circle cx="40" cy="25" r="3.2" fill="#fde8de"/>
+                  <ellipse cx="20" cy="36" rx="10" ry="7" fill="#e8c5b0" opacity="0.55" transform="rotate(-22 20 36)"/>
+                  <circle cx="20" cy="33" r="2.2" fill="#fde8de"/>
+                  <ellipse cx="60" cy="36" rx="10" ry="7" fill="#e8c5b0" opacity="0.55" transform="rotate(22 60 36)"/>
+                  <circle cx="60" cy="33" r="2.2" fill="#fde8de"/>
+                </svg>
+              </div>
+              <div class="env-flap-face env-flap-back"></div>
             </div>
-            <div class="env-flap-face env-flap-back"></div>
           </div>
 
           <!-- postmark lines -->
@@ -775,39 +360,59 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
             </svg>
           </div>
 
-          <!-- address -->
+          <!-- address label -->
           <div style="position:absolute;bottom:22%;left:50%;transform:translateX(-50%);text-align:center;z-index:3;pointer-events:none;white-space:nowrap;">
             <span style="font-style:italic;font-size:10px;color:#c4a090;letter-spacing:0.3em;text-transform:uppercase;display:block;margin-bottom:4px;">To</span>
-            <span style="font-family:'Pinyon Script',cursive;font-size:28px;color:#7a4433;display:block;"></span>
           </div>
 
-          <!-- WAX SEAL — centered at the fold line (top: 57%) -->
+          <!-- wax seal -->
           <div class="wax-seal" id="waxSeal">
             <div class="wax-seal-circle">✦</div>
           </div>
-
-        </div><!-- /.env-body -->
-      </div><!-- /.env-wrap -->
-
+        </div>
+      </div>
       <div class="env-shadow"></div>
-    </div><!-- /.env-scene -->
+    </div>
 
     <p class="p1-tagline">
       Something beautiful awaits you.<br>
       <em style="font-size:16px;color:var(--muted);">A special evening draws near.</em>
     </p>
     <button class="open-btn" id="openBtn" onclick="openEnvelope()">Open your invitation</button>
-    <p class="scroll-hint" id="scrollHint">✦ &ensp; tap the envelope to reveal &ensp; ✦</p>
+    <p class="scroll-hint">✦ &ensp; tap the envelope to reveal &ensp; ✦</p>
   </div>
 </div>
 
-<!-- ══════════ PAGE 2 ══════════ -->
-<div id="page2">
+<!-- ══════════════════════════════════════
+     SCREEN 3: POEM
+══════════════════════════════════════ -->
+<div class="screen hidden" id="sPoem">
+  <div class="poem-bg"></div>
+
+  <div class="poem-content" id="poemContent">
+    <div class="poem-divider" id="pd0"></div>
+    <div class="poem-line" id="pl0">A flower is about to bloom,</div>
+    <div class="poem-line" id="pl1">And the stars will witness her shine.</div>
+    <div class="poem-divider" id="pd1"></div>
+    <div class="poem-line" id="pl2">She's turning eighteen with elegance and grace,</div>
+    <div class="poem-line" id="pl3">You are warmly invited to be part of her special night.</div>
+    <div class="poem-divider" id="pd2"></div>
+  </div>
+
+  <button class="poem-skip" onclick="goToMain()">skip ↓</button>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 4: MAIN INVITATION
+══════════════════════════════════════ -->
+<div id="sMain" class="hidden">
+
+  <!-- Hero section -->
   <div class="p2-hero">
     <div class="p2-hero-bg" id="heroBg"></div>
-    <span class="ph-badge">hero.png — replace with her photo</span>
 
     <div class="p2-hero-content">
+      <!-- decorative floral arch SVG -->
       <svg width="380" viewBox="0 0 580 90" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width:90vw;margin-bottom:8px;">
         <path d="M290 86 C287 66 277 52 258 38" stroke="rgba(200,150,130,0.6)" stroke-width="1.2" fill="none"/>
         <path d="M290 86 C293 66 303 52 322 38" stroke="rgba(200,150,130,0.6)" stroke-width="1.2" fill="none"/>
@@ -843,13 +448,18 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
     </div>
 
     <div class="hero-scroll-cue">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(100,50,38,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(100,50,38,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
       <span>scroll</span>
     </div>
   </div>
 
+  <!-- Body -->
   <div class="p2-body">
     <div class="p2-inner">
+
+      <!-- floral divider -->
       <div class="fdiv">
         <div class="fdiv-line"></div>
         <svg width="62" height="26" viewBox="0 0 70 28" fill="none">
@@ -866,6 +476,7 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
         <div class="fdiv-line" style="background:linear-gradient(270deg,transparent,#d4b0a0 50%,transparent);"></div>
       </div>
 
+      <!-- Event details -->
       <div class="info-grid">
         <div class="ic">
           <div class="ic-icon">
@@ -893,10 +504,11 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
         </div>
       </div>
 
+      <!-- Dress code -->
       <div class="dress-card">
         <p class="ic-lbl" style="margin-bottom:8px;">Dress Code</p>
         <p class="ic-val" style="font-size:26px;">Formal Attire</p>
-        <p class="ic-sub" style="margin-bottom:12px;">Blush, Ivory & Soft Rose tones preferred</p>
+        <p class="ic-sub" style="margin-bottom:12px;">Blush, Ivory &amp; Soft Rose tones preferred</p>
         <div class="swatches">
           <div class="swatch" style="background:#f9e4da;" title="Blush"></div>
           <div class="swatch" style="background:#fdf6f0;" title="Ivory"></div>
@@ -906,6 +518,7 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
         </div>
       </div>
 
+      <!-- divider -->
       <div class="fdiv">
         <div class="fdiv-line"></div>
         <svg width="40" height="22" viewBox="0 0 50 26" fill="none">
@@ -915,19 +528,21 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
         <div class="fdiv-line" style="background:linear-gradient(270deg,transparent,#d4b0a0 50%,transparent);"></div>
       </div>
 
+      <!-- Programme -->
       <p class="sec-eyebrow">Programme of Events</p>
       <ul class="prog-list" style="margin-bottom:40px;">
-        <li class="prog-item"><p class="pt">5:30 PM</p><p class="pe">Arrival & Cocktail Reception</p></li>
+        <li class="prog-item"><p class="pt">5:30 PM</p><p class="pe">Arrival &amp; Cocktail Reception</p></li>
         <li class="prog-item"><p class="pt">6:30 PM</p><p class="pe">Grand Entrance of the Debutante</p></li>
         <li class="prog-item"><p class="pt">6:45 PM</p><p class="pe">Eighteen Roses Ceremony</p></li>
-        <li class="prog-item"><p class="pt">7:15 PM</p><p class="pe">Eighteen Candles & Treasure</p></li>
+        <li class="prog-item"><p class="pt">7:15 PM</p><p class="pe">Eighteen Candles &amp; Treasure</p></li>
         <li class="prog-item"><p class="pt">7:45 PM</p><p class="pe">Dinner is Served</p></li>
         <li class="prog-item"><p class="pt">8:30 PM</p><p class="pe">Cotillion de Honor</p></li>
-        <li class="prog-item"><p class="pt">9:30 PM</p><p class="pe">Debutante's Message & Toast</p></li>
-        <li class="prog-item"><p class="pt">10:00 PM</p><p class="pe">Open Dancing & Celebration</p></li>
+        <li class="prog-item"><p class="pt">9:30 PM</p><p class="pe">Debutante's Message &amp; Toast</p></li>
+        <li class="prog-item"><p class="pt">10:00 PM</p><p class="pe">Open Dancing &amp; Celebration</p></li>
       </ul>
     </div>
 
+    <!-- Portrait / quote panel -->
     <div class="portrait-panel">
       <div class="portrait-bg" id="portraitBg"></div>
       <span class="ph-badge">portrait.png — replace with her portrait</span>
@@ -940,6 +555,7 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
       </div>
     </div>
 
+    <!-- Footer -->
     <div class="p2-inner">
       <div class="inv-footer">
         <p class="footer-txt">
@@ -968,10 +584,12 @@ body { width: 100%; background: var(--cream); overflow-x: hidden; font-family: '
       </div>
     </div>
   </div>
-</div>
+</div><!-- /#sMain -->
 
 <script>
-/* FALLING PETALS */
+/* ══════════════════════════
+   FALLING PETALS
+══════════════════════════ */
 const canvas = document.getElementById('petalCanvas');
 const ctx = canvas.getContext('2d');
 let petals = [];
@@ -983,8 +601,7 @@ window.addEventListener('resize', resizeCanvas);
 
 function mkPetal() {
   return {
-    x: Math.random() * canvas.width,
-    y: -25,
+    x: Math.random() * canvas.width, y: -25,
     size: 6 + Math.random() * 14,
     color: COLORS[Math.floor(Math.random() * COLORS.length)],
     vy: 0.25 + Math.random() * 0.5,
@@ -1001,19 +618,22 @@ function mkPetal() {
 
 function drawPetal(p) {
   ctx.save();
-  ctx.translate(p.x, p.y); ctx.rotate(p.angle);
-  ctx.globalAlpha = p.opacity; ctx.fillStyle = p.color;
+  ctx.translate(p.x, p.y);
+  ctx.rotate(p.angle);
+  ctx.globalAlpha = p.opacity;
+  ctx.fillStyle = p.color;
   ctx.beginPath();
   if (p.type === 0) {
     ctx.ellipse(0, 0, p.size * 0.36, p.size, 0, 0, Math.PI * 2);
   } else if (p.type === 1) {
     ctx.moveTo(0, -p.size);
-    ctx.bezierCurveTo(p.size*0.75, -p.size*0.5, p.size*0.75, p.size*0.35, 0, p.size*0.5);
-    ctx.bezierCurveTo(-p.size*0.75, p.size*0.35, -p.size*0.75, -p.size*0.5, 0, -p.size);
+    ctx.bezierCurveTo(p.size*0.75,-p.size*0.5, p.size*0.75,p.size*0.35, 0,p.size*0.5);
+    ctx.bezierCurveTo(-p.size*0.75,p.size*0.35, -p.size*0.75,-p.size*0.5, 0,-p.size);
   } else {
-    ctx.ellipse(0, 0, p.size*0.48, p.size*0.84, 0, 0, Math.PI*2);
+    ctx.ellipse(0, 0, p.size * 0.48, p.size * 0.84, 0, 0, Math.PI * 2);
   }
-  ctx.fill(); ctx.restore();
+  ctx.fill();
+  ctx.restore();
 }
 
 (function animatePetals() {
@@ -1023,56 +643,153 @@ function drawPetal(p) {
   petals.forEach(p => {
     p.sway += p.swayV;
     p.x += p.vx + Math.sin(p.sway) * p.swayA;
-    p.y += p.vy; p.angle += p.angV;
+    p.y += p.vy;
+    p.angle += p.angV;
     drawPetal(p);
   });
   requestAnimationFrame(animatePetals);
 })();
 
-/* INTRO SCREEN */
+/* ══════════════════════════
+   MUSIC — loads song.mp3
+══════════════════════════ */
+let audio = null;
+let musicPlaying = false;
+
+function initAudio() {
+  if (audio) return;
+  audio = new Audio('song.mp3');
+  audio.loop = true;
+  audio.volume = 0.75;
+}
+
+function playMusic() {
+  initAudio();
+  audio.play().catch(() => {});
+  musicPlaying = true;
+  document.getElementById('musicBtn').textContent = '🔇';
+}
+
+function stopMusic() {
+  if (audio) audio.pause();
+  musicPlaying = false;
+  document.getElementById('musicBtn').textContent = '🎵';
+}
+
+function toggleMusic() {
+  if (musicPlaying) stopMusic();
+  else playMusic();
+}
+
+/* ══════════════════════════
+   SCREEN TRANSITIONS
+══════════════════════════ */
+function transitionTo(fromId, toId, cb) {
+  const ov = document.getElementById('overlay');
+  ov.style.opacity = '1';
+  ov.style.pointerEvents = 'all';
+
+  setTimeout(() => {
+    if (fromId) {
+      const f = document.getElementById(fromId);
+      f.classList.add('hidden');
+      if (fromId === 'sMain') f.style.display = 'none';
+    }
+    const t = document.getElementById(toId);
+    if (toId === 'sMain') {
+      t.style.display = 'block';
+      t.classList.remove('hidden');
+    } else {
+      t.classList.remove('hidden');
+    }
+    window.scrollTo(0, 0);
+    ov.style.opacity = '0';
+    ov.style.pointerEvents = 'none';
+    if (cb) cb();
+  }, 700);
+}
+
+/* ══════════════════════════
+   SCREEN 1 → 2  (auto after intro)
+══════════════════════════ */
 window.addEventListener('load', () => {
   setTimeout(() => {
-    const intro = document.getElementById('intro');
-    intro.style.transition = 'opacity 1s ease';
-    intro.style.opacity = '0';
-    setTimeout(() => { intro.style.display = 'none'; }, 1000);
-  }, 2800);
+    transitionTo('sIntro', 'sEnvelope');
+  }, 3200);
 });
 
-/* ENVELOPE */
-let opened = false;
+/* ══════════════════════════
+   SCREEN 2 → 3  (envelope open)
+══════════════════════════ */
+let envelopeOpened = false;
 
 function openEnvelope() {
-  if (opened) return;
-  opened = true;
+  if (envelopeOpened) return;
+  envelopeOpened = true;
 
   const scene = document.getElementById('envScene');
   scene.style.cursor = 'default';
-  scene.classList.add('open');
 
+  /* open flap backward */
+  document.getElementById('envFlapInner').style.transform = 'rotateX(175deg)';
   scene.style.transition = 'transform 0.5s ease';
   scene.style.transform = 'translateY(-10px)';
 
+  /* hide wax seal */
   setTimeout(() => {
-    ['openBtn','scrollHint'].forEach(id => {
-      const el = document.getElementById(id);
-      el.style.transition = 'opacity 0.4s';
-      el.style.opacity = '0';
-    });
-  }, 500);
+    document.getElementById('waxSeal').style.opacity = '0';
+  }, 300);
 
+  /* fade out button */
+  document.getElementById('openBtn').style.opacity = '0';
+
+  /* after letter rises, transition to poem */
   setTimeout(() => {
-    const ov = document.getElementById('overlay');
-    ov.classList.add('show');
-    setTimeout(() => {
-      document.getElementById('page1').style.display = 'none';
-      document.getElementById('page2').style.display = 'block';
-      window.scrollTo(0, 0);
-      ov.classList.remove('show');
-    }, 750);
-  }, 1800);
+    transitionTo('sEnvelope', 'sPoem', () => {
+      playMusic();
+      document.getElementById('musicBtn').classList.add('show');
+      startPoem();
+    });
+  }, 2400);
 }
 
+/* ══════════════════════════
+   SCREEN 3 → 4  (poem done / skip)
+══════════════════════════ */
+function goToMain() {
+  transitionTo('sPoem', 'sMain');
+}
+
+/* ══════════════════════════
+   POEM — slow per-line reveal
+══════════════════════════ */
+const poemSequence = [
+  { id: 'pd0', delay: 700  },
+  { id: 'pl0', delay: 2000 },
+  { id: 'pl1', delay: 5000 },
+  { id: 'pd1', delay: 8000 },
+  { id: 'pl2', delay: 9500 },
+  { id: 'pl3', delay: 13000},
+  { id: 'pd2', delay: 16500},
+];
+
+const AUTO_ADVANCE_MS = 19500; /* auto-advance to main after poem */
+
+function startPoem() {
+  poemSequence.forEach(({ id, delay }) => {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('visible');
+    }, delay);
+  });
+  setTimeout(goToMain, AUTO_ADVANCE_MS);
+}
+
+/* ══════════════════════════
+   OPTIONAL: swap in real photos
+   Place hero.png and portrait.png
+   in the same folder as this file.
+══════════════════════════ */
 function tryBg(src, id) {
   const img = new Image();
   img.onload = () => {
