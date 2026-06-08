@@ -14,20 +14,14 @@
 html{scroll-behavior:smooth}
 body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant Garamond',serif;margin:0}
 
-/* ── CANVAS ── */
 #petalCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
-
-/* ── OVERLAY ── */
 #overlay{position:fixed;inset:0;background:#faeee7;z-index:9998;opacity:0;pointer-events:none;transition:opacity 0.8s ease}
 #overlay.show{opacity:1;pointer-events:all}
 
-/* ── SCREENS ── */
 .screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:opacity 0.8s ease}
 .screen.hidden{opacity:0;pointer-events:none}
 
-/* ════════════════════════════
-   SCREEN 1 — INTRO
-════════════════════════════ */
+/* SCREEN 1 */
 #sIntro{z-index:100;background:#faeee7}
 .intro-bg{position:absolute;inset:0;background:
   radial-gradient(ellipse 80% 70% at 20% 20%,#f9e0d4 0%,transparent 55%),
@@ -43,7 +37,6 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 .intro-dot:nth-child(2){animation-delay:0.18s}.intro-dot:nth-child(3){animation-delay:0.36s}
 @keyframes dotPulse{0%,100%{opacity:0.25;transform:scale(0.8)}50%{opacity:1;transform:scale(1.2)}}
 
-/* floral corners for intro */
 .intro-floral{position:absolute;width:220px;height:220px;pointer-events:none;opacity:0;animation:floralReveal 1.2s ease 0.5s forwards}
 @keyframes floralReveal{from{opacity:0;transform:scale(0.88)}to{opacity:1;transform:scale(1)}}
 .intro-floral.tl{top:-15px;left:-15px}
@@ -54,9 +47,7 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 @keyframes floralReveal3{from{opacity:0;transform:scaleY(-1) scale(0.88)}to{opacity:1;transform:scaleY(-1) scale(1)}}
 @keyframes floralReveal4{from{opacity:0;transform:scale(-1,-1) scale(0.88)}to{opacity:1;transform:scale(-1,-1) scale(1)}}
 
-/* ════════════════════════════
-   SCREEN 2 — ENVELOPE
-════════════════════════════ */
+/* SCREEN 2 */
 #sEnvelope{z-index:90;background:none}
 .s2-bg{position:absolute;inset:0;background:
   radial-gradient(ellipse 70% 60% at 22% 35%,#f9e0d4 0%,transparent 60%),
@@ -72,42 +63,277 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 .s2-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:30px;text-align:center;padding:50px 20px}
 .p1-pre{font-style:italic;font-size:13px;color:var(--muted);letter-spacing:0.3em;text-transform:uppercase}
 
-/* ENVELOPE */
-.env-scene{position:relative;width:340px;max-width:86vw;padding-bottom:20px;cursor:pointer}
-.env-shadow{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:85%;height:18px;background:radial-gradient(ellipse,rgba(120,60,40,0.22) 0%,transparent 70%);border-radius:50%;transition:all 0.4s ease}
-.env-scene:hover .env-shadow{transform:translateX(-50%) scaleX(0.92);opacity:0.55}
-.env-wrap{position:relative;width:100%;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1)}
-.env-scene:hover .env-wrap{transform:translateY(-8px)}
-.env-body{position:relative;width:100%;height:0;padding-top:62%;border-radius:4px;overflow:visible}
+/* ══════════════════════════════════
+   ENVELOPE — IMPROVED ANIMATION
+══════════════════════════════════ */
+.env-scene{
+  position:relative;
+  width:340px;
+  max-width:86vw;
+  padding-bottom:24px;
+  cursor:pointer;
+  /* hover lift */
+  transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+.env-scene:not(.opening):hover{
+  transform:translateY(-8px);
+}
+.env-shadow{
+  position:absolute;bottom:0;left:50%;
+  transform:translateX(-50%);
+  width:85%;height:18px;
+  background:radial-gradient(ellipse,rgba(120,60,40,0.22) 0%,transparent 70%);
+  border-radius:50%;
+  transition:all 0.6s ease;
+}
+.env-scene:not(.opening):hover .env-shadow{
+  transform:translateX(-50%) scaleX(0.92);
+  opacity:0.55;
+}
 
-/* Corrected flap — folds backward from the top edge */
-.env-flap-outer{position:absolute;top:0;left:0;right:0;height:58%;perspective:600px;z-index:5;pointer-events:none}
-.env-flap-inner{position:absolute;top:0;left:0;right:0;bottom:0;transform-origin:top center;transform-style:preserve-3d;transition:transform 0.9s cubic-bezier(0.4,0,0.2,1)}
-.env-scene.open .env-flap-inner{transform:rotateX(175deg)}
-.env-flap-face{position:absolute;inset:0;clip-path:polygon(0 0,100% 0,50% 86%);backface-visibility:hidden}
-.env-flap-front{background:linear-gradient(160deg,#f7ebe0 0%,#ecd6c6 60%,#e0c8b8 100%)}
-.env-flap-back{background:linear-gradient(160deg,#e8d5c5 0%,#d8c0ae 100%);transform:rotateX(180deg);clip-path:polygon(0 0,100% 0,50% 86%)}
-.env-flap-floral{position:absolute;top:18%;left:50%;transform:translateX(-50%);width:70px;pointer-events:none;z-index:1}
-.env-letter{position:absolute;bottom:12%;left:50%;transform:translateX(-50%) translateY(0);width:70%;z-index:4;opacity:0;transition:opacity 0.5s ease 0.6s,transform 0.8s cubic-bezier(0.2,0.9,0.3,1) 0.6s}
-.env-scene.open .env-letter{opacity:1;transform:translateX(-50%) translateY(-58%)}
-.letter-paper{background:linear-gradient(170deg,#fffaf7 0%,#fdf3ed 100%);border:1px solid #e8d0c4;padding:18px 20px 14px;text-align:center;box-shadow:0 2px 12px rgba(120,60,40,0.1)}
+/* The full envelope box */
+.env-box{
+  position:relative;
+  width:100%;
+  /* aspect ratio ~1.62:1 landscape */
+  padding-top:62%;
+  border-radius:4px;
+  overflow:visible;
+}
+
+/* ── Envelope body layers ── */
+.env-base{
+  position:absolute;inset:0;border-radius:4px;
+  background:linear-gradient(160deg,#f2e2d5 0%,#e8d0c0 100%);
+  border:1.5px solid #dcc0b0;
+  box-shadow:0 4px 20px rgba(120,60,40,0.12),inset 0 1px 0 rgba(255,255,255,0.5);
+}
+.env-fold-left{
+  position:absolute;inset:0;
+  clip-path:polygon(0 0,0 100%,51% 57%);
+  background:linear-gradient(145deg,#e8d5c5 0%,#d8bfae 100%);
+}
+.env-fold-right{
+  position:absolute;inset:0;
+  clip-path:polygon(100% 0,100% 100%,49% 57%);
+  background:linear-gradient(215deg,#e8d5c5 0%,#d8bfae 100%);
+}
+.env-fold-bottom{
+  position:absolute;inset:0;
+  clip-path:polygon(0 100%,100% 100%,50% 57%);
+  background:linear-gradient(180deg,#ddc8b8 0%,#cdb8a8 100%);
+}
+.env-fold-line{
+  position:absolute;left:0;right:0;top:55%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(160,120,100,0.3),transparent);
+}
+
+/* ══════════════════════════════════
+   TOP FLAP — REAL ENVELOPE SHAPE
+   Closed: wide at top, tip points DOWN (like image ref)
+   Opens:  hinge at top edge, folds backward (rotateX negative)
+   Open:   back face visible — darker inside, tip now appears pointing UP
+══════════════════════════════════ */
+
+.env-flap-container{
+  position:absolute;
+  top:0;left:0;right:0;
+  /* Container covers top ~55% of envelope */
+  height:55%;
+  /* Perspective origin at TOP — hinge is the top edge */
+  perspective:700px;
+  perspective-origin:50% 0%;
+  z-index:6;
+  pointer-events:none;
+  overflow:visible;
+}
+
+.env-flap{
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  /* Hinge at TOP — the fold happens along the top edge of the envelope */
+  transform-origin:top center;
+  transform-style:preserve-3d;
+  transform:rotateX(0deg);
+  will-change:transform;
+}
+
+/* FRONT FACE (closed state):
+   Wide at top (full width), tip points DOWN — exactly like a real closed envelope */
+.env-flap-front{
+  position:absolute;inset:0;
+  clip-path:polygon(0 0, 100% 0, 50% 95%);
+  background:linear-gradient(180deg,#f0e0d0 0%,#e2cfc0 60%,#d8c0ae 100%);
+  backface-visibility:hidden;
+}
+
+/* BACK FACE (open state — shown after 180° flip):
+   In its own pre-flip coords: wide at BOTTOM, tip at TOP.
+   After rotateX(-180deg): top/bottom swap → wide at top, tip pointing DOWN.
+   This is the inner/back of the flap now lying flat against the envelope — darker shade */
+.env-flap-back{
+  position:absolute;inset:0;
+  clip-path:polygon(0 100%, 100% 100%, 50% 5%);
+  background:linear-gradient(0deg,#c0a898 0%,#d0b8a8 100%);
+  transform:rotateX(180deg);
+  backface-visibility:hidden;
+}
+
+/* Shadow cast on envelope body while flap is mid-open */
+.env-flap-shadow{
+  position:absolute;
+  top:0;left:0;right:0;
+  height:55%;
+  clip-path:polygon(0 0, 100% 0, 50% 95%);
+  background:transparent;
+  z-index:5;
+  pointer-events:none;
+  transition:background 0.6s ease;
+}
+.env-scene.opening .env-flap-shadow{
+  background:linear-gradient(180deg,rgba(100,50,30,0.12) 0%,transparent 70%);
+}
+
+/* Floral decoration — sits in the upper-middle area of the closed flap triangle */
+.env-flap-floral{
+  position:absolute;
+  top:22%;left:50%;
+  transform:translateX(-50%);
+  width:72px;
+  pointer-events:none;
+  z-index:1;
+  transition:opacity 0.3s ease;
+}
+
+/* Wax seal — sits right at the flap tip (center of envelope body) */
+.wax-seal{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:54px;height:54px;
+  z-index:8;
+  transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1),
+             opacity 0.4s ease;
+}
+.env-scene:not(.opening):hover .wax-seal{
+  transform:translate(-50%,-50%) scale(1.1);
+}
+.wax-seal-circle{
+  width:54px;height:54px;
+  background:radial-gradient(circle at 38% 35%,#e09870 0%,#c98860 45%,#a06848 100%);
+  border-radius:50%;
+  border:2px solid rgba(180,110,70,0.5);
+  box-shadow:0 3px 16px rgba(140,70,40,0.3),inset 0 1px 0 rgba(255,220,180,0.4);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Pinyon Script',cursive;font-size:20px;color:#fdf0e8;
+}
+
+/* Letter that rises out */
+.env-letter{
+  position:absolute;
+  bottom:14%;left:50%;
+  transform:translateX(-50%) translateY(0px);
+  width:72%;
+  z-index:4;
+  opacity:0;
+  /* letter starts below, rises after flap opens */
+  transition:
+    opacity 0.7s ease,
+    transform 1s cubic-bezier(0.25,0.85,0.3,1);
+}
+.env-scene.letter-out .env-letter{
+  opacity:1;
+  transform:translateX(-50%) translateY(-52%);
+}
+.letter-paper{
+  background:linear-gradient(170deg,#fffaf7 0%,#fdf3ed 100%);
+  border:1px solid #e8d0c4;
+  padding:18px 20px 14px;
+  text-align:center;
+  box-shadow:0 2px 14px rgba(120,60,40,0.12);
+}
 .letter-paper .lt{font-family:'Pinyon Script',cursive;font-size:20px;color:#9e6050}
 .letter-paper .ld{height:1px;background:linear-gradient(90deg,transparent,#e0c0b0,transparent);margin:6px 0}
 .letter-paper .ls{font-style:italic;font-size:10px;color:var(--muted);letter-spacing:0.2em}
-.wax-seal{position:absolute;top:57%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;z-index:8;transition:transform 0.35s ease,opacity 0.4s ease}
-.env-scene:hover .wax-seal{transform:translate(-50%,-50%) scale(1.08)}
-.env-scene.open .wax-seal{opacity:0;pointer-events:none}
-.wax-seal-circle{width:52px;height:52px;background:radial-gradient(circle at 38% 35%,#e09870 0%,#c98860 45%,#a06848 100%);border-radius:50%;border:2px solid rgba(180,110,70,0.5);box-shadow:0 3px 16px rgba(140,70,40,0.3),inset 0 1px 0 rgba(255,220,180,0.4);display:flex;align-items:center;justify-content:center;font-family:'Pinyon Script',cursive;font-size:20px;color:#fdf0e8}
 
+/* postmark + stamp */
+.env-postmark{
+  position:absolute;top:9%;right:20%;z-index:6;
+  pointer-events:none;display:flex;flex-direction:column;gap:3px;
+}
+.env-address{
+  position:absolute;bottom:22%;left:50%;
+  transform:translateX(-50%);text-align:center;
+  z-index:3;pointer-events:none;white-space:nowrap;
+}
+
+/* ── OPEN ANIMATION KEYFRAMES ── */
+/* 
+  Broken into 3 phases:
+  1. Peel (0–35%): seal fades, flap barely lifts — anticipation 
+  2. Fold open (35–80%): flap sweeps back in arc  
+  3. Settle (80–100%): flap lies flat open, slight overshoot
+*/
+/* 
+  Hinge at bottom: positive rotateX folds the tip upward then backward.
+  Phase 1: peel (tip lifts slightly)
+  Phase 2: arc back over the envelope
+  Phase 3: settle flat behind
+*/
+@keyframes flapOpen{
+  0%   { transform:rotateX(0deg); }
+  12%  { transform:rotateX(-16deg); }  /* tip peels back — anticipation */
+  18%  { transform:rotateX(-10deg); }  /* tiny hesitation */
+  82%  { transform:rotateX(-176deg); } /* nearly flat open */
+  90%  { transform:rotateX(-182deg); } /* slight overshoot */
+  100% { transform:rotateX(-180deg); } /* fully open, back face visible */
+}
+
+.env-scene.opening .env-flap{
+  animation: flapOpen 1.4s cubic-bezier(0.42,0,0.28,1) 0.25s forwards;
+}
+
+/* Seal pops off on opening */
+@keyframes sealPop{
+  0%   { opacity:1; transform:translate(-50%,-50%) scale(1); }
+  30%  { opacity:1; transform:translate(-50%,-58%) scale(1.1); }
+  60%  { opacity:0; transform:translate(-50%,-80%) scale(0.8); }
+  100% { opacity:0; transform:translate(-50%,-80%) scale(0.8); }
+}
+.env-scene.opening .wax-seal{
+  animation:sealPop 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.1s forwards;
+}
+
+/* Whole envelope lifts slightly as it opens */
+@keyframes envLift{
+  0%  { transform:translateY(0); }
+  50% { transform:translateY(-14px); }
+  100%{ transform:translateY(-6px); }
+}
+.env-scene.opening{
+  animation:envLift 1.6s ease forwards;
+  cursor:default;
+}
+
+/* shadow morphs when open */
+@keyframes shadowOpen{
+  0%  { width:85%; opacity:0.8; }
+  50% { width:72%; opacity:0.45; }
+  100%{ width:70%; opacity:0.4; }
+}
+.env-scene.opening .env-shadow{
+  animation:shadowOpen 1.6s ease forwards;
+}
+
+
+/* ── rest of original styles ── */
 .p1-tagline{font-style:italic;font-size:19px;color:var(--deep);line-height:1.85;letter-spacing:0.02em}
 .open-btn{font-style:italic;font-size:13px;color:var(--dusty);letter-spacing:0.22em;border:1px solid rgba(210,170,150,0.7);background:rgba(253,247,242,0.8);padding:14px 44px;border-radius:50px;cursor:pointer;transition:all 0.35s ease;backdrop-filter:blur(6px)}
 .open-btn:hover{background:rgba(248,230,220,0.95);border-color:var(--dusty);color:var(--deep);transform:translateY(-3px);box-shadow:0 8px 24px rgba(180,100,70,0.14)}
 .scroll-hint{font-style:italic;font-size:12px;color:var(--rose);letter-spacing:0.18em;animation:softPulse 3s ease-in-out infinite}
 @keyframes softPulse{0%,100%{opacity:0.3}50%{opacity:0.9}}
 
-/* ════════════════════════════
-   SCREEN 3 — POEM
-════════════════════════════ */
+/* SCREEN 3 — POEM */
 #sPoem{z-index:80;background:none}
 .poem-bg{position:absolute;inset:0;background:
   radial-gradient(ellipse 55% 80% at 28% 28%,#f5c8b0 0%,transparent 55%),
@@ -122,9 +348,7 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 .poem-skip{font-style:italic;font-size:11px;color:rgba(100,50,38,0.45);letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;position:absolute;bottom:36px;left:50%;transform:translateX(-50%);animation:softPulse 3s ease-in-out infinite;border:none;background:none;padding:0;z-index:10}
 .poem-skip:hover{color:rgba(100,50,38,0.75)}
 
-/* ════════════════════════════
-   SCREEN 4 — MAIN INVITATION
-════════════════════════════ */
+/* SCREEN 4 */
 #sMain{z-index:70;background:var(--cream);position:relative;overflow-y:auto;display:block}
 #sMain.hidden{display:none!important}
 
@@ -192,10 +416,11 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 .footer-name{font-family:'Pinyon Script',cursive;font-size:38px;color:var(--deep);display:block;margin:8px 0 6px}
 .footer-contact{font-size:13px;color:var(--muted);display:block;margin-top:4px}
 
-/* music btn */
 #musicBtn{position:fixed;bottom:28px;right:28px;z-index:2000;width:46px;height:46px;border-radius:50%;background:rgba(253,247,242,0.92);border:1px solid rgba(210,170,150,0.6);cursor:pointer;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);box-shadow:0 4px 18px rgba(180,100,70,0.15);transition:all 0.3s ease;font-size:20px}
 #musicBtn:hover{transform:scale(1.08)}
 #musicBtn.show{display:flex}
+
+.location-link{color:var(--dusty);font-style:italic;font-size:13px;text-decoration:underline;text-decoration-color:rgba(201,136,112,0.4);}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 </style>
@@ -206,13 +431,9 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 <div id="overlay"></div>
 <button id="musicBtn" onclick="toggleMusic()" title="Toggle music">🎵</button>
 
-<!-- ══════════════════════════════════════
-     SCREEN 1: INTRO
-══════════════════════════════════════ -->
+<!-- SCREEN 1: INTRO -->
 <div class="screen" id="sIntro">
   <div class="intro-bg"></div>
-
-  <!-- Floral corners -->
   <svg class="intro-floral tl" viewBox="0 0 220 220" fill="none">
     <path d="M5 5 C40 80 100 100 215 215" stroke="#d4a090" stroke-width="1.2" opacity="0.5"/>
     <path d="M5 5 C80 40 100 100 215 215" stroke="#d4a090" stroke-width="0.8" opacity="0.35"/>
@@ -249,7 +470,6 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
     <ellipse cx="100" cy="55" rx="20" ry="13" fill="#ecc5b0" transform="rotate(32 100 55)" opacity="0.6"/>
     <circle cx="100" cy="49" r="4" fill="#fde8de"/>
   </svg>
-
   <div class="intro-content">
     <p class="intro-eyebrow">a celebration of</p>
     <h1 class="intro-title">luna</h1>
@@ -263,14 +483,10 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     SCREEN 2: ENVELOPE
-══════════════════════════════════════ -->
+<!-- SCREEN 2: ENVELOPE -->
 <div class="screen hidden" id="sEnvelope">
   <div class="s2-bg"></div>
   <div class="s2-lines"></div>
-
-  <!-- corner florals -->
   <svg class="cf cf-tl" viewBox="0 0 220 220" fill="none">
     <path d="M5 5 C40 80 100 100 215 215" stroke="#c9907a" stroke-width="1.2" opacity="0.5"/>
     <path d="M5 5 C80 40 100 100 215 215" stroke="#c9907a" stroke-width="0.8" opacity="0.35"/>
@@ -304,75 +520,74 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
     <p class="p1-pre">a letter awaits you</p>
 
     <div class="env-scene" id="envScene" onclick="openEnvelope()">
-      <div class="env-wrap">
-        <div class="env-body">
-          <!-- base -->
-          <div style="position:absolute;inset:0;border-radius:4px;background:linear-gradient(160deg,#f2e2d5 0%,#e8d0c0 100%);border:1.5px solid #dcc0b0;box-shadow:0 4px 20px rgba(120,60,40,0.12),inset 0 1px 0 rgba(255,255,255,0.5);"></div>
-          <!-- side folds -->
-          <div style="position:absolute;inset:0;clip-path:polygon(0 0,0 100%,51% 57%);background:linear-gradient(145deg,#e8d5c5 0%,#d8bfae 100%);"></div>
-          <div style="position:absolute;inset:0;clip-path:polygon(100% 0,100% 100%,49% 57%);background:linear-gradient(215deg,#e8d5c5 0%,#d8bfae 100%);"></div>
-          <!-- bottom fold -->
-          <div style="position:absolute;inset:0;clip-path:polygon(0 100%,100% 100%,50% 57%);background:linear-gradient(180deg,#ddc8b8 0%,#cdb8a8 100%);"></div>
-          <!-- fold line -->
-          <div style="position:absolute;left:0;right:0;top:57%;height:1px;background:linear-gradient(90deg,transparent,rgba(160,120,100,0.3),transparent);"></div>
+      <div class="env-box">
+        <!-- base layers -->
+        <div class="env-base"></div>
+        <div class="env-fold-left"></div>
+        <div class="env-fold-right"></div>
+        <div class="env-fold-bottom"></div>
+        <div class="env-fold-line"></div>
 
-          <!-- letter peek -->
-          <div class="env-letter" id="envLetter">
-            <div class="letter-paper">
-              <div class="lt">You're Invited</div>
-              <div class="ld"></div>
-              <div class="ls">to a debut celebration</div>
-            </div>
-          </div>
-
-          <!-- FLAP (corrected: folds backward from top edge) -->
-          <div class="env-flap-outer">
-            <div class="env-flap-inner" id="envFlapInner">
-              <div class="env-flap-face env-flap-front">
-                <svg class="env-flap-floral" viewBox="0 0 80 60" fill="none">
-                  <ellipse cx="40" cy="30" rx="14" ry="11" fill="#e8c5b0" opacity="0.7"/>
-                  <ellipse cx="39" cy="27" rx="9" ry="8" fill="#f0d5c5" opacity="0.85"/>
-                  <circle cx="40" cy="25" r="3.2" fill="#fde8de"/>
-                  <ellipse cx="20" cy="36" rx="10" ry="7" fill="#e8c5b0" opacity="0.55" transform="rotate(-22 20 36)"/>
-                  <circle cx="20" cy="33" r="2.2" fill="#fde8de"/>
-                  <ellipse cx="60" cy="36" rx="10" ry="7" fill="#e8c5b0" opacity="0.55" transform="rotate(22 60 36)"/>
-                  <circle cx="60" cy="33" r="2.2" fill="#fde8de"/>
-                </svg>
-              </div>
-              <div class="env-flap-face env-flap-back"></div>
-            </div>
-          </div>
-
-          <!-- postmark lines -->
-          <div style="position:absolute;top:9%;right:20%;z-index:6;pointer-events:none;display:flex;flex-direction:column;gap:3px;">
-            <span style="display:block;width:26px;height:1px;background:rgba(180,140,120,0.35);"></span>
-            <span style="display:block;width:22px;height:1px;background:rgba(180,140,120,0.3);"></span>
-            <span style="display:block;width:26px;height:1px;background:rgba(180,140,120,0.35);"></span>
-          </div>
-
-          <!-- stamp -->
-          <div style="position:absolute;top:6%;right:4%;width:12%;z-index:6;pointer-events:none;">
-            <svg viewBox="0 0 44 36" fill="none">
-              <rect x="1.5" y="1.5" width="41" height="33" rx="2" fill="#fdf6f0" stroke="#dcc0b0" stroke-width="0.8" stroke-dasharray="3,2.2"/>
-              <ellipse cx="22" cy="18" rx="13" ry="10" fill="#f5ddd2"/>
-              <ellipse cx="20" cy="16" rx="9" ry="7.5" fill="#ecc5b0"/>
-              <circle cx="21" cy="14" r="3" fill="#fde8de"/>
-            </svg>
-          </div>
-
-          <!-- address label -->
-          <div style="position:absolute;bottom:22%;left:50%;transform:translateX(-50%);text-align:center;z-index:3;pointer-events:none;white-space:nowrap;">
-            <span style="font-style:italic;font-size:10px;color:#c4a090;letter-spacing:0.3em;text-transform:uppercase;display:block;margin-bottom:4px;">To</span>
-          </div>
-
-          <!-- wax seal -->
-          <div class="wax-seal" id="waxSeal">
-            <div class="wax-seal-circle">✦</div>
+        <!-- rising letter -->
+        <div class="env-letter" id="envLetter">
+          <div class="letter-paper">
+            <div class="lt">You're Invited</div>
+            <div class="ld"></div>
+            <div class="ls">to a debut celebration</div>
           </div>
         </div>
-      </div>
+
+        <!-- flap shadow cast (z between folds and flap) -->
+        <div class="env-flap-shadow" id="envFlapShadow"></div>
+
+        <!-- THE FLAP -->
+        <div class="env-flap-container">
+          <div class="env-flap" id="envFlap">
+            <div class="env-flap-front">
+              <!-- floral on flap -->
+              <svg class="env-flap-floral" id="envFlapFloral" viewBox="0 0 80 60" fill="none">
+                <ellipse cx="40" cy="30" rx="14" ry="11" fill="#e8c5b0" opacity="0.7"/>
+                <ellipse cx="39" cy="27" rx="9" ry="8" fill="#f0d5c5" opacity="0.85"/>
+                <circle cx="40" cy="25" r="3.2" fill="#fde8de"/>
+                <ellipse cx="20" cy="36" rx="10" ry="7" fill="#e8c5b0" opacity="0.55" transform="rotate(-22 20 36)"/>
+                <circle cx="20" cy="33" r="2.2" fill="#fde8de"/>
+                <ellipse cx="60" cy="36" rx="10" ry="7" fill="#e8c5b0" opacity="0.55" transform="rotate(22 60 36)"/>
+                <circle cx="60" cy="33" r="2.2" fill="#fde8de"/>
+              </svg>
+            </div>
+            <div class="env-flap-back"></div>
+          </div>
+        </div>
+
+        <!-- postmark -->
+        <div class="env-postmark">
+          <span style="display:block;width:26px;height:1px;background:rgba(180,140,120,0.35);"></span>
+          <span style="display:block;width:22px;height:1px;background:rgba(180,140,120,0.3);"></span>
+          <span style="display:block;width:26px;height:1px;background:rgba(180,140,120,0.35);"></span>
+        </div>
+
+        <!-- stamp -->
+        <div style="position:absolute;top:6%;right:4%;width:12%;z-index:6;pointer-events:none;">
+          <svg viewBox="0 0 44 36" fill="none">
+            <rect x="1.5" y="1.5" width="41" height="33" rx="2" fill="#fdf6f0" stroke="#dcc0b0" stroke-width="0.8" stroke-dasharray="3,2.2"/>
+            <ellipse cx="22" cy="18" rx="13" ry="10" fill="#f5ddd2"/>
+            <ellipse cx="20" cy="16" rx="9" ry="7.5" fill="#ecc5b0"/>
+            <circle cx="21" cy="14" r="3" fill="#fde8de"/>
+          </svg>
+        </div>
+
+        <!-- address label -->
+        <div class="env-address">
+          <span style="font-style:italic;font-size:10px;color:#c4a090;letter-spacing:0.3em;text-transform:uppercase;display:block;margin-bottom:4px;">To</span>
+        </div>
+
+        <!-- wax seal -->
+        <div class="wax-seal" id="waxSeal">
+          <div class="wax-seal-circle">✦</div>
+        </div>
+      </div><!-- /.env-box -->
       <div class="env-shadow"></div>
-    </div>
+    </div><!-- /.env-scene -->
 
     <p class="p1-tagline">
       Something beautiful awaits you.<br>
@@ -383,12 +598,9 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     SCREEN 3: POEM
-══════════════════════════════════════ -->
+<!-- SCREEN 3: POEM -->
 <div class="screen hidden" id="sPoem">
   <div class="poem-bg"></div>
-
   <div class="poem-content" id="poemContent">
     <div class="poem-divider" id="pd0"></div>
     <div class="poem-line" id="pl0">A flower is about to bloom,</div>
@@ -398,21 +610,14 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
     <div class="poem-line" id="pl3">You are warmly invited to be part of her special night.</div>
     <div class="poem-divider" id="pd2"></div>
   </div>
-
   <button class="poem-skip" onclick="goToMain()">skip ↓</button>
 </div>
 
-<!-- ══════════════════════════════════════
-     SCREEN 4: MAIN INVITATION
-══════════════════════════════════════ -->
+<!-- SCREEN 4: MAIN INVITATION -->
 <div id="sMain" class="hidden">
-
-  <!-- Hero section -->
   <div class="p2-hero">
     <div class="p2-hero-bg" id="heroBg"></div>
-
     <div class="p2-hero-content">
-      <!-- decorative floral arch SVG -->
       <svg width="380" viewBox="0 0 580 90" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width:90vw;margin-bottom:8px;">
         <path d="M290 86 C287 66 277 52 258 38" stroke="rgba(200,150,130,0.6)" stroke-width="1.2" fill="none"/>
         <path d="M290 86 C293 66 303 52 322 38" stroke="rgba(200,150,130,0.6)" stroke-width="1.2" fill="none"/>
@@ -434,7 +639,6 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
         <ellipse cx="184" cy="12" rx="8" ry="5.5" fill="#e8c5b0" opacity="0.38" transform="rotate(-55 184 12)"/>
         <ellipse cx="396" cy="12" rx="8" ry="5.5" fill="#e8c5b0" opacity="0.38" transform="rotate(55 396 12)"/>
       </svg>
-
       <span class="hero-eyebrow">cordially invites you to celebrate</span>
       <h1 class="hero-name">luna my crux</h1>
       <div class="hero-rule">
@@ -446,7 +650,6 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
       </div>
       <p class="hero-debut">on the occasion of her eighteenth birthday</p>
     </div>
-
     <div class="hero-scroll-cue">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(100,50,38,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 5v14M5 12l7 7 7-7"/>
@@ -455,11 +658,8 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
     </div>
   </div>
 
-  <!-- Body -->
   <div class="p2-body">
     <div class="p2-inner">
-
-      <!-- floral divider -->
       <div class="fdiv">
         <div class="fdiv-line"></div>
         <svg width="62" height="26" viewBox="0 0 70 28" fill="none">
@@ -476,7 +676,6 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
         <div class="fdiv-line" style="background:linear-gradient(270deg,transparent,#d4b0a0 50%,transparent);"></div>
       </div>
 
-      <!-- Event details -->
       <div class="info-grid">
         <div class="ic">
           <div class="ic-icon">
@@ -500,20 +699,12 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
           </div>
           <p class="ic-lbl">Venue</p>
           <p class="ic-val">Grand Lourds Hotel</p>
-          <p class="ic-sub">#1 Judge Jose De Venecia Road, Calasiao
-            <br>
-  <a 
-    href="https://maps.google.com/?q=Grand+Lourdes+Hotel+Calasiao" 
-    target="_blank"
-    class="location-link"
-  >
-    View Location
-  </a>
+          <p class="ic-sub">#1 Judge Jose De Venecia Road, Calasiao<br>
+            <a href="https://maps.google.com/?q=Grand+Lourdes+Hotel+Calasiao" target="_blank" class="location-link">View Location</a>
           </p>
         </div>
       </div>
 
-      <!-- Dress code -->
       <div class="dress-card">
         <p class="ic-lbl" style="margin-bottom:8px;">Dress Code</p>
         <p class="ic-val" style="font-size:26px;">Formal Attire</p>
@@ -527,7 +718,6 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
         </div>
       </div>
 
-      <!-- divider -->
       <div class="fdiv">
         <div class="fdiv-line"></div>
         <svg width="40" height="22" viewBox="0 0 50 26" fill="none">
@@ -537,7 +727,6 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
         <div class="fdiv-line" style="background:linear-gradient(270deg,transparent,#d4b0a0 50%,transparent);"></div>
       </div>
 
-      <!-- Programme -->
       <p class="sec-eyebrow">Programme of Events</p>
       <ul class="prog-list" style="margin-bottom:40px;">
         <li class="prog-item"><p class="pt">5:30 PM</p><p class="pe">Arrival &amp; Cocktail Reception</p></li>
@@ -551,7 +740,6 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
       </ul>
     </div>
 
-    <!-- Portrait / quote panel -->
     <div class="portrait-panel">
       <div class="portrait-bg" id="portraitBg"></div>
       <span class="ph-badge">portrait.png — replace with her portrait</span>
@@ -564,7 +752,6 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
       </div>
     </div>
 
-    <!-- Footer -->
     <div class="p2-inner">
       <div class="inv-footer">
         <p class="footer-txt">
@@ -575,7 +762,6 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
         <p class="footer-txt" style="font-size:14px;color:var(--rose);">With love,</p>
         <span class="footer-name">luna &amp; Family</span>
         <span class="footer-contact">[Contact Number / Email]</span>
-
         <div class="fdiv" style="margin-top:30px;">
           <div class="fdiv-line"></div>
           <svg width="62" height="26" viewBox="0 0 70 28" fill="none">
@@ -593,226 +779,101 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
       </div>
     </div>
   </div>
-</div><!-- /#sMain -->
+</div>
 
 <script>
-/* ══════════════════════════
-   FALLING PETALS
-══════════════════════════ */
+/* PETALS */
 const canvas = document.getElementById('petalCanvas');
 const ctx = canvas.getContext('2d');
 let petals = [];
 const COLORS = ['#f9ddd5','#f5c8b8','#fae0d8','#eccabb','#f8e6de','#e8c0b0','#f5ddd2','#fce0d5','#f0c8be'];
+function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+resizeCanvas();window.addEventListener('resize',resizeCanvas);
+function mkPetal(){return{x:Math.random()*canvas.width,y:-25,size:6+Math.random()*14,color:COLORS[Math.floor(Math.random()*COLORS.length)],vy:0.25+Math.random()*0.5,vx:-0.2+Math.random()*0.4,angle:Math.random()*Math.PI*2,angV:(Math.random()-0.5)*0.014,sway:Math.random()*Math.PI*2,swayV:0.004+Math.random()*0.009,swayA:0.3+Math.random()*1.1,opacity:0.35+Math.random()*0.45,type:Math.floor(Math.random()*3)}}
+function drawPetal(p){ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.angle);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;ctx.beginPath();if(p.type===0){ctx.ellipse(0,0,p.size*0.36,p.size,0,0,Math.PI*2)}else if(p.type===1){ctx.moveTo(0,-p.size);ctx.bezierCurveTo(p.size*0.75,-p.size*0.5,p.size*0.75,p.size*0.35,0,p.size*0.5);ctx.bezierCurveTo(-p.size*0.75,p.size*0.35,-p.size*0.75,-p.size*0.5,0,-p.size)}else{ctx.ellipse(0,0,p.size*0.48,p.size*0.84,0,0,Math.PI*2)}ctx.fill();ctx.restore()}
+(function animatePetals(){ctx.clearRect(0,0,canvas.width,canvas.height);if(Math.random()<0.07&&petals.length<45)petals.push(mkPetal());petals=petals.filter(p=>p.y<canvas.height+30);petals.forEach(p=>{p.sway+=p.swayV;p.x+=p.vx+Math.sin(p.sway)*p.swayA;p.y+=p.vy;p.angle+=p.angV;drawPetal(p)});requestAnimationFrame(animatePetals)})();
 
-function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+/* MUSIC */
+let audio=null,musicPlaying=false;
+function initAudio(){if(audio)return;audio=new Audio('song.mp3');audio.loop=true;audio.volume=0.75}
+function playMusic(){initAudio();audio.play().catch(()=>{});musicPlaying=true;document.getElementById('musicBtn').textContent='🔇'}
+function stopMusic(){if(audio)audio.pause();musicPlaying=false;document.getElementById('musicBtn').textContent='🎵'}
+function toggleMusic(){if(musicPlaying)stopMusic();else playMusic()}
 
-function mkPetal() {
-  return {
-    x: Math.random() * canvas.width, y: -25,
-    size: 6 + Math.random() * 14,
-    color: COLORS[Math.floor(Math.random() * COLORS.length)],
-    vy: 0.25 + Math.random() * 0.5,
-    vx: -0.2 + Math.random() * 0.4,
-    angle: Math.random() * Math.PI * 2,
-    angV: (Math.random() - 0.5) * 0.014,
-    sway: Math.random() * Math.PI * 2,
-    swayV: 0.004 + Math.random() * 0.009,
-    swayA: 0.3 + Math.random() * 1.1,
-    opacity: 0.35 + Math.random() * 0.45,
-    type: Math.floor(Math.random() * 3)
-  };
+/* TRANSITIONS */
+function transitionTo(fromId,toId,cb){
+  const ov=document.getElementById('overlay');
+  ov.style.opacity='1';ov.style.pointerEvents='all';
+  setTimeout(()=>{
+    if(fromId){const f=document.getElementById(fromId);f.classList.add('hidden');if(fromId==='sMain')f.style.display='none'}
+    const t=document.getElementById(toId);
+    if(toId==='sMain'){t.style.display='block';t.classList.remove('hidden')}
+    else{t.classList.remove('hidden')}
+    window.scrollTo(0,0);
+    ov.style.opacity='0';ov.style.pointerEvents='none';
+    if(cb)cb();
+  },700);
 }
 
-function drawPetal(p) {
-  ctx.save();
-  ctx.translate(p.x, p.y);
-  ctx.rotate(p.angle);
-  ctx.globalAlpha = p.opacity;
-  ctx.fillStyle = p.color;
-  ctx.beginPath();
-  if (p.type === 0) {
-    ctx.ellipse(0, 0, p.size * 0.36, p.size, 0, 0, Math.PI * 2);
-  } else if (p.type === 1) {
-    ctx.moveTo(0, -p.size);
-    ctx.bezierCurveTo(p.size*0.75,-p.size*0.5, p.size*0.75,p.size*0.35, 0,p.size*0.5);
-    ctx.bezierCurveTo(-p.size*0.75,p.size*0.35, -p.size*0.75,-p.size*0.5, 0,-p.size);
-  } else {
-    ctx.ellipse(0, 0, p.size * 0.48, p.size * 0.84, 0, 0, Math.PI * 2);
-  }
-  ctx.fill();
-  ctx.restore();
-}
-
-(function animatePetals() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  if (Math.random() < 0.07 && petals.length < 45) petals.push(mkPetal());
-  petals = petals.filter(p => p.y < canvas.height + 30);
-  petals.forEach(p => {
-    p.sway += p.swayV;
-    p.x += p.vx + Math.sin(p.sway) * p.swayA;
-    p.y += p.vy;
-    p.angle += p.angV;
-    drawPetal(p);
-  });
-  requestAnimationFrame(animatePetals);
-})();
-
-/* ══════════════════════════
-   MUSIC — loads song.mp3
-══════════════════════════ */
-let audio = null;
-let musicPlaying = false;
-
-function initAudio() {
-  if (audio) return;
-  audio = new Audio('song.mp3');
-  audio.loop = true;
-  audio.volume = 0.75;
-}
-
-function playMusic() {
-  initAudio();
-  audio.play().catch(() => {});
-  musicPlaying = true;
-  document.getElementById('musicBtn').textContent = '🔇';
-}
-
-function stopMusic() {
-  if (audio) audio.pause();
-  musicPlaying = false;
-  document.getElementById('musicBtn').textContent = '🎵';
-}
-
-function toggleMusic() {
-  if (musicPlaying) stopMusic();
-  else playMusic();
-}
-
-/* ══════════════════════════
-   SCREEN TRANSITIONS
-══════════════════════════ */
-function transitionTo(fromId, toId, cb) {
-  const ov = document.getElementById('overlay');
-  ov.style.opacity = '1';
-  ov.style.pointerEvents = 'all';
-
-  setTimeout(() => {
-    if (fromId) {
-      const f = document.getElementById(fromId);
-      f.classList.add('hidden');
-      if (fromId === 'sMain') f.style.display = 'none';
-    }
-    const t = document.getElementById(toId);
-    if (toId === 'sMain') {
-      t.style.display = 'block';
-      t.classList.remove('hidden');
-    } else {
-      t.classList.remove('hidden');
-    }
-    window.scrollTo(0, 0);
-    ov.style.opacity = '0';
-    ov.style.pointerEvents = 'none';
-    if (cb) cb();
-  }, 700);
-}
-
-/* ══════════════════════════
-   SCREEN 1 → 2  (auto after intro)
-══════════════════════════ */
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    transitionTo('sIntro', 'sEnvelope');
-  }, 3200);
+window.addEventListener('load',()=>{
+  setTimeout(()=>transitionTo('sIntro','sEnvelope'),3200);
 });
 
-/* ══════════════════════════
-   SCREEN 2 → 3  (envelope open)
-══════════════════════════ */
-let envelopeOpened = false;
+/* ENVELOPE OPEN */
+let envelopeOpened=false;
 
-function openEnvelope() {
-  if (envelopeOpened) return;
-  envelopeOpened = true;
+function openEnvelope(){
+  if(envelopeOpened)return;
+  envelopeOpened=true;
 
-  const scene = document.getElementById('envScene');
-  scene.style.cursor = 'default';
+  const scene=document.getElementById('envScene');
 
-  /* open flap backward */
-  document.getElementById('envFlapInner').style.transform = 'rotateX(175deg)';
-  scene.style.transition = 'transform 0.5s ease';
-  scene.style.transform = 'translateY(-10px)';
+  // Phase 1: Add opening class — triggers flap CSS animation + envelope lift + shadow
+  scene.classList.add('opening');
 
-  /* hide wax seal */
-  setTimeout(() => {
-    document.getElementById('waxSeal').style.opacity = '0';
-  }, 300);
+  // Phase 2: Fade out the button immediately
+  const btn=document.getElementById('openBtn');
+  btn.style.transition='opacity 0.4s ease';
+  btn.style.opacity='0';
+  btn.style.pointerEvents='none';
 
-  /* fade out button */
-  document.getElementById('openBtn').style.opacity = '0';
+  // Phase 3: After flap is ~halfway open (~900ms), start raising the letter
+  setTimeout(()=>{
+    scene.classList.add('letter-out');
+  }, 900);
 
-  /* after letter rises, transition to poem */
-  setTimeout(() => {
-    transitionTo('sEnvelope', 'sPoem', () => {
+  // Phase 4: Transition to poem screen
+  setTimeout(()=>{
+    transitionTo('sEnvelope','sPoem',()=>{
       playMusic();
       document.getElementById('musicBtn').classList.add('show');
       startPoem();
     });
-  }, 2400);
+  }, 2600);
 }
 
-/* ══════════════════════════
-   SCREEN 3 → 4  (poem done / skip)
-══════════════════════════ */
-function goToMain() {
-  transitionTo('sPoem', 'sMain');
-}
-
-/* ══════════════════════════
-   POEM — slow per-line reveal
-══════════════════════════ */
-const poemSequence = [
-  { id: 'pd0', delay: 700  },
-  { id: 'pl0', delay: 2000 },
-  { id: 'pl1', delay: 5000 },
-  { id: 'pd1', delay: 8000 },
-  { id: 'pl2', delay: 9500 },
-  { id: 'pl3', delay: 13000},
-  { id: 'pd2', delay: 16500},
+/* POEM */
+function goToMain(){transitionTo('sPoem','sMain')}
+const poemSequence=[
+  {id:'pd0',delay:700},{id:'pl0',delay:2000},{id:'pl1',delay:5000},
+  {id:'pd1',delay:8000},{id:'pl2',delay:9500},{id:'pl3',delay:13000},{id:'pd2',delay:16500}
 ];
-
-const AUTO_ADVANCE_MS = 19500; /* auto-advance to main after poem */
-
-function startPoem() {
-  poemSequence.forEach(({ id, delay }) => {
-    setTimeout(() => {
-      const el = document.getElementById(id);
-      if (el) el.classList.add('visible');
-    }, delay);
+const AUTO_ADVANCE_MS=19500;
+function startPoem(){
+  poemSequence.forEach(({id,delay})=>{
+    setTimeout(()=>{const el=document.getElementById(id);if(el)el.classList.add('visible')},delay);
   });
-  setTimeout(goToMain, AUTO_ADVANCE_MS);
+  setTimeout(goToMain,AUTO_ADVANCE_MS);
 }
 
-/* ══════════════════════════
-   OPTIONAL: swap in real photos
-   Place hero.png and portrait.png
-   in the same folder as this file.
-══════════════════════════ */
-function tryBg(src, id) {
-  const img = new Image();
-  img.onload = () => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.style.backgroundImage = `url('${src}')`;
-      el.style.backgroundSize = 'cover';
-      el.style.backgroundPosition = 'center';
-    }
-  };
-  img.src = src;
+/* BG PHOTOS */
+function tryBg(src,id){
+  const img=new Image();
+  img.onload=()=>{const el=document.getElementById(id);if(el){el.style.backgroundImage=`url('${src}')`;el.style.backgroundSize='cover';el.style.backgroundPosition='center'}};
+  img.src=src;
 }
-tryBg('hero.png', 'heroBg');
-tryBg('portrait.png', 'portraitBg');
+tryBg('hero.png','heroBg');
+tryBg('portrait.png','portraitBg');
 </script>
 </body>
 </html>
