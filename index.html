@@ -8,8 +8,8 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --cream:#fdf7f2;--blush:#f9e8df;--rose:#e8b8a4;--dusty:#c98870;
-  --deep:#6b3a2a;--muted:#b0857a;--warm:#f2d5c8;
+  --cream:#fdf6f7;--blush:#f9e3ec;--rose:#e8a4c0;--dusty:#c9678f;
+  --deep:#7a2348;--muted:#a8677f;--warm:#f2c8d9;
 }
 html{scroll-behavior:smooth}
 body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant Garamond',serif;margin:0}
@@ -224,7 +224,7 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
   text-align:center;
   box-shadow:0 2px 14px rgba(120,60,40,0.12);
 }
-.letter-paper .lt{font-family:'Pinyon Script',cursive;font-size:20px;color:#9e6050}
+.letter-paper .lt{font-family:'Pinyon Script',cursive;font-size:20px;color:#9e3f65}
 .letter-paper .ld{height:1px;background:linear-gradient(90deg,transparent,#e0c0b0,transparent);margin:6px 0}
 .letter-paper .ls{font-style:italic;font-size:10px;color:var(--muted);letter-spacing:0.2em}
 
@@ -294,7 +294,7 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
   linear-gradient(135deg,#f7ddd0 0%,#e0a898 40%,#c8887a 100%)}
 .poem-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(110,45,35,0.04) 0%,rgba(253,245,240,0.45) 60%,var(--cream) 100%)}
 .poem-content{position:relative;z-index:2;text-align:center;padding:0 28px;display:flex;flex-direction:column;align-items:center;gap:22px;max-width:580px}
-.poem-line{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(17px,3.2vw,26px);color:#4e2018;opacity:0;transform:translateY(28px);transition:opacity 1.6s ease,transform 1.6s ease;line-height:1.85;letter-spacing:0.01em}
+.poem-line{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(17px,3.2vw,26px);color:#5a1830;opacity:0;transform:translateY(28px);transition:opacity 1.6s ease,transform 1.6s ease;line-height:1.85;letter-spacing:0.01em}
 .poem-line.visible{opacity:1;transform:translateY(0)}
 .poem-divider{width:50px;height:1px;background:linear-gradient(90deg,transparent,rgba(180,110,80,0.5),transparent);opacity:0;transition:opacity 1.2s ease}
 .poem-divider.visible{opacity:1}
@@ -362,9 +362,12 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
   position:relative;
   background-size:cover;
   background-position:center;
-  border-radius:2px;
+  border-radius:0;
   padding:36px 16px;
-  margin:0 -16px 8px;
+  width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
+  margin-bottom:8px;
 }
 .section-bg::before{
   content:'';
@@ -372,8 +375,8 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
   background:rgba(253,247,242,0.85);
   z-index:0;
 }
-.section-bg > *{position:relative;z-index:1}
-@media(min-width:600px){.section-bg{padding:44px 30px;margin:0 -30px 8px;border-radius:4px}}
+.section-bg > *{position:relative;z-index:1;max-width:640px;margin-left:auto;margin-right:auto;padding-left:16px;padding-right:16px}
+@media(min-width:600px){.section-bg{padding:44px 0}.section-bg > *{padding-left:30px;padding-right:30px}}
 
 .portrait-panel{position:relative;width:100%;height:420px;margin:50px 0;overflow:hidden}
 .portrait-bg{position:absolute;inset:0;background:
@@ -545,7 +548,7 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
         </div>
 
         <div class="env-address">
-          <span style="font-style:italic;font-size:10px;color:#c4a090;letter-spacing:0.3em;text-transform:uppercase;display:block;margin-bottom:4px;">To</span>
+          <span style="font-style:italic;font-size:10px;color:#c48099;letter-spacing:0.3em;text-transform:uppercase;display:block;margin-bottom:4px;">To</span>
         </div>
 
         <div class="wax-seal" id="waxSeal">
@@ -584,27 +587,6 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
   <div class="p2-hero">
     <div class="p2-hero-bg" id="heroBg"></div>
     <div class="p2-hero-content">
-      <svg width="380" viewBox="0 0 580 90" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width:90vw;margin-bottom:8px;">
-        <path d="M290 86 C287 66 277 52 258 38" stroke="rgba(255,240,230,0.7)" stroke-width="1.2" fill="none"/>
-        <path d="M290 86 C293 66 303 52 322 38" stroke="rgba(255,240,230,0.7)" stroke-width="1.2" fill="none"/>
-        <path d="M290 74 C262 60 236 48 210 32" stroke="rgba(255,240,230,0.5)" stroke-width="0.9" fill="none"/>
-        <path d="M290 74 C318 60 344 48 370 32" stroke="rgba(255,240,230,0.5)" stroke-width="0.9" fill="none"/>
-        <path d="M290 58 C252 42 220 30 186 14" stroke="rgba(255,240,230,0.35)" stroke-width="0.7" fill="none"/>
-        <path d="M290 58 C328 42 360 30 394 14" stroke="rgba(255,240,230,0.35)" stroke-width="0.7" fill="none"/>
-        <ellipse cx="258" cy="44" rx="13" ry="9" fill="#f5ddd0" opacity="0.75" transform="rotate(-28 258 44)"/>
-        <circle cx="258" cy="41" r="3" fill="#fff8f2"/>
-        <ellipse cx="322" cy="44" rx="13" ry="9" fill="#f5ddd0" opacity="0.75" transform="rotate(28 322 44)"/>
-        <circle cx="322" cy="41" r="3" fill="#fff8f2"/>
-        <ellipse cx="216" cy="29" rx="11" ry="7.5" fill="#f5ddd0" opacity="0.6" transform="rotate(-45 216 29)"/>
-        <circle cx="216" cy="26" r="2.5" fill="#fff8f2"/>
-        <ellipse cx="364" cy="29" rx="11" ry="7.5" fill="#f5ddd0" opacity="0.6" transform="rotate(45 364 29)"/>
-        <circle cx="364" cy="26" r="2.5" fill="#fff8f2"/>
-        <ellipse cx="290" cy="28" rx="19" ry="15" fill="#f5ddd0" opacity="0.65"/>
-        <ellipse cx="288" cy="24" rx="13" ry="11" fill="#fbe8dc"/>
-        <circle cx="290" cy="20" r="4.2" fill="#fff8f2"/>
-        <ellipse cx="184" cy="12" rx="8" ry="5.5" fill="#f5ddd0" opacity="0.45" transform="rotate(-55 184 12)"/>
-        <ellipse cx="396" cy="12" rx="8" ry="5.5" fill="#f5ddd0" opacity="0.45" transform="rotate(55 396 12)"/>
-      </svg>
       <span class="hero-eyebrow">cordially invites you to celebrate</span>
       <h1 class="hero-name">luna my crux</h1>
       <div class="hero-rule">
@@ -714,13 +696,6 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 
     <div class="portrait-panel">
       <div class="portrait-bg" id="portraitBg"></div>
-      <div class="portrait-quote-wrap">
-        <p class="portrait-quote">
-          "Tonight, she steps into<br>
-          the light she was always<br>
-          meant to shine in."
-        </p>
-      </div>
     </div>
 
     <div class="p2-inner">
