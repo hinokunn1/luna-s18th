@@ -5,11 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>You're Invited — A Debut Celebration</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="main-picture.jpeg">
+<link rel="preload" as="image" href="bg-date-venue.jpeg">
+<link rel="preload" as="image" href="bg-dress-code.jpeg">
+<link rel="preload" as="image" href="bg-programme.JPG">
+<link rel="preload" as="image" href="bg-footer.jpeg">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --cream:#fdf6f7;--blush:#f9e3ec;--rose:#e8a4c0;--dusty:#c9678f;
-  --deep:#7a2348;--muted:#a8677f;--warm:#f2c8d9;
+  --cream:#fbe4e8;--blush:#f9e8df;--rose:#e8b8a4;--dusty:#c98870;
+  --deep:#6b3a2a;--muted:#b0857a;--warm:#f2d5c8;
 }
 html{scroll-behavior:smooth}
 body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant Garamond',serif;margin:0}
@@ -224,7 +229,7 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
   text-align:center;
   box-shadow:0 2px 14px rgba(120,60,40,0.12);
 }
-.letter-paper .lt{font-family:'Pinyon Script',cursive;font-size:20px;color:#9e3f65}
+.letter-paper .lt{font-family:'Pinyon Script',cursive;font-size:20px;color:#9e6050}
 .letter-paper .ld{height:1px;background:linear-gradient(90deg,transparent,#e0c0b0,transparent);margin:6px 0}
 .letter-paper .ls{font-style:italic;font-size:10px;color:var(--muted);letter-spacing:0.2em}
 
@@ -294,7 +299,7 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
   linear-gradient(135deg,#f7ddd0 0%,#e0a898 40%,#c8887a 100%)}
 .poem-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(110,45,35,0.04) 0%,rgba(253,245,240,0.45) 60%,var(--cream) 100%)}
 .poem-content{position:relative;z-index:2;text-align:center;padding:0 28px;display:flex;flex-direction:column;align-items:center;gap:22px;max-width:580px}
-.poem-line{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(17px,3.2vw,26px);color:#5a1830;opacity:0;transform:translateY(28px);transition:opacity 1.6s ease,transform 1.6s ease;line-height:1.85;letter-spacing:0.01em}
+.poem-line{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(17px,3.2vw,26px);color:#4e2018;opacity:0;transform:translateY(28px);transition:opacity 1.6s ease,transform 1.6s ease;line-height:1.85;letter-spacing:0.01em}
 .poem-line.visible{opacity:1;transform:translateY(0)}
 .poem-divider{width:50px;height:1px;background:linear-gradient(90deg,transparent,rgba(180,110,80,0.5),transparent);opacity:0;transition:opacity 1.2s ease}
 .poem-divider.visible{opacity:1}
@@ -310,7 +315,7 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
   radial-gradient(ellipse 55% 80% at 28% 28%,#f5c8b0 0%,transparent 55%),
   radial-gradient(ellipse 70% 60% at 80% 80%,#d8a898 0%,transparent 55%),
   linear-gradient(135deg,#f7ddd0 0%,#e0a898 40%,#c8887a 100%);
-  background-size:cover;background-position:center;
+  background-size:cover;background-position:center top;
 }
 .p2-hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(70,25,15,0.28) 0%,rgba(90,35,20,0.32) 45%,rgba(253,245,240,0.72) 82%,var(--cream) 100%)}
 .p2-hero-content{position:relative;z-index:2;text-align:center;padding:0 24px;animation:fadeUp 1s ease 0.3s both}
@@ -357,11 +362,19 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 .pt{font-style:italic;font-size:11.5px;color:var(--rose);letter-spacing:0.12em}
 .pe{font-family:'Playfair Display',serif;font-size:17px;color:var(--deep);line-height:1.4;margin-top:2px}
 
+.trad-group{margin-bottom:34px}
+.trad-group:last-child{margin-bottom:0}
+.trad-title{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:var(--deep);text-align:center;letter-spacing:0.04em;margin-bottom:16px;position:relative}
+.trad-title::after{content:'';display:block;width:34px;height:1px;background:var(--rose);margin:8px auto 0;opacity:0.7}
+.trad-list{list-style:decimal;max-width:400px;margin:0 auto;padding-left:26px}
+.trad-list li{font-style:italic;font-size:14.5px;color:var(--muted);line-height:2;padding-left:4px}
+.trad-list li::marker{color:var(--rose);font-style:normal}
+
 /* SECTION BACKGROUND PHOTOS */
 .section-bg{
   position:relative;
   background-size:cover;
-  background-position:center;
+  background-position:center top;
   border-radius:0;
   padding:36px 16px;
   width:100vw;
@@ -372,22 +385,11 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 .section-bg::before{
   content:'';
   position:absolute;inset:0;
-  background:rgba(253,247,242,0.85);
+  background:rgba(251,228,232,0.85);
   z-index:0;
 }
 .section-bg > *{position:relative;z-index:1;max-width:640px;margin-left:auto;margin-right:auto;padding-left:16px;padding-right:16px}
 @media(min-width:600px){.section-bg{padding:44px 0}.section-bg > *{padding-left:30px;padding-right:30px}}
-
-.portrait-panel{position:relative;width:100%;height:420px;margin:50px 0;overflow:hidden}
-.portrait-bg{position:absolute;inset:0;background:
-  radial-gradient(ellipse 80% 80% at 65% 40%,#eec5b0 0%,transparent 58%),
-  radial-gradient(ellipse 60% 80% at 20% 85%,#d8a898 0%,transparent 55%),
-  linear-gradient(130deg,#f5ddd2 0%,#d4a090 100%);
-  background-size:cover;background-position:center 25%;
-}
-.portrait-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(50,20,12,0.55) 0%,rgba(50,20,12,0.05) 55%,transparent 100%)}
-.portrait-quote-wrap{position:relative;z-index:2;height:100%;display:flex;align-items:flex-end;padding:34px}
-.portrait-quote{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:#fff6f0;line-height:1.85;max-width:320px;text-shadow:0 2px 14px rgba(0,0,0,0.4)}
 
 .inv-footer{text-align:center;padding-top:32px;border-top:1px solid #e8d0c4;margin-top:18px}
 .footer-txt{font-style:italic;font-size:16.5px;color:var(--muted);line-height:2.1}
@@ -548,7 +550,7 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
         </div>
 
         <div class="env-address">
-          <span style="font-style:italic;font-size:10px;color:#c48099;letter-spacing:0.3em;text-transform:uppercase;display:block;margin-bottom:4px;">To</span>
+          <span style="font-style:italic;font-size:10px;color:#c4a090;letter-spacing:0.3em;text-transform:uppercase;display:block;margin-bottom:4px;">To</span>
         </div>
 
         <div class="wax-seal" id="waxSeal">
@@ -680,22 +682,106 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
       </div>
 
       <div class="section-bg" style="background-image:url('bg-programme.JPG');">
-      <p class="sec-eyebrow">Programme of Events</p>
-      <ul class="prog-list" style="margin-bottom:0;">
-        <li class="prog-item"><p class="pt">5:30 PM</p><p class="pe">Arrival &amp; Cocktail Reception</p></li>
-        <li class="prog-item"><p class="pt">6:30 PM</p><p class="pe">Grand Entrance of the Debutante</p></li>
-        <li class="prog-item"><p class="pt">6:45 PM</p><p class="pe">Eighteen Roses Ceremony</p></li>
-        <li class="prog-item"><p class="pt">7:15 PM</p><p class="pe">Eighteen Candles &amp; Treasure</p></li>
-        <li class="prog-item"><p class="pt">7:45 PM</p><p class="pe">Dinner is Served</p></li>
-        <li class="prog-item"><p class="pt">8:30 PM</p><p class="pe">Cotillion de Honor</p></li>
-        <li class="prog-item"><p class="pt">9:30 PM</p><p class="pe">Debutante's Message &amp; Toast</p></li>
-        <li class="prog-item"><p class="pt">10:00 PM</p><p class="pe">Open Dancing &amp; Celebration</p></li>
-      </ul>
-      </div>
-    </div>
+      <p class="sec-eyebrow">18 Traditions</p>
 
-    <div class="portrait-panel">
-      <div class="portrait-bg" id="portraitBg"></div>
+      <div class="trad-group">
+        <p class="trad-title">18 Roses</p>
+        <ol class="trad-list">
+          <li>Ranjith Luna</li>
+          <li>Matthew Paramio</li>
+          <li>Sanjie Gatchalian</li>
+          <li>Gerome De Vera</li>
+          <li>Tristhan Rivera</li>
+          <li>Patrick Aquino</li>
+          <li>Emman Cube</li>
+          <li>Mr. Jeff Malong</li>
+          <li>Justin Obedoza</li>
+          <li>Josh Obedoza</li>
+          <li>Mr. Manny</li>
+          <li>Mr. Roldan Luna</li>
+          <li>Mr. Robert Luna</li>
+          <li>Mr. Ricky Luna</li>
+          <li>Mr. Ronald Luna</li>
+          <li>Mr. Randy Luna</li>
+          <li>Mr. Rhem Siapno</li>
+          <li>Rannie Luna</li>
+        </ol>
+      </div>
+
+      <div class="trad-group">
+        <p class="trad-title">18 Treasures</p>
+        <ol class="trad-list">
+          <li>Jaenna Arias</li>
+          <li>Heart Dela Cruz</li>
+          <li>Stephanie Diocares</li>
+          <li>Mikhaella Meneses</li>
+          <li>Noreen Jaramillo</li>
+          <li>Estephanie Mabajen</li>
+          <li>Sophia Cabrito</li>
+          <li>Aiden Tarlit</li>
+          <li>Heizel Berk</li>
+          <li>Mrs. Ryka Narvante-Halili</li>
+          <li>Ronalyn Luna</li>
+          <li>Rhesalyn Luna</li>
+          <li>Mrs. Paulyn Luna</li>
+          <li>Mrs. Shirley Luna</li>
+          <li>Mrs. Jovy Obedoza</li>
+          <li>Mrs. Jovencia Obedoza</li>
+          <li>Mrs. Juanita Luna</li>
+          <li>Mrs. CJ Baguis</li>
+          <li>Joan Luna</li>
+        </ol>
+      </div>
+
+      <div class="trad-group">
+        <p class="trad-title">18 Books</p>
+        <ol class="trad-list">
+          <li>Angelica Luna</li>
+          <li>Juliana Lalimo</li>
+          <li>Leana Ramos</li>
+          <li>Girlie Mabajen</li>
+          <li>Julianna Clata</li>
+          <li>Lorraine Lagatao</li>
+          <li>Barbie Laguerta</li>
+          <li>Jewel Ulanday</li>
+          <li>Mya Cabansag</li>
+          <li>Sophia Fernandez</li>
+          <li>Sophea Viray</li>
+          <li>Cyrel Columbres</li>
+          <li>Ashley Badinas</li>
+          <li>Leana Visperas</li>
+          <li>Hanna Ferrer</li>
+          <li>Timothy Diaz</li>
+          <li>Pauleen Calicdan</li>
+          <li>Ms. Marlyn Suarez</li>
+          <li>Jennica De Vera</li>
+        </ol>
+      </div>
+
+      <div class="trad-group">
+        <p class="trad-title">18 Blessings</p>
+        <ol class="trad-list">
+          <li>Mrs. Josephine Paldeng</li>
+          <li>Mrs. Lina Obedoza</li>
+          <li>Mr. Mauro Paldeng</li>
+          <li>Mr. Jr. Obedoza</li>
+          <li>Mrs. Kendy Sarmiento</li>
+          <li>Mr. Nestor Bonrostro</li>
+          <li>Mr. Jay Siapno</li>
+          <li>Ms. Cheila Abuibag</li>
+          <li>Mrs. Jesibeth Salazar</li>
+          <li>Mrs. Evelyn Obedoza</li>
+          <li>Mrs. Judith Millaflores</li>
+          <li>Mr. Renelle Luna</li>
+          <li>Mr. Rolly Bermuedez</li>
+          <li>Ms. Chelzia Calixtro</li>
+          <li>Mrs. Delia Talpis</li>
+          <li>Mrs. Lorna De Vera</li>
+          <li>Rowena Luna Onuki</li>
+        </ol>
+      </div>
+
+      </div>
     </div>
 
     <div class="p2-inner">
@@ -812,11 +898,10 @@ function startPoem(){
 /* BG PHOTOS */
 function tryBg(src,id){
   const img=new Image();
-  img.onload=()=>{const el=document.getElementById(id);if(el){el.style.backgroundImage=`url('${src}')`;el.style.backgroundSize='cover';el.style.backgroundPosition='center'}};
+  img.onload=()=>{const el=document.getElementById(id);if(el){el.style.backgroundImage=`url('${src}')`;el.style.backgroundSize='cover';el.style.backgroundPosition='center top'}};
   img.src=src;
 }
 tryBg('main-picture.jpeg','heroBg');
-tryBg('portrait-photo.jpg','portraitBg');
 </script>
 </body>
 </html>
