@@ -371,6 +371,9 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 .trad-list li{font-style:italic;font-size:14.5px;color:var(--muted);line-height:2;padding-left:4px}
 .trad-list li::marker{color:var(--rose);font-style:normal}
 
+.venue-photo{width:100%;aspect-ratio:16/10;border-radius:6px;overflow:hidden;margin:14px 0;background:var(--blush);border:1px solid #ead4c8}
+.venue-photo img{width:100%;height:100%;object-fit:cover;display:block}
+
 /* PHOTO BREAK PANELS — full-bleed photo strips between sections */
 .photo-break{
   position:relative;
@@ -392,6 +395,12 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
   content:'';
   position:absolute;bottom:0;left:0;right:0;height:60px;
   background:linear-gradient(to top,var(--cream) 0%,transparent 100%);
+}
+@media(min-width:900px){
+  .photo-break{height:560px;}
+}
+@media(min-width:1300px){
+  .photo-break{height:680px;}
 }
 
 .inv-footer{text-align:center;padding-top:32px;border-top:1px solid #e8d0c4;margin-top:18px}
@@ -593,7 +602,7 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
     <div class="p2-hero-bg" id="heroBg"></div>
     <div class="p2-hero-content">
       <span class="hero-eyebrow">cordially invites you to celebrate</span>
-      <h1 class="hero-name">Janelle</h1>
+      <h1 class="hero-name">luna my crux</h1>
       <div class="hero-rule">
         <div class="hero-rule-line"></div>
         <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
@@ -643,8 +652,7 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/></svg>
           </div>
           <p class="ic-lbl">Time</p>
-          <p class="ic-val">6:00 PM</p>
-          <p class="ic-sub">Doors open at 5:30 PM</p>
+          <p class="ic-val">5:00 PM</p>
         </div>
         <div class="ic full">
           <div class="ic-icon">
@@ -652,22 +660,33 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
           </div>
           <p class="ic-lbl">Venue</p>
           <p class="ic-val">Grand Lourds Hotel</p>
-          <p class="ic-sub">#1 Judge Jose De Venecia Road, Calasiao<br>
+          <div class="venue-photo">
+            <img src="venue.jpg" alt="Grand Lourds Hotel" onerror="this.parentElement.style.display='none'">
+          </div>
+          <p class="ic-sub">Calasiao, Pangasinan<br>
             <a href="https://maps.google.com/?q=Grand+Lourdes+Hotel+Calasiao" target="_blank" class="location-link">- Click Me to View Location -</a>
           </p>
+        </div>
+        <div class="ic full">
+          <div class="ic-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.5 6.5L21 9l-5 4.5L17.5 21 12 17l-5.5 4L8 13.5 3 9l6.5-0.5z"/></svg>
+          </div>
+          <p class="ic-lbl">Theme</p>
+          <p class="ic-val">Radiance in Bloom</p>
         </div>
       </div>
 
       <div class="dress-card">
-        <p class="ic-lbl" style="margin-bottom:8px;">Dress Code</p>
-        <p class="ic-val" style="font-size:26px;">Formal Attire</p>
-        <p class="ic-sub" style="margin-bottom:12px;">Blush, Ivory &amp; Soft Rose tones preferred</p>
+        <p class="ic-lbl" style="margin-bottom:8px;">Guests' Dress Code</p>
+        <p class="ic-val" style="font-size:20px;">Girls — Semi-Formal Dress</p>
+        <p class="ic-val" style="font-size:20px;margin-top:4px;">Boys — Polo / Long-Sleeved Polo</p>
+        <p class="ic-lbl" style="margin:16px 0 8px;">Color Coding</p>
         <div class="swatches">
-          <div class="swatch" style="background:#f9e4da;" title="Blush"></div>
-          <div class="swatch" style="background:#fdf6f0;" title="Ivory"></div>
-          <div class="swatch" style="background:#f0cdbf;" title="Soft Peach"></div>
-          <div class="swatch" style="background:#e2b4a5;" title="Dusty Rose"></div>
-          <div class="swatch" style="background:#c99890;" title="Muted Rose"></div>
+          <div class="swatch" style="background:#bcdfc4;" title="Pastel Green"></div>
+          <div class="swatch" style="background:#f2e7a8;" title="Pastel Yellow"></div>
+          <div class="swatch" style="background:#b9d7ea;" title="Pastel Blue"></div>
+          <div class="swatch" style="background:#f2c4a0;" title="Peach"></div>
+          <div class="swatch" style="background:#ecdcb8;" title="Champagne"></div>
         </div>
       </div>
 
