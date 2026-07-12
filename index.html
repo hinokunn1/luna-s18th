@@ -352,6 +352,26 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 .swatches{display:flex;justify-content:center;gap:10px;margin-top:14px}
 .swatch{width:28px;height:28px;border-radius:50%;border:1px solid rgba(180,130,110,0.25);box-shadow:0 2px 6px rgba(0,0,0,0.07);transition:transform 0.2s ease}
 .swatch:hover{transform:scale(1.18)}
+.dress-note{
+  margin-top:22px;
+  padding-top:18px;
+  border-top:1px dashed rgba(201,136,112,0.4);
+  font-style:italic;
+  font-size:13px;
+  color:var(--dusty);
+  letter-spacing:0.03em;
+  line-height:1.7;
+}
+.dress-note strong{
+  font-style:normal;
+  font-weight:600;
+  color:var(--deep);
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  font-size:11px;
+  display:block;
+  margin-bottom:6px;
+}
 
 .prog-list{list-style:none;border-left:1px solid #d4b0a0;margin-left:22px;padding-left:26px}
 .prog-item{position:relative;margin-bottom:22px}
@@ -362,13 +382,13 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 
 .trad-group{margin-bottom:22px}
 .trad-group:last-child{margin-bottom:0}
-.trad-card{background:linear-gradient(160deg,#fffaf7 0%,#fdf3ec 100%);border:1px solid #ead4c8;padding:28px 22px 24px;position:relative}
+.trad-card{background:linear-gradient(160deg,#fffaf7 0%,#fdf3ec 100%);border:1px solid #ead4c8;padding:28px 22px 24px;position:relative;text-align:center}
 .trad-card::before{content:'';position:absolute;top:0;left:0;width:30px;height:30px;border-top:1px solid rgba(200,150,130,0.4);border-left:1px solid rgba(200,150,130,0.4)}
 .trad-card::after{content:'';position:absolute;bottom:0;right:0;width:30px;height:30px;border-bottom:1px solid rgba(200,150,130,0.4);border-right:1px solid rgba(200,150,130,0.4)}
 .trad-title{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:var(--deep);text-align:center;letter-spacing:0.04em;margin-bottom:16px;position:relative}
 .trad-title::after{content:'';display:block;width:34px;height:1px;background:var(--rose);margin:8px auto 0;opacity:0.7}
-.trad-list{list-style:decimal;max-width:340px;margin:0 auto;padding-left:26px}
-.trad-list li{font-style:italic;font-size:14.5px;color:var(--muted);line-height:2;padding-left:4px}
+.trad-list{list-style:decimal;max-width:280px;display:inline-block;text-align:center;padding-left:0;}
+.trad-list li{font-style:italic;font-size:14.5px;color:var(--muted);line-height:2;list-style-position:inside;}
 .trad-list li::marker{color:var(--rose);font-style:normal}
 
 .venue-photo{width:100%;aspect-ratio:16/10;border-radius:6px;overflow:hidden;margin:14px 0;background:var(--blush);border:1px solid #ead4c8}
@@ -402,6 +422,45 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 @media(min-width:1300px){
   .photo-break{height:680px;}
 }
+
+.rsvp-notice{
+  background:linear-gradient(160deg,#fdf3ec 0%,#f9e4d8 100%);
+  border:1px solid #e8c5b0;
+  padding:26px 24px;
+  text-align:center;
+  margin:8px 0 24px;
+  position:relative;
+}
+.rsvp-notice::before{content:'';position:absolute;top:0;left:0;width:26px;height:26px;border-top:1px solid rgba(200,150,130,0.5);border-left:1px solid rgba(200,150,130,0.5)}
+.rsvp-notice::after{content:'';position:absolute;bottom:0;right:0;width:26px;height:26px;border-bottom:1px solid rgba(200,150,130,0.5);border-right:1px solid rgba(200,150,130,0.5)}
+.rsvp-notice .ic-lbl{margin-bottom:8px;}
+.rsvp-msg{font-style:italic;font-size:14.5px;color:var(--deep);line-height:1.85;margin-bottom:14px;}
+.rsvp-deadline{
+  display:inline-block;
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:17px;
+  color:#a05038;
+  border:1px solid rgba(201,136,112,0.5);
+  border-radius:30px;
+  padding:8px 26px;
+  margin-bottom:16px;
+  background:rgba(255,255,255,0.5);
+}
+.rsvp-link{
+  display:inline-block;
+  font-style:italic;
+  font-size:13.5px;
+  color:#fff;
+  background:var(--dusty);
+  letter-spacing:0.12em;
+  text-decoration:none;
+  padding:12px 34px;
+  border-radius:40px;
+  transition:all 0.3s ease;
+  box-shadow:0 6px 18px rgba(180,100,70,0.22);
+}
+.rsvp-link:hover{background:var(--deep);transform:translateY(-2px);box-shadow:0 8px 22px rgba(120,60,40,0.28)}
 
 .inv-footer{text-align:center;padding-top:32px;border-top:1px solid #e8d0c4;margin-top:18px}
 .footer-txt{font-style:italic;font-size:16.5px;color:var(--muted);line-height:2.1}
@@ -688,6 +747,10 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
           <div class="swatch" style="background:#f2c4a0;" title="Peach"></div>
           <div class="swatch" style="background:#ecdcb8;" title="Champagne"></div>
         </div>
+        <div class="dress-note">
+          <strong>Please Note</strong>
+          We kindly ask all guests to observe the dress code and color motif above to help complete the theme of the celebration. Your effort means so much to us!
+        </div>
       </div>
 
       <div class="photo-break" style="background-image:url('bg-dress-code.jpeg');"></div>
@@ -802,12 +865,19 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
     </div>
 
     <div class="p2-inner">
-      <div class="inv-footer" style="border-top-color:rgba(232,208,196,0.7);">
-        <p class="footer-txt">
-          Kindly confirm your attendance by<br>
-          <em style="color:var(--dusty);font-size:18px;">[RSVP Date]</em>
+      <p class="sec-eyebrow" style="margin-bottom:16px;margin-top:52px;">RSVP</p>
+      <div class="rsvp-notice">
+        <p class="ic-lbl">Kindly Confirm Your Attendance</p>
+        <p class="rsvp-msg">
+          Your presence means the world to us! To help us prepare and finalize<br>
+          the seating and catering, please take a moment to fill out our RSVP form.
         </p>
-        <div style="height:24px;"></div>
+        <p class="rsvp-deadline">Please RSVP on or before <em>[RSVP Date]</em></p>
+        <br>
+        <a href="#" class="rsvp-link" target="_blank">Fill Up RSVP Form</a>
+      </div>
+
+      <div class="inv-footer" style="border-top-color:rgba(232,208,196,0.7);">
         <p class="footer-txt" style="font-size:14px;color:var(--rose);">With love,</p>
         <span class="footer-name">luna &amp; Family</span>
         <span class="footer-contact">[Contact Number / Email]</span>
@@ -899,7 +969,14 @@ function openEnvelope(){
 }
 
 /* POEM */
-function goToMain(){transitionTo('sPoem','sMain')}
+let autoAdvanceTimer=null;
+let mainReached=false;
+function goToMain(){
+  if(mainReached)return;
+  mainReached=true;
+  if(autoAdvanceTimer){clearTimeout(autoAdvanceTimer);autoAdvanceTimer=null}
+  transitionTo('sPoem','sMain');
+}
 const poemSequence=[
   {id:'pd0',delay:700},{id:'pl0',delay:2000},{id:'pl1',delay:5000},
   {id:'pd1',delay:8000},{id:'pl2',delay:9500},{id:'pl3',delay:13000},{id:'pd2',delay:16500}
@@ -909,7 +986,7 @@ function startPoem(){
   poemSequence.forEach(({id,delay})=>{
     setTimeout(()=>{const el=document.getElementById(id);if(el)el.classList.add('visible')},delay);
   });
-  setTimeout(goToMain,AUTO_ADVANCE_MS);
+  autoAdvanceTimer=setTimeout(goToMain,AUTO_ADVANCE_MS);
 }
 
 /* BG PHOTOS */
