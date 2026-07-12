@@ -845,7 +845,7 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 
       <div class="trad-group">
         <div class="trad-card">
-        <p class="trad-title">18 Blessings</p>
+        <p class="trad-title">18 Blessings (Blue Bills)</p>
         <ol class="trad-list">
           <li>Mrs. Josephine Paldeng</li>
           <li>Mrs. Lina Obedoza</li>
@@ -878,15 +878,15 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
           Your presence means the world to us! To help us prepare and finalize<br>
           the seating and catering, please take a moment to fill out our RSVP form.
         </p>
-        <p class="rsvp-deadline">Please RSVP on or before <em>[RSVP Date]</em></p>
+        <p class="rsvp-deadline">Please RSVP on or before <em>July 15</em></p>
         <br>
-        <a href="#" class="rsvp-link" target="_blank">Fill Up RSVP Form</a>
+        <a href="https://forms.gle/7gpoXByTqNNV3JGeA" class="rsvp-link" target="_blank">Fill Up RSVP Form</a>
       </div>
 
       <div class="inv-footer" style="border-top-color:rgba(232,208,196,0.7);">
         <p class="footer-txt" style="font-size:14px;color:var(--rose);">With love,</p>
-        <span class="footer-name">luna &amp; Family</span>
-        <span class="footer-contact">[Contact Number / Email]</span>
+        <span class="footer-name">Janelle &amp; Family</span>
+        <span class="footer-contact"></span>
         <div class="fdiv" style="margin-top:30px;">
           <div class="fdiv-line"></div>
           <svg width="62" height="26" viewBox="0 0 70 28" fill="none">
@@ -935,20 +935,16 @@ function initPoemSlideshow(){
   }
   function start(){
     if(loaded.length===0)return;
-    loaded.forEach((src)=>{
+    loaded.forEach((src,idx)=>{
       const im=document.createElement('img');
       im.src=src;
+      if(idx===0)im.classList.add('active');
       container.appendChild(im);
-    });
-    const imgs=container.querySelectorAll('img');
-    requestAnimationFrame(()=>{
-      requestAnimationFrame(()=>{
-        imgs[0].classList.add('active');
-      });
     });
     if(loaded.length>1){
       let current=0;
       setInterval(()=>{
+        const imgs=container.querySelectorAll('img');
         imgs[current].classList.remove('active');
         current=(current+1)%imgs.length;
         imgs[current].classList.add('active');
