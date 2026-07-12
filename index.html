@@ -935,16 +935,20 @@ function initPoemSlideshow(){
   }
   function start(){
     if(loaded.length===0)return;
-    loaded.forEach((src,idx)=>{
+    loaded.forEach((src)=>{
       const im=document.createElement('img');
       im.src=src;
-      if(idx===0)im.classList.add('active');
       container.appendChild(im);
+    });
+    const imgs=container.querySelectorAll('img');
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        imgs[0].classList.add('active');
+      });
     });
     if(loaded.length>1){
       let current=0;
       setInterval(()=>{
-        const imgs=container.querySelectorAll('img');
         imgs[current].classList.remove('active');
         current=(current+1)%imgs.length;
         imgs[current].classList.add('active');
