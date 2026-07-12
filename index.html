@@ -40,6 +40,11 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 .intro-dot:nth-child(2){animation-delay:0.18s}.intro-dot:nth-child(3){animation-delay:0.36s}
 @keyframes dotPulse{0%,100%{opacity:0.25;transform:scale(0.8)}50%{opacity:1;transform:scale(1.2)}}
 
+.poem-slideshow{position:absolute;inset:0;overflow:hidden;z-index:0;}
+.poem-slideshow img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 2.2s ease;}
+.poem-slideshow img.active{opacity:0.24;}
+.poem-slideshow::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(253,245,240,0.4) 0%,rgba(253,245,240,0.6) 100%);pointer-events:none;}
+
 .intro-floral{position:absolute;width:220px;height:220px;pointer-events:none;opacity:0;animation:floralReveal 1.2s ease 0.5s forwards}
 @keyframes floralReveal{from{opacity:0;transform:scale(0.88)}to{opacity:1;transform:scale(1)}}
 .intro-floral.tl{top:-15px;left:-15px}
@@ -329,6 +334,7 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 
 .p2-body{background:var(--cream);padding:70px 20px 90px;position:relative}
 .p2-inner{max-width:640px;margin:0 auto;position:relative;z-index:2}
+.photo-break{z-index:1}
 .fdiv{display:flex;align-items:center;gap:16px;margin:36px auto;max-width:420px}
 .fdiv-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,#d4b0a0 50%,transparent);opacity:0.6}
 .sec-eyebrow{font-style:italic;font-size:11.5px;color:var(--muted);letter-spacing:0.32em;text-transform:uppercase;text-align:center;margin-bottom:26px}
@@ -387,9 +393,8 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 .trad-card::after{content:'';position:absolute;bottom:0;right:0;width:30px;height:30px;border-bottom:1px solid rgba(200,150,130,0.4);border-right:1px solid rgba(200,150,130,0.4)}
 .trad-title{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:var(--deep);text-align:center;letter-spacing:0.04em;margin-bottom:16px;position:relative}
 .trad-title::after{content:'';display:block;width:34px;height:1px;background:var(--rose);margin:8px auto 0;opacity:0.7}
-.trad-list{list-style:decimal;max-width:280px;display:inline-block;text-align:center;padding-left:0;}
-.trad-list li{font-style:italic;font-size:14.5px;color:var(--muted);line-height:2;list-style-position:inside;}
-.trad-list li::marker{color:var(--rose);font-style:normal}
+.trad-list{list-style:none;max-width:280px;display:inline-block;text-align:center;padding-left:0;}
+.trad-list li{font-style:italic;font-size:14.5px;color:var(--muted);line-height:2;}
 
 .venue-photo{width:100%;aspect-ratio:16/10;border-radius:6px;overflow:hidden;margin:14px 0;background:var(--blush);border:1px solid #ead4c8}
 .venue-photo img{width:100%;height:100%;object-fit:cover;display:block}
@@ -643,6 +648,7 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
 <!-- SCREEN 3: POEM -->
 <div class="screen hidden" id="sPoem">
   <div class="poem-bg"></div>
+  <div class="poem-slideshow" id="poemSlideshow"></div>
   <div class="poem-content" id="poemContent">
     <div class="poem-divider" id="pd0"></div>
     <div class="poem-line" id="pl0">A flower is about to bloom,</div>
@@ -874,7 +880,7 @@ body{width:100%;background:var(--cream);overflow-x:hidden;font-family:'Cormorant
         </p>
         <p class="rsvp-deadline">Please RSVP on or before <em>[RSVP Date]</em></p>
         <br>
-        <a href="https://forms.gle/WRV3nScbs5hnpZyK6" class="rsvp-link" target="_blank">Fill Up RSVP Form</a>
+        <a href="#" class="rsvp-link" target="_blank">Fill Up RSVP Form</a>
       </div>
 
       <div class="inv-footer" style="border-top-color:rgba(232,208,196,0.7);">
@@ -913,6 +919,41 @@ resizeCanvas();window.addEventListener('resize',resizeCanvas);
 function mkPetal(){return{x:Math.random()*canvas.width,y:-25,size:6+Math.random()*14,color:COLORS[Math.floor(Math.random()*COLORS.length)],vy:0.25+Math.random()*0.5,vx:-0.2+Math.random()*0.4,angle:Math.random()*Math.PI*2,angV:(Math.random()-0.5)*0.014,sway:Math.random()*Math.PI*2,swayV:0.004+Math.random()*0.009,swayA:0.3+Math.random()*1.1,opacity:0.35+Math.random()*0.45,type:Math.floor(Math.random()*3)}}
 function drawPetal(p){ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.angle);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;ctx.beginPath();if(p.type===0){ctx.ellipse(0,0,p.size*0.36,p.size,0,0,Math.PI*2)}else if(p.type===1){ctx.moveTo(0,-p.size);ctx.bezierCurveTo(p.size*0.75,-p.size*0.5,p.size*0.75,p.size*0.35,0,p.size*0.5);ctx.bezierCurveTo(-p.size*0.75,p.size*0.35,-p.size*0.75,-p.size*0.5,0,-p.size)}else{ctx.ellipse(0,0,p.size*0.48,p.size*0.84,0,0,Math.PI*2)}ctx.fill();ctx.restore()}
 (function animatePetals(){ctx.clearRect(0,0,canvas.width,canvas.height);if(Math.random()<0.07&&petals.length<45)petals.push(mkPetal());petals=petals.filter(p=>p.y<canvas.height+30);petals.forEach(p=>{p.sway+=p.swayV;p.x+=p.vx+Math.sin(p.sway)*p.swayA;p.y+=p.vy;p.angle+=p.angV;drawPetal(p)});requestAnimationFrame(animatePetals)})();
+
+/* POEM SLIDESHOW */
+function initPoemSlideshow(){
+  const container=document.getElementById('poemSlideshow');
+  if(!container)return;
+  const maxSlides=10;
+  const loaded=[];
+  function tryLoad(i){
+    if(i>maxSlides){start();return}
+    const img=new Image();
+    img.onload=()=>{loaded.push(`slide-${i}.jpg`);tryLoad(i+1)};
+    img.onerror=()=>{start()};
+    img.src=`slide-${i}.jpg`;
+  }
+  function start(){
+    if(loaded.length===0)return;
+    loaded.forEach((src,idx)=>{
+      const im=document.createElement('img');
+      im.src=src;
+      if(idx===0)im.classList.add('active');
+      container.appendChild(im);
+    });
+    if(loaded.length>1){
+      let current=0;
+      setInterval(()=>{
+        const imgs=container.querySelectorAll('img');
+        imgs[current].classList.remove('active');
+        current=(current+1)%imgs.length;
+        imgs[current].classList.add('active');
+      },3500);
+    }
+  }
+  tryLoad(1);
+}
+initPoemSlideshow();
 
 /* MUSIC */
 let audio=null,musicPlaying=false;
